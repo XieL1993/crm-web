@@ -1,0 +1,63 @@
+@mixin verify-tip-inner() {
+  background-color: #d9534f;
+  border-radius: 4px;
+  color: #fff;
+  max-width: 200px;
+  padding: 0 8px;
+  text-align: center;
+}
+
+@mixin verify-tip-arrow() {
+  border: solid transparent;
+  height: 0;
+  position: absolute;
+  width: 0;
+}
+
+@mixin verify-tip() {
+  display: block;
+  //font-family: $font-family;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  opacity: 100;
+  position: absolute;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  white-space: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  line-height: 24px;
+  z-index: 9;
+  &.verify-bottom {
+    margin-top: 2px;
+    padding: 5px 0;
+  }
+  > .verify-tip-inner {
+    @include verify-tip-inner()
+  }
+  > .verify-tip-arrow {
+    @include verify-tip-arrow()
+  }
+  &.verify-bottom > .verify-tip-arrow {
+    border-bottom-color: #d9534f;
+    border-width: 0 5px 5px;
+    left: 50%;
+    margin-left: -5px;
+    top: 0;
+  }
+  &.bottom > .verify-tip-inner {
+    background-color: #d9534f;
+    border-radius: 4px;
+    color: #fff;
+    max-width: 200px;
+    padding: 0 8px;
+    text-align: center;
+    margin-top: -1px;
+  }
+}
+
