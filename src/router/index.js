@@ -3,13 +3,17 @@ import Router from 'vue-router'
 import Login from '../components/Login'
 
 Vue.use(Router)
-
+/* 常量路由 */
+export const constantRouterMap = [
+  {
+    path: '/login',
+    component: Login,
+    hidden: true
+  }
+]
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Login',
-      component: Login
-    }
-  ]
+  scrollBehavior() {
+    return { y: 0 }
+  },
+  routes: constantRouterMap
 })

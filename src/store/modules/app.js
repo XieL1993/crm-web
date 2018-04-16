@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 const app = {
   state: {
@@ -14,6 +14,7 @@ const app = {
     }
   },
   actions: {
+    // 存储菜单到本地以及vuex中
     GenerateMenuByMenus({ commit }, data) {
       const menus = JSON.parse(window.sessionStorage.getItem('menus'))
       if (menus && menus.length > 0) {

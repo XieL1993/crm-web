@@ -55,7 +55,6 @@
   import Cookie from 'js-cookie'
   import { mapActions } from 'vuex'
   import { Message } from 'element-ui'
-  import { getMenuList } from '../api/login'
 
 export default {
     name: 'Login',
@@ -145,8 +144,6 @@ export default {
             this.$refs.loginForm.clearValidate()
             this.loading = true
             this.Login(this.loginForm).then(res => {
-              console.log(res)
-              getMenuList(res.sessionId).then()
               this.loading = false
               const returnCode = res.return_code
               let message = res.return_info
@@ -158,6 +155,7 @@ export default {
                * */
               if (returnCode === '0') {
                 Message.info({ showClose: true, message: '登录成功', duration: 2000 })
+                this.$router.push({ path: '/' })
               } else {
                 if (returnCode === '-1' || returnCode === '-3') {
                   this.$refs.username.focus()

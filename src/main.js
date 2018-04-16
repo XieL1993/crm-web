@@ -12,7 +12,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(Element, { size: 'medium' })
 
 Vue.config.productionTip = false
-
+import './utils/permission'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
