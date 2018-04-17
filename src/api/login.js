@@ -41,3 +41,7 @@ export function login(username, password, checkCode) {
 export function getMenuList(token) {
   return fetch.get(`/getUserMenuList.json;jsessionid=${token}`)
 }
+
+export function logout() {
+  return fetch.post('/logout.json')
+}

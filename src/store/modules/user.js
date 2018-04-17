@@ -1,5 +1,6 @@
-import { login } from '../../api/login'
+import { login, logout } from '../../api/login'
 import Cookies from 'js-cookie'
+import { Message } from 'element-ui'
 
 const user = {
   state: {
@@ -33,6 +34,24 @@ const user = {
           resolve(data)
         }).catch(error => {
           reject(error)
+        })
+      })
+    },
+    // 注销登录，将浏览器保存的token及权限清除
+    Logout({ commit, state }) {
+      return new Promise(resolve => {
+        logout().then(res => {
+          if (res.data.return_code === '0') {
+            commit('SET_TOKEN', '')
+            Cookies.remove('Admin-Token')
+            // Cookies.remove('lock')
+            window.sessionStorage.removeItem('menus')
+            window.sessionStorage.removeItem('menusType')
+            window.sessionStorage.removeItem('userName')
+            resolve()
+          } else {
+            Message.info({ showClose: true, message: '未退出成功', duration: 2000 })
+          }
         })
       })
     }

@@ -12,24 +12,23 @@ router.beforeEach((to, from, next) => {
     if (whiteList.includes(to.path)) {
       next()// 未登录时，调整页面如果在白名单中则放行，否则跳转登录页
     } else {
-      next({ path: '/login' })
+      // set the replace: true so the navigation will not leave a history record
+      next({ path: '/login', replace: true })
     }
   } else {
-    if (to.path === '/login') { // 已登录
-      next({ path: '/' })
+    if (to.path.toLowerCase() === '/login') { // 已登录
+      next({ path: '/', replace: true })
+      if (from.path === '/mainIndex') {
+        NProgress.done() // 在首页通过地址栏访问login页的话，会重定向回首页，这样afterEach不执行
+      }
     } else {
       // 本地存储有menus，之所以要用sessionStorage不用vuex是因为vuex页面刷新会消失
       const menus = JSON.parse(window.sessionStorage.getItem('menus'))
       if (menus && menus.length > 0) {
         if (store.getters.addRouters.length > 0) { // 已生成路由
           if (to.matched.length === 0) {
-            from.path ? next({ path: from.path }) : next({ path: '/' })// 不存在此路由则跳会from或者主页
+            next({ path: '/404', replace: true })// to的路由不存在，跳转404
           } else {
-            /* matched:包含当前匹配的路径中所包含的所有片段所对应的配置参数对象
-             例如，/home/news/detail/:id这条路径，它包含3条匹配的路由：
-             /home/news/detail/:id
-             /home/news
-             /home*/
             next()// 如果to的路由存在则直接跳转
           }
         } else {
@@ -40,7 +39,8 @@ router.beforeEach((to, from, next) => {
           store.dispatch('GenerateRoutesByMenus', menus).then(() => {
             router.addRoutes(store.getters.addRouters)// 将动态生成的路由真正添加到vue router中
             // 路由未定义
-            next({ ...to })
+            // set the replace: true so the navigation will not leave a history record
+            next({ ...to, replace: true })
           })
         }
       } else {
@@ -53,8 +53,11 @@ router.beforeEach((to, from, next) => {
             store.dispatch('GenerateRoutesByMenus', res.data).then(() => {
               router.addRoutes(store.getters.addRouters)// 将动态生成的路由真正添加到vue router中
               // 路由未定义
-              next({ ...to })
+              next({ ...to, replace: true })
             })
+          } else {
+            // 请求菜单失败，可能是token失效，返回登录页
+            alert('请求菜单失败！')// 这是个bug，不过token失效不好测试，等以后再修改，参考方案可以调用logout
           }
         })
       }
