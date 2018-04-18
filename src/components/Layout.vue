@@ -4,9 +4,13 @@
             <topbar></topbar>
         </div>
         <div class="full-main">
-            <div class="sidebar-box">菜单</div>
+            <div class="sidebar-box" :class="{hideSidebar:!sidebar.opened}">
+                <slidebar></slidebar>
+            </div>
             <div class="main-box">
-                <div class="navbar-box">navbar</div>
+                <div class="navbar-box">
+                    <navbar></navbar>
+                </div>
                 <div class="app-content-box">
                     <router-view></router-view>
                 </div>
@@ -16,13 +20,21 @@
 </template>
 <script>
   import Topbar from './topbar/Topbar'
+  import Slidebar from './slidebar'
+  import Navbar from './navbar'
+  import { mapGetters } from 'vuex'
 
   export default {
     data() {
       return {}
     },
     components: {
-      Topbar
+      Topbar,
+      Slidebar,
+      Navbar
+    },
+    computed: {
+      ...mapGetters(['sidebar'])
     }
   }
 </script>
@@ -41,17 +53,19 @@
         }
         .full-main {
             flex: 1 1 auto;
-            background: red;
             display: flex;
             overflow: hidden;
             .sidebar-box {
-                flex: 0 0 200px;
-                background: #364150;
-                color: #c0c9d5;
-                width: 200px;
+                transition: all 0.2s;
+                flex: 0 0 180px;
+                width: 180px;
                 user-select: none;
-                overflow-x: hidden;
-                overflow-y: auto;
+                font-size: 0;
+                overflow: hidden;
+                &.hideSidebar {
+                    flex: 0 0 36px;
+                    width: 36px;
+                }
             }
             .main-box {
                 flex: 1 1 auto;

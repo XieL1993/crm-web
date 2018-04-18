@@ -16,8 +16,8 @@
                     <el-dropdown-item>新增角色</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
-            <div class="right-menu-item">
-                <span class="menu-inner lock">
+            <div class="right-menu-item" title="锁屏">
+                <span class="menu-inner">
                     <i class="icon_lock"></i>
                 </span>
             </div>
@@ -27,16 +27,27 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>个人信息</el-dropdown-item>
-                    <el-dropdown-item>退出登录</el-dropdown-item>
+                    <el-dropdown-item @click.native="handleLogout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
     </div>
 </template>
 <script>
+  import { mapActions } from 'vuex'
+
   export default {
     data() {
       return {}
+    },
+    methods: {
+      ...mapActions(['Logout']),
+      handleLogout() {
+        console.log(this)
+        this.Logout().then(() => {
+          location.reload()
+        })
+      }
     }
   }
 </script>
@@ -71,8 +82,16 @@
                 height: 50px;
                 width: 45px;
                 position: relative;
-                &:hover{
+                &:hover {
                     background: #485566;
+                    .menu-inner {
+                        .icon {
+                            color: #ffffff;
+                        }
+                        .icon_lock {
+                            background-image: url("../../assets/lock_white.png");
+                        }
+                    }
                 }
                 .menu-inner {
                     position: absolute;
@@ -83,21 +102,13 @@
                     .icon {
                         color: #E6E6E6;
                         font-size: 20px;
-                        &:hover {
-                            color: #ffffff;
-                        }
                     }
-                    &.lock {
-                        .icon_lock {
-                            display: block;
-                            width: 20px;
-                            height: 20px;
-                            background: url("../../assets/lock.png") no-repeat;
-                            background-size: 20px 20px;
-                            &:hover {
-                                background-image: url("../../assets/lock_white.png");
-                            }
-                        }
+                    .icon_lock {
+                        display: block;
+                        width: 20px;
+                        height: 20px;
+                        background: url("../../assets/lock.png") no-repeat;
+                        background-size: 20px 20px;
                     }
                 }
             }

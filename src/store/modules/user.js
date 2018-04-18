@@ -38,7 +38,7 @@ const user = {
       })
     },
     // 注销登录，将浏览器保存的token及权限清除
-    Logout({ commit, state }) {
+    Logout({ commit }) {
       return new Promise(resolve => {
         logout().then(res => {
           if (res.data.return_code === '0') {

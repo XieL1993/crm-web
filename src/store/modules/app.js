@@ -1,11 +1,22 @@
-// import Cookies from 'js-cookie'
+import Cookies from 'js-cookie'
 
 const app = {
   state: {
+    sidebar: {// 是否展开菜单栏
+      opened: !+Cookies.get('sidebarStatus')
+    },
     menusRoot: [], // 有多个子系统
     menusNoRoot: [] // 仅有一个系统[没有头部菜单]
   },
   mutations: {
+    TOGGLE_SIDEBAR: state => {
+      if (state.sidebar.opened) {
+        Cookies.set('sidebarStatus', 1)
+      } else {
+        Cookies.set('sidebarStatus', 0)
+      }
+      state.sidebar.opened = !state.sidebar.opened
+    },
     SET_MENUS_ROOT(state, data) {
       state.menusRoot = data
     },
@@ -14,6 +25,9 @@ const app = {
     }
   },
   actions: {
+    toggleSideBar({ commit }) {
+      commit('TOGGLE_SIDEBAR')
+    },
     // 存储菜单到本地以及vuex中
     GenerateMenuByMenus({ commit }, data) {
       const menus = JSON.parse(window.sessionStorage.getItem('menus'))

@@ -154,7 +154,6 @@ export default {
                * -5：验证码为空、-6：验证码错误
                * */
               if (returnCode === '0') {
-                Message.info({ showClose: true, message: '登录成功', duration: 2000 })
                 this.$router.push({ path: '/' })
               } else {
                 if (returnCode === '-1' || returnCode === '-3') {
