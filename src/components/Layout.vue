@@ -1,26 +1,26 @@
 <template>
-    <div class="full-screen">
-        <div class="topbar-box">
-            <topbar></topbar>
-        </div>
-        <div class="full-main">
-            <div class="sidebar-box" :class="{hideSidebar:!sidebar.opened}">
-                <slidebar></slidebar>
-            </div>
-            <div class="main-box">
-                <div class="navbar-box">
-                    <navbar></navbar>
-                </div>
-                <div class="app-content-box">
-                    <router-view></router-view>
-                </div>
-            </div>
-        </div>
+  <div class="full-screen">
+    <div class="topbar-box">
+      <topbar></topbar>
     </div>
+    <div class="full-main">
+      <div class="sidebar-box" :class="{hideSidebar:!sidebar.opened}">
+        <sidebar></sidebar>
+      </div>
+      <div class="main-box">
+        <div class="navbar-box">
+          <navbar></navbar>
+        </div>
+        <div class="app-content-box">
+          <router-view></router-view>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
   import Topbar from './topbar/Topbar'
-  import Slidebar from './slidebar'
+  import Sidebar from './sidebar'
   import Navbar from './navbar'
   import { mapGetters } from 'vuex'
 
@@ -30,7 +30,7 @@
     },
     components: {
       Topbar,
-      Slidebar,
+      Sidebar,
       Navbar
     },
     computed: {
@@ -39,54 +39,56 @@
   }
 </script>
 <style scoped lang="scss">
-    .full-screen {
+  .full-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .topbar-box {
+      flex: 0 0 50px;
+      height: 50px;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+      background: #2b3643;
+      user-select: none;
+      color: #c0c9d5;
+    }
+    .full-main {
+      flex: 1 1 auto;
+      height: 100%;
+      display: flex;
+      overflow: hidden;
+      .sidebar-box {
+        transition: all 0.2s;
+        flex: 0 0 180px;
+        width: 180px;
+        height: 100%;
+        user-select: none;
+        font-size: 0;
+        overflow: hidden;
+        &.hideSidebar {
+          flex: 0 0 36px;
+          width: 36px;
+        }
+      }
+      .main-box {
+        flex: 1 1 auto;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        height: 100%;
-        .topbar-box {
-            flex: 0 0 50px;
-            height: 50px;
-            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-            background: #2b3643;
-            user-select: none;
-            color: #c0c9d5;
+        .navbar-box {
+          flex: 0 0 31px;
+          height: 31px;
+          padding: 0 0 0 15px;
+          text-align: left;
+          font-size: 13px;
+          background: #dae4eb;
+          color: #171b26
         }
-        .full-main {
-            flex: 1 1 auto;
-            display: flex;
-            overflow: hidden;
-            .sidebar-box {
-                transition: all 0.2s;
-                flex: 0 0 180px;
-                width: 180px;
-                user-select: none;
-                font-size: 0;
-                overflow: hidden;
-                &.hideSidebar {
-                    flex: 0 0 36px;
-                    width: 36px;
-                }
-            }
-            .main-box {
-                flex: 1 1 auto;
-                display: flex;
-                flex-direction: column;
-                background: yellowgreen;
-                .navbar-box {
-                    flex: 0 0 31px;
-                    height: 31px;
-                    padding: 0 0 0 15px;
-                    text-align: left;
-                    font-size: 13px;
-                    background: #dae4eb;
-                    color: #171b26
-                }
-                .app-content-box {
-                    flex: 1 1 auto;
-                    overflow: auto;
-                    background: #d9534f;
-                }
-            }
+        .app-content-box {
+          flex: 1 1 auto;
+          height: 100%;
+          overflow: auto;
         }
+      }
     }
+  }
 </style>

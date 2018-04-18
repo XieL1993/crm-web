@@ -1,5 +1,5 @@
 <template>
-  <div>我是mainIndex</div>
+  <div class="main">我是mainIndex</div>
 </template>
 <script>
   export default {
@@ -9,5 +9,8 @@
   }
 </script>
 <style scoped lang="scss">
-
+.main{
+  height: 100%;
+  background: yellow;
+}
 </style>

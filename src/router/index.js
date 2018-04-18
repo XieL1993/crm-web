@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '../components/Login'
-import _404 from '../components/404'
 
 Vue.use(Router)
 /* 常量路由 */
@@ -10,10 +9,12 @@ export const constantRouterMap = [
     path: '/login',
     component: Login,
     hidden: true
-  },
+  }
+]
+export const errorRouter = [
   {
-    path: '/404',
-    component: _404,
+    path: '*',
+    redirect: '/404',
     hidden: true
   }
 ]

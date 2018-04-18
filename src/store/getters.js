@@ -1,8 +1,8 @@
 const getters = {
   token: state => state.user.token,
   optAuths: state => state.user.optAuths,
-  permission_routers: state => state.permission.routers,
-  addRouters: state => state.permission.addRouters,
+  menus: state => state.app.menus,
+  newRouters: state => state.permission.newRouters,
   sidebar: state => state.app.sidebar
 }
 export default getters
