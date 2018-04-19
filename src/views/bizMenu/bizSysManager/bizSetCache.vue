@@ -1,5 +1,5 @@
 <template>
-  <div class="main">我是首页</div>
+<div class="box">我是系统缓存设置页面</div>
 </template>
 <script>
   export default {
@@ -9,7 +9,11 @@
   }
 </script>
 <style scoped lang="scss">
-.main{
+.box{
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
 }
 </style>

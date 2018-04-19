@@ -2,12 +2,9 @@
   <scroll-bar>
     <el-menu
       mode="vertical"
-      :collapse-transition="true"
+      :collapse-transition="false"
       show-timeout="200"
-      :collapse="!sidebar.opened"
-      background-color="#304156"
-      text-color="#bfcbd9"
-      active-text-color="#409EFF">
+      :collapse="!sidebar.opened">
       <sidebar-item :routes="menus"></sidebar-item>
     </el-menu>
   </scroll-bar>
@@ -39,20 +36,4 @@
     width: 100%;
   }
 </style>
-<style lang="scss">
-  @import "../../styles/variables";
-  /* reset element-ui css */
-  .slidebar {
-    .nest-menu .el-submenu > .el-submenu__title,
-    .el-submenu .el-menu-item {
-      min-width: 180px !important;
-      background-color: $subMenuBg !important;
-      &:hover {
-        background-color: $menuHover !important;
-      }
-    }
-    .el-menu--collapse .el-menu .el-submenu {
-      min-width: 180px !important;
-    }
-  }
-</style>
+

@@ -2,7 +2,7 @@
     <div class="topbar">
         <div class="topbar-logo">
             <img class="topbar-logo-img" src="../../assets/logo.png">
-            <span class="topbar-logo-span">云英行销系统</span>
+            <span class="topbar-logo-span">业务基础框架</span>
         </div>
         <div class="right-menu">
             <el-dropdown class="right-menu-item">

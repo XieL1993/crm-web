@@ -75,18 +75,16 @@
         display: flex;
         flex-direction: column;
         .navbar-box {
-          flex: 0 0 31px;
-          height: 31px;
-          padding: 0 0 0 15px;
-          text-align: left;
-          font-size: 13px;
-          background: #dae4eb;
-          color: #171b26
+          flex: 0 0 34px;
+          height: 34px;
+          background: #fff;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
         .app-content-box {
           flex: 1 1 auto;
           height: 100%;
           overflow: auto;
+          margin: 5px;
         }
       }
     }
