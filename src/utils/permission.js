@@ -34,6 +34,8 @@ router.beforeEach((to, from, next) => {
         } else {
           // 请求菜单失败，可能是token失效，返回登录页
           alert('请求菜单失败！')// 这是个bug，不过token失效不好测试，等以后再修改，参考方案可以调用logout
+          store.commit('SET_TOKEN', '')
+          next({ path: '/login', replace: true })
         }
       })
     }
