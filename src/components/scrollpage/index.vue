@@ -38,6 +38,9 @@
           }
         }
       },
+      reset() {
+        this.left = 0
+      },
       moveToTarget($target) {
         const $container = this.$refs.scrollContainer
         const $containerWidth = $container.offsetWidth

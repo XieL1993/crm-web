@@ -14,9 +14,9 @@
       </router-link>
     </scroll-page>
     <ul class='option-menu' v-show="visible" :style="{left:left+'px',top:top+'px'}">
-      <li>关闭标签页</li>
-      <li>关闭其他标签页</li>
-      <li>关闭全部标签页</li>
+      <li @click="closeSelectedTab(selectedTab,curIndex)">关闭标签页</li>
+      <li @click="closeOthersTabs">关闭其他标签页</li>
+      <li @click="closeAllTabs">关闭全部标签页</li>
     </ul>
   </div>
 </template>
@@ -27,6 +27,7 @@
   export default {
     data() {
       return {
+        curIndex: 0,
         visible: false,
         top: 0,
         left: 0,
@@ -56,7 +57,7 @@
           }
         })
       },
-      moveToCurrentTag() {
+      moveToCurrentTab() {
         const tabs = this.$refs.tab
         this.$nextTick(() => {
           for (const tab of tabs) {
@@ -69,6 +70,7 @@
       },
       openMenu(tab, $event, index) {
         if (index > 0) {
+          this.curIndex = index
           this.visible = true
           this.selectedTab = tab
           this.left = $event.clientX
@@ -76,10 +78,28 @@
         }
       },
       closeMenu() {
+        this.curIndex = 0
         this.visible = false
         this.selectedTab = {}
         this.left = 0
         this.top = 0
+      },
+      closeOthersTabs() {
+        const path = this.selectedTab.path
+        this.delOtherTabs(this.selectedTab).then(() => {
+          this.$refs.scrollpage.reset()
+          // 当前页面非激活时，激活
+          if (path !== this.$route.path) {
+            this.$router.push({ path })
+          }
+        })
+      },
+      closeAllTabs() {
+        this.delAllTabs().then(() => {
+          this.$refs.scrollpage.reset()
+          const path = this.tabViews[0].path
+          this.$router.push({ path })
+        })
       }
     },
     computed: {
@@ -90,7 +110,7 @@
     watch: {
       $route() {
         this.addTab(this.$route)
-        this.moveToCurrentTag()
+        this.moveToCurrentTab()
       },
       visible(value) {
         if (value) {

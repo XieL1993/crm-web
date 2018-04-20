@@ -41,10 +41,16 @@ const tabViews = {
       })
     },
     delOtherTabs({ commit }, tab) {
-      commit('DEL_OTHER_TABS', tab)
+      return new Promise(resolve => {
+        commit('DEL_OTHER_TABS', tab)
+        resolve()
+      })
     },
-    delAllTabs({ commit }, tab) {
-      commit('DEL_ALL_TABS', tab)
+    delAllTabs({ commit }) {
+      return new Promise(resolve => {
+        commit('DEL_ALL_TABS')
+        resolve()
+      })
     }
   }
 }

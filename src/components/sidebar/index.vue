@@ -4,7 +4,8 @@
       mode="vertical"
       :collapse-transition="false"
       show-timeout="200"
-      :collapse="!sidebar.opened">
+      :collapse="!sidebar.opened"
+      :default-active="$route.path">
       <sidebar-item :routes="menus"></sidebar-item>
     </el-menu>
   </scroll-bar>
