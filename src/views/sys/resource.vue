@@ -1,5 +1,5 @@
 <template>
-  <div class="box">我是首页(*￣︶￣)</div>
+  <div class="box">我是资源页面</div>
 </template>
 <script>
   export default {

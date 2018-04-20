@@ -1,47 +1,48 @@
 import fetch from './httpFetch'
-import Cookies from 'js-cookie'
-import { DES } from '../utils/BizSecurity'
-
-let key1, key2, key3
+import { getAesString } from '../utils/Security'
 
 // 登录-获取key
 function getKeys() {
-  return fetch.get('/getSecurityKey.json')
+  return fetch({
+    method: 'get',
+    url: '/anon/getSecurityKey',
+    params: { tokenKey: 'get' }
+  })
 }
 
-export function login(username, password, checkCode) {
-  let loginName
-  const resCode = 'bizSign'
-  const bizEncryptFalg = '3DES'
-  const opCode = 'bizSignIn2'
-  const sessionId = Cookies.get('checkCode-token')
+export function login(username, pwd, code) {
   return new Promise((resolve, reject) => {
-    getKeys().then(res => {
-      key1 = res.data.key1
-      key2 = res.data.key2
-      key3 = res.data.key3
-      loginName = DES.encrypt(username, key1, key2, key3)
-      password = DES.encrypt(password, key1, key2, key3)
-      const data = {
-        loginName,
-        password,
-        checkcode: checkCode,
-        resCode,
-        bizEncryptFalg,
-        opCode,
-        key1,
-        key2,
-        key3
-      }
-      resolve(fetch.post(`/submitLogin.json;jsessionid=${sessionId}`, data))
+    getKeys().then(data => {
+      const password = getAesString(pwd, data.tokenKey)
+      const formdata = new FormData()
+      formdata.append('username', username)
+      formdata.append('password', password)
+      formdata.append('code', code)
+      formdata.append('methodName', 'login')
+      formdata.append('timestamp', new Date().getTime())
+      resolve(fetch({
+        method: 'post',
+        url: '/anon/login',
+        data: formdata
+      }))
+    }).catch((error) => {
+      reject(error)
     })
   })
 }
 
-export function getMenuList(token) {
-  return fetch.get(`/getUserMenuList.json;jsessionid=${token}`)
+export function getCheckCode() {
+  return fetch({
+    method: 'get',
+    url: '/anon/getCheckCode',
+    params: { codeKey: 'get' }
+  })
 }
 
-export function logout() {
-  return fetch.post('/logout.json')
+export function getMenuList() {
+  return fetch.get('/sys/resource/menus')
+}
+
+export function logout(tuid) {
+  return fetch.post('/sys/user/logout', { password: tuid })
 }

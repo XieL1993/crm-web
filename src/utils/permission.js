@@ -3,6 +3,7 @@ import store from './../store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getMenuList } from '../api/login'
+import { Message } from 'element-ui'
 
 const whiteList = ['/login']
 
@@ -21,21 +22,22 @@ router.beforeEach((to, from, next) => {
         })
       }
     } else { // 本地存储中没有menus，向服务器请求获取
-      getMenuList(store.getters.token).then(res => {
-        if (res && res.data && res.data.length > 0 && res.data[0].children) {
-          const menus = res.data[0].children
-          window.sessionStorage.setItem('menus', JSON.stringify(menus))// 存储menus到本地
-          store.commit('SET_MENUS', menus)// 存储menus到vuex
-          // 生成路由并存储到vuex中
-          store.dispatch('createRoutesByMenus', menus).then(() => {
-            router.addRoutes(store.getters.newRouters)// 将所有路由真正添加到vue router中
-            next({ ...to, replace: true })
-          })
-        } else {
-          // 请求菜单失败，可能是token失效，返回登录页
-          alert('请求菜单失败！')// 这是个bug，不过token失效不好测试，等以后再修改，参考方案可以调用logout
-          store.commit('SET_TOKEN', '')
-          next({ path: '/login', replace: true })
+      getMenuList(store.getters.token).then(data => {
+        const menus = data.obj
+        console.log(menus)
+        window.sessionStorage.setItem('menus', JSON.stringify(menus))// 存储menus到本地
+        store.commit('SET_MENUS', menus)// 存储menus到vuex
+        // 生成路由并存储到vuex中
+        store.dispatch('createRoutesByMenus', menus).then(() => {
+          router.addRoutes(store.getters.newRouters)// 将所有路由真正添加到vue router中
+          next({ ...to, replace: true })
+        })
+      }).catch((error) => {
+        Message.warning({ showClose: true, message: error.message, duration: 0 })
+        store.commit('SET_TOKEN', '')
+        next({ path: '/login', replace: true })
+        if (from.path === '/login') {
+          NProgress.done()
         }
       })
     }

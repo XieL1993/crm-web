@@ -1,5 +1,5 @@
 <template>
-  <div class="box">我是角色设置页面</div>
+  <div class="box">我是产品页面</div>
 </template>
 <script>
   export default {

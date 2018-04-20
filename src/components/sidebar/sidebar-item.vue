@@ -2,16 +2,18 @@
   <div class="menu-wrapper" :class="{hideMenu:!sidebar.opened}">
     <template v-for=" item in routes">
       <!--如果没有子菜单，则给此节点添加路由-->
-      <router-link v-if="!item.hidden && (!item.children||item.children.length === 0)" :to="item.url">
-        <el-menu-item :index="item.url||item.id">
+      <router-link v-if="!item.hidden && (!item.children || item.children.length === 0 || item.type!==0)"
+                   :to="item.sourceUrl">
+        <el-menu-item :index="item.sourceUrl||item.id">
           <svg-icon icon-class="menu"></svg-icon>
-          <span>{{ item.title }}</span>
+          <span>{{ item.name }}</span>
         </el-menu-item>
       </router-link>
-      <el-submenu v-if="!item.hidden && item.children && item.children.length > 0" :index="item.url||item.id">
+      <el-submenu v-if="!item.hidden && item.type===0 && item.children && item.children.length > 0"
+                  :index="item.sourceUrl || item.id">
         <template slot="title">
           <svg-icon icon-class="dashboard"></svg-icon>
-          <span>{{ item.title }}</span>
+          <span>{{ item.name }}</span>
         </template>
         <template v-for="child in item.children" v-if="!child.hidden">
           <sidebar-item :routes="[child]"></sidebar-item>

@@ -10,15 +10,15 @@ import $404 from '../../components/404'
 function filterRouterByMenus(router, menus) {
   if (menus && menus.length > 0) {
     for (const menu of menus) {
-      if (menu.children && menu.children.length > 0) {
+      if (menu.type === 0 && menu.children && menu.children.length > 0) {
         // 若有子menu，继续遍历，父menu实际上只是用于生成Sidebar，只有最后一层才会生成路由
         filterRouterByMenus(router, menu.children)
       } else {
         // 将子menu添加到router中
         router.push({
-          path: menu.url,
-          name: menu.title,
-          component: (resolve) => import(`../../views${menu.url}.vue`).then(module => resolve(module)).catch(err => {
+          path: menu.sourceUrl,
+          name: menu.name,
+          component: (resolve) => import(`../../views${menu.sourceUrl}.vue`).then(module => resolve(module)).catch(err => {
             const params = {
               message: err.toString()
             }

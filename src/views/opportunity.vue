@@ -1,5 +1,5 @@
 <template>
-<div class="box">我是系统参数设置页面</div>
+<div class="box">我是商机页面</div>
 </template>
 <script>
   export default {

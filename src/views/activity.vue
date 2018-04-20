@@ -1,5 +1,5 @@
 <template>
-  <div class="box">我是用户设置页面</div>
+  <div class="box">我是活动页面</div>
 </template>
 <script>
   export default {

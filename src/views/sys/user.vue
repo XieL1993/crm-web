@@ -1,5 +1,5 @@
 <template>
-  <div class="box">我是首页(*￣︶￣)</div>
+  <div class="box">我是用户页面</div>
 </template>
 <script>
   export default {
@@ -9,7 +9,7 @@
   }
 </script>
 <style scoped lang="scss">
-  .box{
+  .box {
     height: 100%;
     display: flex;
     justify-content: center;
