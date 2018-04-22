@@ -18,6 +18,18 @@ export const errorRouter = [
     hidden: true
   }
 ]
+export const subRouter = [
+  {
+    name: '注册商机',
+    path: '/addOpportunity',
+    component: resolve => {
+      import('../subpages/opportunity/add').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  }
+]
 export default new Router({
   scrollBehavior() {
     return { y: 0 }

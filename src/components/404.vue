@@ -22,8 +22,11 @@
 </script>
 <style scoped lang="scss">
   .error-page {
-    height: 100%;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     .box {
       position: absolute;
       top: 50%;

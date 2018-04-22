@@ -12,14 +12,16 @@
           <navbar></navbar>
         </div>
         <div class="app-content-box">
-          <router-view></router-view>
+          <div class="app-content">
+            <router-view></router-view>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import Topbar from './topbar/Topbar'
+  import Topbar from './topbar'
   import Sidebar from './sidebar'
   import Navbar from './navbar'
   import { mapGetters } from 'vuex'
@@ -73,18 +75,30 @@
         flex: 1 1 auto;
         height: 100%;
         display: flex;
+        background: #E6ECF0;
         flex-direction: column;
+        overflow: auto;
         .navbar-box {
           flex: 0 0 34px;
           height: 34px;
           background: #fff;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+          border-bottom: 1px solid #d8dce5;
+          position: relative;
+          z-index: 999;
         }
         .app-content-box {
           flex: 1 1 auto;
           height: 100%;
           overflow: auto;
-          margin: 5px;
+          padding: 8px 10px 0 10px;
+          .app-content {
+            background: #ffffff;
+            min-height: 100%;
+            border-radius: 4px 4px 0 0;
+            /*box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);*/
+            padding-bottom: 10px;
+          }
         }
       }
     }

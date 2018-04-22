@@ -28,7 +28,7 @@
   }
 </script>
 <style scoped lang="scss">
-  @import "../../styles/variables";
+  @import "../../common/styles/variables";
 
   .navbar {
     position: relative;

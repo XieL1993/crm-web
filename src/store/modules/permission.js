@@ -1,6 +1,6 @@
 import Layout from '../../components/Layout'
 import MainIndex from '../../views/mainIndex'
-import { errorRouter } from '../../router'
+import { errorRouter, subRouter } from '../../router'
 import $router from './../../router'
 import $404 from '../../components/404'
 
@@ -56,7 +56,7 @@ const permission = {
           component: $404,
           hidden: true
         }]
-        const childRouters = [...main, ...accessedRouters]
+        const childRouters = [...main, ...accessedRouters, ...subRouter]
         const route = [{
           path: '/',
           component: Layout, // 主布局，其他所有的子页面，包括mainIndex都是它的子路由

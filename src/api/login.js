@@ -1,5 +1,5 @@
 import fetch from './httpFetch'
-import { getAesString } from '../utils/Security'
+import { getAesString } from '../common/js/Security'
 
 // 登录-获取key
 function getKeys() {
@@ -45,4 +45,12 @@ export function getMenuList() {
 
 export function logout(tuid) {
   return fetch.post('/sys/user/logout', { password: tuid })
+}
+
+export function getDictItem(entryCode) {
+  return fetch({
+    method: 'get',
+    url: '/system/dict/items',
+    params: { entryCode }
+  })
 }

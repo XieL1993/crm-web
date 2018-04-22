@@ -23,7 +23,6 @@ httpFetch.interceptors.response.use(response => {
   if (response.data && typeof response.data === 'string') {
     response.data = JSON.parse(response.data)
   }
-
   if (!response || response.status !== 200) {
     console.error(`response.status:${response.status}`)
     return Promise.reject(new Error(`response.status:${response.status}`))

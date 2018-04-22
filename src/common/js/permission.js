@@ -1,8 +1,8 @@
-import router from './../router'
-import store from './../store'
+import router from '../../router/index'
+import store from '../../store/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getMenuList } from '../api/login'
+import { getMenuList } from '../../api/login'
 import { Message } from 'element-ui'
 
 const whiteList = ['/login']
@@ -24,7 +24,6 @@ router.beforeEach((to, from, next) => {
     } else { // 本地存储中没有menus，向服务器请求获取
       getMenuList(store.getters.token).then(data => {
         const menus = data.obj
-        console.log(menus)
         window.sessionStorage.setItem('menus', JSON.stringify(menus))// 存储menus到本地
         store.commit('SET_MENUS', menus)// 存储menus到vuex
         // 生成路由并存储到vuex中

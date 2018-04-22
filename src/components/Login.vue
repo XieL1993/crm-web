@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="main">
       <div class="login-img">
-        <img src="../assets/login.png">
+        <img src="../common/image/login.png">
         <h2>成就所托，持之以恒!</h2>
         <h3>洞悉需求，应势而生；风雨同舟，一路同行</h3>
       </div>
@@ -215,7 +215,7 @@
   }
 </script>
 <style scoped lang="scss">
-  @import "../styles/variables";
+  @import "../common/styles/variables";
 
   .login-container {
     position: relative;

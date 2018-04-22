@@ -10,7 +10,7 @@
 </script>
 <style scoped lang="scss">
   .box{
-    height: 100%;
+    height: 1000px;
     display: flex;
     justify-content: center;
     align-items: center;

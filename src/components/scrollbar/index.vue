@@ -42,7 +42,7 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-    @import '../../styles/variables.scss';
+    @import '../../common/styles/variables.scss';
 
     .scroll-container {
         position: relative;

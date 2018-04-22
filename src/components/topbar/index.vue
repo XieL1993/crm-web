@@ -1,7 +1,7 @@
 <template>
     <div class="topbar">
         <div class="topbar-logo">
-            <img class="topbar-logo-img" src="../../assets/logo.png">
+            <img class="topbar-logo-img" src="../../common/image/logo.png">
             <span class="topbar-logo-span">业务基础框架</span>
         </div>
         <div class="right-menu">
@@ -89,7 +89,7 @@
                             color: #ffffff;
                         }
                         .icon_lock {
-                            background-image: url("../../assets/lock_white.png");
+                            background-image: url("../../common/image/lock_white.png");
                         }
                     }
                 }
@@ -107,7 +107,7 @@
                         display: block;
                         width: 20px;
                         height: 20px;
-                        background: url("../../assets/lock.png") no-repeat;
+                        background: url("../../common/image/lock.png") no-repeat;
                         background-size: 20px 20px;
                     }
                 }
