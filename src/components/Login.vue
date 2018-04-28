@@ -102,8 +102,6 @@
               }
               if (value === '') {
                 callback(new Error('验证码不能为空'))
-              } else if (value !== this.randomCode) {
-                callback(new Error('验证码不正确'))
               } else {
                 callback()
               }
@@ -167,36 +165,37 @@
       createCode() {
         getCheckCode().then(data => {
           const canvas = document.getElementById('codeImg')
-          const context = canvas.getContext('2d')
-          // 每次生成code先将其清空防止叠加
-          context.clearRect(0, 0, canvas.width, canvas.height)
-          context.strokeStyle = '#FFF'
-          context.strokeRect(0, 0, canvas.width, canvas.height)
           const ranCode = data.codeKey
           if (ranCode === '') return
           this.randomCode = ranCode
-          this.loginForm.checkCode = ranCode
-          // 生成干扰线，数量随意
-          for (let i = 0; i < 20; i++) {
-            this.drawline(canvas, context)
-          }
-          // 循环生成4位验证码
-          for (let k = 0; k < ranCode.length; k++) {
-            context.font = '76px Arial'
-            // 将初始状态保存
-            context.save()
-            // 获得-1到1的随机数
-            const rA = 1 - Math.random() * 2
-            // 获取随机倾斜角
-            const angle = rA / 8
-            const ranNum = ranCode.charAt(k)
-            // 旋转生成的随机字符
-            context.rotate(angle)
-            // 把rand()生成的随机数文本依次填充到canvas中，注意x坐标
-            context.fillText(ranNum, 60 + 45 * k, 100)
-            // 恢复初始状态，以便下一次循环
-            context.restore()
-          }
+          // this.loginForm.checkCode = ranCode
+          canvas.style.backgroundImage = 'url(\'data:image/jpeg;base64,' + ranCode + '\')'
+        // const context = canvas.getContext('2d')
+        // // 每次生成code先将其清空防止叠加
+        // context.clearRect(0, 0, canvas.width, canvas.height)
+        // context.strokeStyle = '#FFF'
+        // context.strokeRect(0, 0, canvas.width, canvas.height)
+        // // 生成干扰线，数量随意
+        // for (let i = 0; i < 20; i++) {
+        //   this.drawline(canvas, context)
+        // }
+        // // 循环生成4位验证码
+        // for (let k = 0; k < ranCode.length; k++) {
+        //   context.font = '76px Arial'
+        //   // 将初始状态保存
+        //   context.save()
+        //   // 获得-1到1的随机数
+        //   const rA = 1 - Math.random() * 2
+        //   // 获取随机倾斜角
+        //   const angle = rA / 8
+        //   const ranNum = ranCode.charAt(k)
+        //   // 旋转生成的随机字符
+        //   context.rotate(angle)
+        //   // 把rand()生成的随机数文本依次填充到canvas中，注意x坐标
+        //   context.fillText(ranNum, 60 + 45 * k, 100)
+        //   // 恢复初始状态，以便下一次循环
+        //   context.restore()
+        // }
         })
       },
 
