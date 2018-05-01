@@ -26,3 +26,23 @@ export function getInvoiceList(isAll, customer, contract, isFinished, pageSize, 
     }
   })
 }
+
+export function addInvoice(params) {
+  return fetch({
+    method: 'post',
+    url: '/invoice',
+    data: params
+  })
+}
+
+export function getinvDetail(tuid) {
+  return fetch.get(`/invoice/${tuid}`)
+}
+
+export function undateInvoice(tuid, params) {
+  return fetch({
+    method: 'put',
+    url: `/invoice/${tuid}`,
+    data: Object.assign(params, { tuid })
+  })
+}

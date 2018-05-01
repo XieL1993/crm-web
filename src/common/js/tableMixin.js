@@ -42,6 +42,15 @@ export const tableMixin = {
   methods: {
     resetQuery() {
       this.query = {}
+      if (this.pick) {
+        for (const key of Object.keys(this.pick)) {
+          this.pick[key] = {
+            data: [],
+            display: '',
+            isShow: false
+          }
+        }
+      }
       this.__fetchData()
     },
     handleSizeChange(val) {

@@ -9,7 +9,12 @@
           </el-col>
           <el-col :span="8">
             <span class="item-label">客户名称</span>
-            <el-input clearable v-model="query.customer"></el-input>
+            <div class="pick-box">
+              <input v-model="pick.customer.display" readonly placeholder="请选择" @click="pick.customer.isShow=true">
+              <div class="icon-box" v-waves @click="pick.customer.isShow=true">
+                <el-icon name="search"></el-icon>
+              </div>
+            </div>
           </el-col>
           <el-col :span="8">
             <span class="item-label">商机状态</span>
@@ -142,17 +147,27 @@
         @current-change="handleCurrentChange">
       </el-pagination>
     </div>
+    <pick-customer v-if="pick.customer.isShow" @close="pick.customer.isShow=false" @finish="pickCustomerFinish"
+                   :multiple="false" :data="pick.customer.data"></pick-customer>
   </div>
 </template>
 <script>
   import { getOpportunityList } from '../api/opportunity'
   import { tableMixin } from '../common/js/tableMixin'
   import { mapActions } from 'vuex'
+  import PickCustomer from '../components/pick/pickCustomer'
 
   export default {
     mixins: [tableMixin],
     data() {
       return {
+        pick: {
+          customer: {
+            data: [],
+            display: '',
+            isShow: false
+          }
+        },
         query: {
           oppName: '',
           customer: '',
@@ -194,7 +209,16 @@
         this.$router.push({
           path: '/opportunity/detail'
         })
+      },
+      pickCustomerFinish(data) {
+        this.pick.customer.data = data
+        const { tuid, custName } = data[0]
+        this.pick.customer.display = custName
+        this.query.customer = tuid
       }
+    },
+    components: {
+      PickCustomer
     }
   }
 </script>

@@ -78,6 +78,36 @@ export const subRouter = [
       })
     },
     hidden: true
+  },
+  {
+    name: '新建收款',
+    path: '/invoice/add',
+    component: resolve => {
+      import('../subpages/invoice/add').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  },
+  {
+    name: '收款修改',
+    path: '/invoice/edit',
+    component: resolve => {
+      import('../subpages/invoice/edit').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  },
+  {
+    name: '收款详情',
+    path: '/invoice/detail',
+    component: resolve => {
+      import('../subpages/invoice/detail').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
   }
 ]
 export default new Router({
