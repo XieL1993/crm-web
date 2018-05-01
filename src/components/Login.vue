@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div id="login-container">
     <div class="main">
       <div class="login-img">
         <img src="../common/image/login.png">
@@ -11,7 +11,7 @@
         <div class="login-content">
           <h3>用户登录</h3>
           <el-form :model="loginForm"
-                   :status-icon="showError"
+                   :status-icon="true"
                    :rules="loginRules"
                    ref="loginForm">
             <el-form-item prop="username">
@@ -52,61 +52,21 @@
 
 <script>
   import { mapActions } from 'vuex'
-  import { Message } from 'element-ui'
   import { getCheckCode } from '../api/login'
 
   export default {
-    name: 'Login',
     data() {
       return {
-        randomCode: '',
         loginForm: {
           username: 'admin',
           password: 'admin',
           checkCode: ''
         },
-        showError: false,
         loading: false,
         loginRules: {
-          username: [{
-            required: true,
-            validator: (rule, value, callback) => {
-              if (!this.showError) {
-                return
-              }
-              if (value === '') {
-                callback(new Error('用户名不能为空'))
-              } else {
-                callback()
-              }
-            }
-          }],
-          password: [{
-            required: true,
-            validator: (rule, value, callback) => {
-              if (!this.showError) {
-                return
-              }
-              if (value === '') {
-                callback(new Error('密码不能为空'))
-              } else {
-                callback()
-              }
-            }
-          }],
-          checkCode: [{
-            required: true,
-            validator: (rule, value, callback) => {
-              if (!this.showError) {
-                return
-              }
-              if (value === '') {
-                callback(new Error('验证码不能为空'))
-              } else {
-                callback()
-              }
-            }
-          }]
+          username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+          password: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
+          checkCode: [{ required: true, message: '验证码不能为空', trigger: 'blur' }]
         }
       }
     },
@@ -120,25 +80,12 @@
     destroyed() {
       document.body.style.background = '#FFFFFF'
     },
-    watch: {
-      loginForm: {
-        handler() {
-          this.showError = false
-          Message.closeAll()
-          this.$refs.loginForm.clearValidate()
-        },
-        deep: true
-      }
-    },
     methods: {
       ...mapActions(['Login']),
       handleLogin() {
-        this.showError = true
-        Message.closeAll()
         this.$refs.loginForm.validate(valid => {
           if (valid) {
-            this.showError = false
-            this.$refs.loginForm.clearValidate()
+            this.$message.closeAll()
             this.loading = true
             this.Login(this.loginForm).then(() => {
               this.loading = false
@@ -146,19 +93,13 @@
             }
             ).catch(error => {
               this.loading = false
-              Message.warning({ showClose: true, message: error.message, duration: 0 })
+              this.$message.warning({ showClose: true, message: error.message, duration: 3000 })
             })
-          } else {
-            return false
           }
-        }
-        )
+        })
       },
       refreshCode() {
-        this.showError = false
-        this.$refs.loginForm.clearValidate()
         this.loginForm.checkCode = ''// 重置验证码输入框
-        this.$refs.checkCode.focus()
         this.createCode()
       },
 
@@ -166,57 +107,15 @@
         getCheckCode().then(data => {
           const canvas = document.getElementById('codeImg')
           const ranCode = data.codeKey
-          if (ranCode === '') return
-          this.randomCode = ranCode
-          // this.loginForm.checkCode = ranCode
           canvas.style.backgroundImage = 'url(\'data:image/jpeg;base64,' + ranCode + '\')'
-        // const context = canvas.getContext('2d')
-        // // 每次生成code先将其清空防止叠加
-        // context.clearRect(0, 0, canvas.width, canvas.height)
-        // context.strokeStyle = '#FFF'
-        // context.strokeRect(0, 0, canvas.width, canvas.height)
-        // // 生成干扰线，数量随意
-        // for (let i = 0; i < 20; i++) {
-        //   this.drawline(canvas, context)
-        // }
-        // // 循环生成4位验证码
-        // for (let k = 0; k < ranCode.length; k++) {
-        //   context.font = '76px Arial'
-        //   // 将初始状态保存
-        //   context.save()
-        //   // 获得-1到1的随机数
-        //   const rA = 1 - Math.random() * 2
-        //   // 获取随机倾斜角
-        //   const angle = rA / 8
-        //   const ranNum = ranCode.charAt(k)
-        //   // 旋转生成的随机字符
-        //   context.rotate(angle)
-        //   // 把rand()生成的随机数文本依次填充到canvas中，注意x坐标
-        //   context.fillText(ranNum, 60 + 45 * k, 100)
-        //   // 恢复初始状态，以便下一次循环
-        //   context.restore()
-        // }
         })
-      },
-
-      /* 随机干扰线条函数*/
-      drawline(canvas, context) {
-        // 若省略beginPath，则每点击一次验证码会累积干扰线的条数
-        context.beginPath()
-        // 起点与终点在canvas宽高内随机
-        context.moveTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height))
-        context.lineTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height))
-        context.lineWidth = 1
-        context.strokeStyle = '#275DB3'
-        context.stroke()
       }
     }
   }
 </script>
 <style scoped lang="scss">
-  @import "../common/styles/variables";
 
-  .login-container {
+  #login-container {
     position: relative;
     width: 85%;
     min-height: 100%;
@@ -263,29 +162,31 @@
             line-height: 50px;
             color: #4a94fa;
             text-align: center;
-            font-size: $font-size-large;
+            font-size: 18px;
             font-weight: normal;
-            border-bottom: 1px solid $color-text-ll;
+            border-bottom: 1px solid #EBEBEB;
             margin-left: 10px;
             margin-right: 10px;
           }
           .el-form {
             margin: 20px 40px;
+            .el-form-item {
+              height: 45px;
+              margin-bottom: 22px;
+            }
             .check-box {
               display: flex;
               .el-form-item {
-                display: inline-block;
                 flex: 1;
               }
               .checkCode {
-                display: inline-block;
                 width: 120px;
                 height: 45px;
                 flex: 0 0 120px;
                 margin-left: 10px;
                 text-align: center;
                 line-height: 45px;
-                color: $color-text;
+                color: #555555;
                 padding: 5px;
                 #codeImg {
                   width: 100%;
@@ -295,7 +196,6 @@
               }
             }
             .el-button {
-              display: block;
               width: 100%;
               height: 42px;
               margin-top: 10px;
@@ -310,21 +210,10 @@
       line-height: 50px;
       bottom: 0;
       text-align: center;
-      color: $color-text-l;
-      font-size: $font-size-medium;
+      color: #c0c9d5;
+      font-size: 14px;
       left: 50%;
       transform: translateX(-50%);
-    }
-  }
-</style>
-<style lang="scss">
-  /* reset element-ui css */
-  .login-container {
-    .el-input {
-      input {
-        display: inline-block;
-        height: 45px;
-      }
     }
   }
 </style>

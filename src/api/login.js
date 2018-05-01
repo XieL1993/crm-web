@@ -1,5 +1,6 @@
 import fetch from './httpFetch'
 import { getAesString } from '../common/js/Security'
+import store from '../store'
 
 // 登录-获取key
 function getKeys() {
@@ -52,5 +53,22 @@ export function getDictItem(entryCode) {
     method: 'get',
     url: '/system/dict/items',
     params: { entryCode }
+  })
+}
+
+/**
+ * @description 获取用户列表
+ * @param {Number} userType 用户类型 0：bd，1：领导，2：销售
+ */
+export function getUserList(userType) {
+  return fetch({
+    method: 'get',
+    url: '/sys/user',
+    params: {
+      tuid: store.getters.tuid,
+      timestamp: new Date().getTime(),
+      sign: '',
+      userType
+    }
   })
 }

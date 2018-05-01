@@ -34,3 +34,23 @@ export function getActivityList(isAll, subject, customer, opportunity, contract,
     }
   })
 }
+
+export function addActivity(params) {
+  return fetch({
+    method: 'post',
+    url: '/activity',
+    data: params
+  })
+}
+
+export function getActDetail(tuid) {
+  return fetch.get(`/activity/${tuid}`)
+}
+
+export function undateActivity(tuid, params) {
+  return fetch({
+    method: 'put',
+    url: `/activity/${tuid}`,
+    data: Object.assign(params, { tuid })
+  })
+}

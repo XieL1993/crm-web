@@ -93,11 +93,12 @@
           overflow: auto;
           padding: 8px 10px 0 10px;
           .app-content {
+            position: relative;
             background: #ffffff;
             min-height: 100%;
             border-radius: 4px 4px 0 0;
             /*box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);*/
-            padding-bottom: 10px;
+            /*padding-bottom: 10px;*/
           }
         }
       }

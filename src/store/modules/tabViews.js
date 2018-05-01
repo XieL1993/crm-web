@@ -55,4 +55,3 @@ const tabViews = {
   }
 }
 export default tabViews
-

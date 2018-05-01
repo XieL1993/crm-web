@@ -1,5 +1,5 @@
 <template>
-  <div id="add-opportunity">
+  <div id="edit-opportunity">
     <h3 class="form-title">基本信息</h3>
     <el-form :model="formItems" :rules="formRules" label-width="120px" inline :show-message="false" ref="form">
       <el-row>
@@ -109,10 +109,17 @@
 <script>
   import { formMixin } from '../../common/js/formMixin'
   import PickCustomer from '../../components/pick/pickCustomer'
-  import { addOpportunity } from '../../api/opportunity'
+  import { undateOpportunity, getOppDetail } from '../../api/opportunity'
+  import { mapGetters } from 'vuex'
 
   export default {
     mixins: [formMixin],
+    computed: {
+      ...mapGetters(['opportunityId'])
+    },
+    created() {
+      this.fetchDetail()
+    },
     data() {
       return {
         pick: {
@@ -158,19 +165,41 @@
         this.formItems.customer = tuid
       },
       fetchData() {
-        return addOpportunity(this.formItems)
+        return undateOpportunity(this.opportunityId, this.formItems)
+      },
+      fetchDetail() {
+        getOppDetail(this.opportunityId).then(data => {
+          const oppDetail = data.obj
+          for (const key of Object.keys(this.formItems)) {
+            if (oppDetail[key]) {
+              if (key === 'expectedTime') {
+                this.formItems.expectedTime = new Date(oppDetail.expectedTime)
+              } else if (key === 'customer') {
+                this.formItems.customer = oppDetail.customer
+                this.pick.customer.display = oppDetail.customerDname
+                this.pick.customer.data = [
+                  {
+                    tuid: oppDetail.customer,
+                    custName: oppDetail.customerDname
+                  }
+                ]
+              } else {
+                this.formItems[key] = oppDetail[key]
+              }
+            }
+          }
+        }).catch(error => {
+          this.showError(error.message)
+        })
       },
       success() {
-        this.$confirm('注册商机成功！', '提示', {
-          confirmButtonText: '商机',
-          cancelButtonText: '退出',
+        this.$alert('编辑商机成功！', '提示', {
+          confirmButtonText: '确定',
           type: 'success',
           showClose: false,
           closeOnClickModal: false,
           closeOnPressEscape: false
         }).then(() => {
-          this.go('/opportunity')
-        }).catch(() => {
           this.go()
         })
       }
@@ -183,7 +212,7 @@
 <style lang="scss">
   @import "../../common/styles/mixin";
 
-  #add-opportunity {
+  #edit-opportunity {
     @include form-page-css
   }
 </style>

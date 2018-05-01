@@ -1,59 +1,62 @@
 <template>
-  <div class="opportunity">
-    <div class="search-box">
-      <el-row>
-        <el-col :span="8">
-          <span class="item-label">商机名称</span>
-          <el-input clearable v-model="query.oppName" size="small"></el-input>
-        </el-col>
-        <el-col :span="8">
-          <span class="item-label">客户名称</span>
-          <el-input clearable v-model="query.customer" size="small"></el-input>
-        </el-col>
-        <el-col :span="8">
-          <span class="item-label">商机状态</span>
-          <el-select v-model="query.status" clearable placeholder="请选择" size="small">
-            <el-option
-              v-for="item in dicts.status"
-              :key="item.dictEntryCode"
-              :label="item.dictItemName"
-              :value="item.dictEntryCode">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <span class="item-label">商机类型</span>
-          <el-select v-model="query.type" clearable placeholder="请选择" size="small">
-            <el-option
-              v-for="item in dicts.type"
-              :key="item.dictEntryCode"
-              :label="item.dictItemName"
-              :value="item.dictEntryCode">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-    </div>
-    <div class="btn_box">
-      <span class="btn_search" v-waves @click="fetchData">查询</span>
-      <span class="btn_reset" v-waves @click="resetQuery">清空</span>
-    </div>
-    <div class="tab-box">
-      <div class="tab-list">
-        <span class="tab-item" :class="{active:isAll===0}" @click="isAll=0">我的</span>
-        <span class="tab-item" :class="{active:isAll===1}" @click="isAll=1">全部</span>
-        <i class=" line" :class="{active:isAll}"></i>
+  <div id="opportunity" ref="root">
+    <div ref="header">
+      <div class="search-box">
+        <el-row>
+          <el-col :span="8">
+            <span class="item-label">商机名称</span>
+            <el-input clearable v-model="query.oppName"></el-input>
+          </el-col>
+          <el-col :span="8">
+            <span class="item-label">客户名称</span>
+            <el-input clearable v-model="query.customer"></el-input>
+          </el-col>
+          <el-col :span="8">
+            <span class="item-label">商机状态</span>
+            <el-select v-model="query.status" clearable placeholder="请选择">
+              <el-option
+                v-for="item in dicts.status.items"
+                :key="item.dictEntryCode"
+                :label="item.dictItemName"
+                :value="item.dictEntryCode">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <span class="item-label">商机类型</span>
+            <el-select v-model="query.type" clearable placeholder="请选择">
+              <el-option
+                v-for="item in dicts.type.items"
+                :key="item.dictEntryCode"
+                :label="item.dictItemName"
+                :value="item.dictEntryCode">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
       </div>
-    </div>
-    <div class="operate_box">
-      <span class="btn" v-waves @click="addOpportunity">注册商机</span>
-      <span class="btn" v-waves>新建活动</span>
-      <span class="btn" v-waves>新增合同</span>
+      <div class="btn-box">
+        <el-button class="customer query" @click.native.prevent="__fetchData" v-waves>查询</el-button>
+        <el-button class="customer reset" @click.native.prevent="resetQuery" v-waves>清空</el-button>
+      </div>
+      <div class="tab-box">
+        <div class="tab-list">
+          <span class="tab-item" :class="{active:isAll===0}" @click="isAll=0">我的</span>
+          <span class="tab-item" :class="{active:isAll===1}" @click="isAll=1">全部</span>
+          <i class=" line" :class="{active:isAll}"></i>
+        </div>
+      </div>
+      <div class="operate-box">
+        <el-button class="customer reset" v-waves @click.native.prevent="addOpportunity">注册商机</el-button>
+        <el-button class="customer reset" v-waves>新建活动</el-button>
+        <el-button class="customer reset" v-waves>新增合同</el-button>
+      </div>
     </div>
     <div class="table-box">
       <el-table
+        :height="tableHeight"
         size="mini"
         tooltip-effect="dark"
         border
@@ -121,18 +124,20 @@
           width="120"
           align="center">
           <template slot-scope="scope">
-            <el-button type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">查看</el-button>
+            <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
+            <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
+    </div>
+    <div class="table-footer" ref="footer">
       <el-pagination
         background
         :total="page.total"
         :current-page="page.currentPage"
         :page-size="page.pageSize"
         :page-sizes="[10,20,30,40]"
-        layout="total, sizes, prev, pager, next, jumper"
+        layout="total, prev, pager, next, sizes, jumper"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange">
       </el-pagination>
@@ -140,19 +145,14 @@
   </div>
 </template>
 <script>
-  import waves from '../directive/waves'
   import { getOpportunityList } from '../api/opportunity'
-  import { getDictItem } from '../api/login'
-  import { Message } from 'element-ui'
+  import { tableMixin } from '../common/js/tableMixin'
+  import { mapActions } from 'vuex'
 
   export default {
-    directives: {
-      waves
-    },
+    mixins: [tableMixin],
     data() {
       return {
-        loading: false,
-        isAll: 0,
         query: {
           oppName: '',
           customer: '',
@@ -160,36 +160,15 @@
           type: ''
         },
         dicts: {
-          status: [],
-          type: []
-        },
-        page: {
-          total: 0,
-          currentPage: 1,
-          pageSize: 10
-        },
-        tableData: []
+          status: { type: 'dict', name: 'BIZ_OPP_STAT', items: [] }, // 商机状态
+          type: { type: 'dict', name: 'BIZ_OPP_KIND', items: [] }// 商机类型
+        }
       }
     },
     methods: {
-      resetQuery() {
-        this.query.oppName = ''
-        this.query.customer = ''
-        this.query.status = ''
-        this.query.type = ''
-      },
-      handleSizeChange(val) {
-        this.page.pageSize = val
-        this.page.currentPage = 1
-        this.fetchData()
-      },
-      handleCurrentChange(val) {
-        this.page.currentPage = val
-        this.fetchData()
-      },
+      ...mapActions(['setOpportunityId']),
       fetchData() {
-        this.loading = true
-        getOpportunityList(
+        return getOpportunityList(
           this.isAll,
           this.query.oppName,
           this.query.customer,
@@ -197,35 +176,24 @@
           this.query.type,
           this.page.pageSize,
           this.page.currentPage
-        ).then(({ obj }) => {
-          this.tableData = obj.list
-          this.page.total = obj.total
-          this.loading = false
-        }).catch(error => {
-          this.loading = false
-          Message.info({ showClose: true, message: error.message, duration: 2000 })
-        })
+        )
       },
       addOpportunity() {
         this.$router.push({
-          path: '/addOpportunity'
+          path: '/opportunity/add'
         })
-      }
-    },
-    mounted() {
-      this.fetchData()
-      // 商机状态
-      getDictItem('BIZ_OPP_STAT').then(data => {
-        this.dicts.status = data.obj
-      })
-      // 商机类型
-      getDictItem('BIZ_OPP_KIND').then(data => {
-        this.dicts.type = data.obj
-      })
-    },
-    watch: {
-      isAll() {
-        this.fetchData()
+      },
+      edit(tuid) {
+        this.setOpportunityId(tuid)
+        this.$router.push({
+          path: '/opportunity/edit'
+        })
+      },
+      detail(tuid) {
+        this.setOpportunityId(tuid)
+        this.$router.push({
+          path: '/opportunity/detail'
+        })
       }
     }
   }
@@ -233,7 +201,7 @@
 <style scoped lang="scss">
   @import "../common/styles/mixin";
 
-  .opportunity {
+  #opportunity {
     @include table-page-css()
   }
 </style>

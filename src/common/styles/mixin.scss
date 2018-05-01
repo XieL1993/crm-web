@@ -7,19 +7,25 @@
 }
 
 @mixin table-page-css() {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   .search-box {
     padding: 0 20px;
     .el-col {
       display: flex;
       margin-top: 20px;
+      height: 32px;
       .item-label {
         flex: 0 0 80px;
         width: 80px;
         height: 32px;
         line-height: 32px;
-        text-align: right;
         font-size: 12px;
         color: $color-text-table;
+        text-align: right;
         @include no-wrap()
       }
       .el-input, .el-select, .el-date-editor {
@@ -28,40 +34,11 @@
       }
     }
   }
-  .btn_box {
-    text-align: center;
+  .btn-box {
     margin-top: 20px;
     height: 30px;
     display: flex;
     justify-content: center;
-    span {
-      width: 80px;
-      height: 100%;
-      line-height: 30px;
-      border-radius: 3px;
-      user-select: none;
-      cursor: pointer;
-      font-size: 12px;
-      margin: 0 5px;
-      &.btn_search {
-        background: #2F89FF;
-        color: #ffffff;
-        &:hover {
-          background: #0275D8;
-        }
-      }
-      &.btn_reset {
-        background: #f7f7f7;
-        border: 1px solid #d7dde4;
-        color: #657180;
-        &:hover {
-          color: #0275d8;
-          background: #ffffff;
-          border-color: #0275d8;
-        }
-      }
-
-    }
   }
   .tab-box {
     background: #E6ECF0;
@@ -95,46 +72,360 @@
         bottom: 0;
         left: 25px;
         background: #0275d8;
-        transition: left 0.2s ease;
+        transition: left 0.2s ease-in-out;
         &.active {
           left: 95px;
         }
       }
     }
   }
-  .operate_box {
+  .operate-box {
     text-align: center;
     margin-top: 15px;
-    margin-left: 19px;
-    height: 30px;
+    margin-left: 25px;
+    padding-bottom: 15px;
+    height: 45px;
     display: flex;
     justify-content: left;
-    span {
-      width: 80px;
-      height: 100%;
-      line-height: 30px;
-      border-radius: 3px;
-      user-select: none;
-      cursor: pointer;
+  }
+  .table-box {
+    font-size: 12px;
+    margin: 0 25px;
+    color: $color-text-table;
+  }
+  .table-footer {
+    padding: 10px 25px;
+    height: 48px;
+    .el-pagination {
+      height: 28px;
+      padding: 0;
+      text-align: left;
       font-size: 12px;
-      margin: 0 5px;
-      &.btn {
-        background: #f7f7f7;
-        border: 1px solid #d7dde4;
-        color: #657180;
-      }
-      &:hover {
-        color: #0275d8;
-        background: #ffffff;
-        border-color: #0275d8;
+      color: $color-text-table;
+    }
+  }
+}
+
+@mixin form-page-css() {
+  .form-title {
+    height: 45px;
+    line-height: 45px;
+    text-align: left;
+    margin: 0 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: $color-text-table;
+    border-bottom: 1px solid #51545b;
+  }
+  .el-form {
+    padding: 0 20px;
+    .row_des {
+      text-align: left;
+      padding-left: 140px;
+      font-size: 12px;
+      color: #58A8EE;
+      margin-top: 10px;
+    }
+    .el-col {
+      margin-top: 20px;
+      .el-form-item {
+        height: 32px;
+        width: 100%;
+        display: flex;
+        &.textarea {
+          height: 75px
+        }
+        .el-form-item__label {
+          width: 120px;
+          flex: 0 0 120px;
+          text-align: right;
+          font-weight: normal;
+          font-size: 13px;
+          color: $color-text-table;
+          height: 32px;
+          @include no-wrap
+        }
+        .el-form-item__content {
+          flex: 1 1 auto;
+          margin: 0 20px;
+          .el-input, .el-select, .el-date-editor {
+            width: 100%;
+          }
+          .pick-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            input {
+              flex: 1 1 auto;
+              width: 100%;
+              height: 32px;
+              line-height: 32px;
+              padding: 0 15px;
+              font-size: 13px;
+              border: 1px solid #d8dce5;
+              color: #606266;
+              background-color: #fff;
+              cursor: pointer;
+              @include no-wrap;
+              &:hover {
+                border-color: #3591e0
+              }
+              &::-webkit-input-placeholder {
+                color: #c3cbd6;
+              }
+            }
+            .icon-box {
+              width: 32px;
+              height: 32px;
+              line-height: 32px;
+              background: #EEEEEE;
+              text-align: center;
+              font-size: 15px;
+              border: 1px solid #d8dce5;
+              border-left: none;
+              border-radius: 0 4px 4px 0;
+              cursor: pointer;
+            }
+          }
+        }
       }
     }
   }
-  .table-box {
-    margin: 15px 24px 0 24px;
-    .el-pagination {
-      margin: 20px 0 0 0;
-      padding: 0;
+  .btn-box {
+    margin-top: 20px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@mixin pick-dialog() {
+  @keyframes dialog-fadein {
+    0% {
+      opacity: 0;
     }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dialog-fadeout {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes dialog-zoomin {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes dialog-zoomout {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.dialog-fade-enter-active {
+    animation: dialog-fadein 0.5s;
+    .dialog {
+      animation: dialog-zoomin 0.5s;
+    }
+  }
+  &.dialog-fade-leave-active {
+    animation: dialog-fadeout 0.5s;
+    .dialog {
+      animation: dialog-zoomout 0.5s;
+    }
+  }
+  .dialog {
+    width: 80%;
+    height: 80%;
+    background: #ffffff;
+    border: 1px solid #d8dce5;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    color: #555555;
+    font-size: 13px;
+    border-radius: 4px;
+    .header {
+      width: 100%;
+      display: flex;
+      padding: 0 20px;
+      border-bottom: 1px solid #E4E4E4;
+      h3 {
+        flex: 1 1 auto;
+        line-height: 40px;
+        font-size: 15px;
+        font-weight: bold;
+        text-align: left;
+      }
+      .svg-icon {
+        font-size: 18px;
+        margin-top: 11px;
+        color: #333333;
+        &:hover {
+          color: #58A8EE
+        }
+      }
+    }
+    .search-box {
+      padding: 20px 20px;
+      height: 72px;
+      .item-label {
+        float: left;
+        height: 32px;
+        line-height: 32px;
+        font-size: 13px;
+        color: $color-text-table;
+        margin-right: 20px
+      }
+      .el-select {
+        height: 32px;
+        float: left;
+        width: 30%;
+        margin-right: 50px;
+        text-align: left;
+      }
+      .el-input {
+        width: 30%;
+        float: left;
+        height: 32px;
+        font-size: 13px;
+        margin-right: 20px;
+      }
+      .el-button {
+        float: left;
+        height: 32px
+      }
+    }
+    .table-box {
+      padding: 0 20px;
+    }
+    .table-footer {
+      padding: 10px 20px;
+      height: 88px;
+      text-align: center;
+      .el-pagination {
+        height: 28px;
+        padding: 0;
+        text-align: left;
+        font-size: 12px;
+        color: $color-text-table;
+      }
+      .el-button {
+        margin-top: 10px;
+        height: 30px;
+      }
+    }
+  }
+}
+
+@mixin page-detail() {
+  .header {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    padding: 0 30px;
+    .avatar {
+      flex: 0 0 50px;
+      width: 50px;
+      height: 50px;
+    }
+    .header-right {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      padding-left: 20px;
+      text-align: left;
+      .title-box {
+        .opp-name {
+          font-size: 18px;
+          color: #000000;
+          font-weight: 400;
+        }
+        .svg-icon {
+          font-size: 20px;
+          margin-left: 5px;
+          cursor: pointer;
+          color: #555555;
+          &:hover {
+            color: #4a94fa;
+          }
+        }
+      }
+      .info-box {
+        display: flex;
+        font-size: 14px;
+        margin-top: 10px;
+        color: #555555;
+        .info-item {
+          margin-left: 20px;
+          &:first-of-type {
+            margin-left: 0;
+          }
+        }
+      }
+
+    }
+  }
+  .tab-box {
+    .tab-list {
+      height: 35px;
+      padding-left: 30px;
+      background: #ffffff;
+      display: flex;
+      position: relative;
+      .tab-item {
+        width: 80px;
+        text-align: center;
+        height: 35px;
+        line-height: 35px;
+        color: $color-text-table;
+        font-size: 13px;
+        cursor: pointer;
+        user-select: none;
+        &.active {
+          color: #0275d8;
+        }
+        &:hover {
+          color: #43a7fd;
+        }
+
+      }
+      .line {
+        height: 2px;
+        width: 80px;
+        position: absolute;
+        bottom: 0;
+        left: 30px;
+        background: #0275d8;
+        transition: left 0.2s ease-in-out;
+      }
+    }
+  }
+  .content {
+    border-top: 1px solid #DCDFE6;
   }
 }

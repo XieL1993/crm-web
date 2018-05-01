@@ -9,7 +9,9 @@ import './common/styles/index.scss'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import filters from './common/filters'
+import waves from './common/directive/waves'
 
+Vue.use(waves)
 Object.keys(filters).forEach(key => Vue.filter(key, filters[key]))
 import './icons'
 
