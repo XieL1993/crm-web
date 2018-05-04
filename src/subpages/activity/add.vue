@@ -48,7 +48,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="产品名称" prop="products">
-            <el-input placeholder="请选择" v-model="formItems.products"></el-input>
+            <select-tree v-model="formItems.products" :data="dicts.products.items"></select-tree>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -121,6 +121,7 @@
   import PickOpportunity from '../../components/pick/pickOpportunity'
   import PickContract from '../../components/pick/pickContract'
   import { addActivity } from '../../api/activity'
+  import SelectTree from '../../components/selectTree'
 
   export default {
     mixins: [formMixin],
@@ -152,7 +153,7 @@
           customer: '',
           date: '',
           oppIds: [],
-          products: '66686df4-43a1-11e8-bf3b-00163e121ec4',
+          products: '',
           subject: '',
           type: ''
         },
@@ -163,7 +164,8 @@
         },
         dicts: {
           bd: { type: 'user', name: '0', items: [] }, // bd
-          type: { type: 'dict', name: 'BIZ_ACT_KIND', items: [] } // 活动类型
+          type: { type: 'dict', name: 'BIZ_ACT_KIND', items: [] }, // 活动类型
+          products: { type: 'products', items: [] } //  产品树
         }
       }
     },
@@ -221,7 +223,8 @@
     components: {
       PickOpportunity,
       PickContract,
-      PickCustomer
+      PickCustomer,
+      SelectTree
     }
   }
 </script>

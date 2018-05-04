@@ -72,3 +72,13 @@ export function getUserList(userType) {
     }
   })
 }
+
+export function productTree() {
+  return fetch({
+    method: 'get',
+    url: '/product/tree',
+    params: {
+      tuid: store.getters.tuid
+    }
+  })
+}

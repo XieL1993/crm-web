@@ -23,7 +23,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="产品名称" prop="products">
-            <el-input placeholder="请选择" v-model="formItems.products"></el-input>
+            <select-tree v-model="formItems.products" :data="dicts.products.items"></select-tree>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -110,6 +110,7 @@
   import { formMixin } from '../../common/js/formMixin'
   import PickCustomer from '../../components/pick/pickCustomer'
   import { addOpportunity } from '../../api/opportunity'
+  import SelectTree from '../../components/selectTree'
 
   export default {
     mixins: [formMixin],
@@ -130,7 +131,7 @@
           estimate: '',
           expectedTime: '',
           oppName: '',
-          products: '66686df4-43a1-11e8-bf3b-00163e121ec4',
+          products: '',
           sale: '',
           status: '',
           type: ''
@@ -146,7 +147,8 @@
           sale: { type: 'user', name: '2', items: [] }, // 销售
           bd: { type: 'user', name: '0', items: [] }, // bd
           status: { type: 'dict', name: 'BIZ_OPP_STAT', items: [] }, // 商机状态
-          type: { type: 'dict', name: 'BIZ_OPP_KIND', items: [] } // 商机类型
+          type: { type: 'dict', name: 'BIZ_OPP_KIND', items: [] }, // 商机类型
+          products: { type: 'products', items: [] } //  产品树
         }
       }
     },
@@ -176,7 +178,8 @@
       }
     },
     components: {
-      PickCustomer
+      PickCustomer,
+      SelectTree
     }
   }
 </script>

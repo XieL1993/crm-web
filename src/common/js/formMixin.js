@@ -1,4 +1,4 @@
-import { getDictItem, getUserList } from '../../api/login'
+import { getDictItem, getUserList, productTree } from '../../api/login'
 import { mapActions } from 'vuex'
 
 export const formMixin = {
@@ -42,9 +42,28 @@ export const formMixin = {
             getUserList(item.name).then(res => {
               item.items = res.obj.list
             })
+          } else if (item.type === 'products') {
+            productTree().then(res => {
+              item.items = this.filterTreesBydata([], [res.obj])
+            })
           }
         }
       }
+    },
+    filterTreesBydata(trees, data) { // 递归遍历产品树
+      if (data && data.length > 0) {
+        for (const { tuid, productName, level, children } of data) {
+          const parent = { label: productName, tuid, level }
+          trees.push(parent)
+          if (children && children.length > 0) {
+            parent.children = []
+            this.filterTreesBydata(parent.children, children)
+          } else if (level === '0') { // 无children并且level为0禁止选中
+            parent.disabled = true
+          }
+        }
+      }
+      return trees
     },
     showError(val) {
       this.$message.closeAll()

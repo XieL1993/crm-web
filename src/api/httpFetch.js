@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '../store'
 
 const httpFetch = axios.create({
-  baseURL: 'http://192.168.243.98:8090/api',
+  baseURL: 'http://10.253.102.183:8090/api',
   timeout: 15000 // request timeout
 })
 

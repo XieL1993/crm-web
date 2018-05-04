@@ -52,11 +52,12 @@
           <el-col :span="8">
             <span class="item-label">活动时间</span>
             <el-date-picker
+              size="mini"
               v-model="query.date"
               type="daterange"
               align="right"
               unlink-panels
-              range-separator="至"
+              range-separator="-"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               :picker-options="pickerOptions"
