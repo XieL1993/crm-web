@@ -104,6 +104,7 @@
     mixins: [dialogMixin],
     data() {
       return {
+        labelKey: 'contractName',
         types: [
           { key: 0, value: '我的合同' },
           { key: 1, value: '全部合同' }

@@ -1,5 +1,10 @@
 import { getDictItem, getUserList, productTree } from '../../api/login'
 import { mapActions } from 'vuex'
+import PickInput from '../../components/pickInput'
+import PickCustomer from '../../components/pick/pickCustomer'
+import PickOpportunity from '../../components/pick/pickOpportunity'
+import PickContract from '../../components/pick/pickContract'
+import SelectTree from '../../components/selectTree'
 
 export const formMixin = {
   data() {
@@ -70,14 +75,27 @@ export const formMixin = {
       this.$message.warning({ showClose: true, message: val, duration: 3000 })
     },
     success() {
-    },
-    go(path) {
-      this.delTab(this.$route).then(() => {
-        path ? this.$router.push(path) : this.$router.go(-1)
+      this.$alert(this.successMsg, '提示', {
+        confirmButtonText: '确定',
+        type: 'success',
+        showClose: false,
+        closeOnClickModal: false,
+        closeOnPressEscape: false
+      }).then(() => {
+        this.back()
       })
     },
-    cancel() {
-      this.go()
+    back() {
+      this.delTab(this.$route).then(() => {
+        this.$router.go(-1)
+      })
     }
+  },
+  components: {
+    PickInput,
+    PickCustomer,
+    PickOpportunity,
+    PickContract,
+    SelectTree
   }
 }

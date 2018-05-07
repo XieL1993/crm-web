@@ -5,13 +5,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="合同名称" prop="contract">
-            <div class="pick-box">
-              <input v-model="pick.contract.display" readonly placeholder="请选择"
-                     @click="pick.contract.isShow=true">
-              <div class="icon-box" v-waves @click="pick.contract.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="formItems.contract" icon="contract"></pick-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -33,7 +27,7 @@
         <el-col :span="8">
           <el-form-item label="是否开发票" prop="isInvoice">
             <el-select v-model="formItems.isInvoice" clearable placeholder="请选择">
-              <el-option v-for="item in isInvoice" :key="item.key" :value="item.key" :label="item.value">
+              <el-option v-for="item in dicts.isInvoice.items" :key="item.key" :value="item.key" :label="item.value">
               </el-option>
             </el-select>
           </el-form-item>
@@ -83,7 +77,7 @@
         <el-col :span="8">
           <el-form-item label="是否收款完毕" prop="isFinished">
             <el-select v-model="formItems.isFinished" clearable placeholder="请选择">
-              <el-option v-for="item in isFinished" :key="item.key" :value="item.key" :label="item.value">
+              <el-option v-for="item in dicts.isFinished.items" :key="item.key" :value="item.key" :label="item.value">
               </el-option>
             </el-select>
           </el-form-item>
@@ -100,83 +94,27 @@
     </el-form>
     <div class="btn-box">
       <el-button class="customer query" @click.native.prevent="__fetchData" v-waves :loading="loading">保存</el-button>
-      <el-button class="customer reset" @click.native.prevent="cancel" v-waves>取消</el-button>
+      <el-button class="customer reset" @click.native.prevent="back" v-waves>取消</el-button>
     </div>
-    <pick-contract v-if="pick.contract.isShow" @close="pick.contract.isShow=false" @finish="pickContractFinish"
-                   :multiple="false" :data="pick.contract.data"></pick-contract>
+    <pick-contract v-if="formItems.contract.isShow" :multiple="false" v-model="formItems.contract"></pick-contract>
   </div>
 </template>
 <script>
   import { formMixin } from '../../common/js/formMixin'
-  import PickContract from '../../components/pick/pickContract'
+  import { invoiceData } from './js/data'
   import { addInvoice } from '../../api/invoice'
 
   export default {
-    mixins: [formMixin],
+    mixins: [formMixin, invoiceData],
     data() {
       return {
-        isInvoice: [
-          { key: 1, value: '已开' },
-          { key: 0, value: '未开' }
-        ],
-        isFinished: [
-          { key: 1, value: '是' },
-          { key: 0, value: '否' }
-        ],
-        pick: {
-          contract: {
-            data: [],
-            display: '',
-            isShow: false
-          }
-        },
-        formItems: {
-          actualAmount: '',
-          actualTime: '',
-          contract: '',
-          expectedTime: '',
-          invoiceTime: '',
-          isFinished: '',
-          isInvoice: '',
-          remarks: '',
-          totalAmount: '',
-          type: ''
-        },
-        formRules: {
-          contract: [{ required: true, message: '必填项' }]
-        },
-        dicts: {
-          type: { type: 'dict', name: 'BIZ_INV_KIND', items: [] } // 收款类型
-        }
+        successMsg: '新建收款成功！'
       }
     },
     methods: {
-      pickContractFinish(data) {
-        this.pick.contract.data = data
-        const { tuid, contractName } = data[0]
-        this.pick.contract.display = contractName
-        this.formItems.contract = tuid
-      },
       fetchData() {
-        return addInvoice(this.formItems)
-      },
-      success() {
-        this.$confirm('新建收款成功！', '提示', {
-          confirmButtonText: '收款管理',
-          cancelButtonText: '退出',
-          type: 'success',
-          showClose: false,
-          closeOnClickModal: false,
-          closeOnPressEscape: false
-        }).then(() => {
-          this.go('/invoice')
-        }).catch(() => {
-          this.go()
-        })
+        return addInvoice(this.getParams())
       }
-    },
-    components: {
-      PickContract
     }
   }
 </script>

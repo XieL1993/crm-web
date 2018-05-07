@@ -113,6 +113,7 @@
     mixins: [dialogMixin],
     data() {
       return {
+        labelKey: 'oppName',
         types: [
           { key: 0, value: '我的商机' },
           { key: 1, value: '全部商机' }

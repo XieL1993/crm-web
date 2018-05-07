@@ -9,12 +9,7 @@
           </el-col>
           <el-col :span="8">
             <span class="item-label">客户名称</span>
-            <div class="pick-box">
-              <input v-model="pick.customer.display" readonly placeholder="请选择" @click="pick.customer.isShow=true">
-              <div class="icon-box" v-waves @click="pick.customer.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="query.customer" icon="customer"></pick-input>
           </el-col>
           <el-col :span="8">
             <span class="item-label">商机状态</span>
@@ -147,30 +142,21 @@
         @current-change="handleCurrentChange">
       </el-pagination>
     </div>
-    <pick-customer v-if="pick.customer.isShow" @close="pick.customer.isShow=false" @finish="pickCustomerFinish"
-                   :multiple="false" :data="pick.customer.data"></pick-customer>
+    <pick-customer v-if="query.customer.isShow" :multiple="false" v-model="query.customer"></pick-customer>
   </div>
 </template>
 <script>
   import { getOpportunityList } from '../api/opportunity'
   import { tableMixin } from '../common/js/tableMixin'
   import { mapActions } from 'vuex'
-  import PickCustomer from '../components/pick/pickCustomer'
 
   export default {
     mixins: [tableMixin],
     data() {
       return {
-        pick: {
-          customer: {
-            data: [],
-            display: '',
-            isShow: false
-          }
-        },
         query: {
           oppName: '',
-          customer: '',
+          customer: { data: [], tuid: '', display: '', isShow: false },
           status: '',
           type: ''
         },
@@ -186,7 +172,7 @@
         return getOpportunityList(
           this.isAll,
           this.query.oppName,
-          this.query.customer,
+          this.query.customer.tuid,
           this.query.status,
           this.query.type,
           this.page.pageSize,
@@ -209,16 +195,7 @@
         this.$router.push({
           path: '/opportunity/detail'
         })
-      },
-      pickCustomerFinish(data) {
-        this.pick.customer.data = data
-        const { tuid, custName } = data[0]
-        this.pick.customer.display = custName
-        this.query.customer = tuid
       }
-    },
-    components: {
-      PickCustomer
     }
   }
 </script>

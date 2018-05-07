@@ -9,34 +9,17 @@
           </el-col>
           <el-col :span="8">
             <span class="item-label">客户名称</span>
-            <div class="pick-box">
-              <input v-model="pick.customer.display" readonly placeholder="请选择" @click="pick.customer.isShow=true">
-              <div class="icon-box" v-waves @click="pick.customer.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="query.customer" icon="customer"></pick-input>
           </el-col>
           <el-col :span="8">
             <span class="item-label">商机名称</span>
-            <div class="pick-box">
-              <input v-model="pick.opportunity.display" readonly placeholder="请选择"
-                     @click="pick.opportunity.isShow=true">
-              <div class="icon-box" v-waves @click="pick.opportunity.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="query.opportunity" icon="opportunity"></pick-input>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="item-label">合同名称</span>
-            <div class="pick-box">
-              <input v-model="pick.contract.display" readonly placeholder="请选择"
-                     @click="pick.contract.isShow=true">
-              <div class="icon-box" v-waves @click="pick.contract.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="query.contract" icon="contract"></pick-input>
           </el-col>
           <el-col :span="8">
             <span class="item-label">活动类型</span>
@@ -151,81 +134,30 @@
         @current-change="handleCurrentChange">
       </el-pagination>
     </div>
-    <pick-customer v-if="pick.customer.isShow" @close="pick.customer.isShow=false" @finish="pickCustomerFinish"
-                   :multiple="false" :data="pick.customer.data"></pick-customer>
-    <pick-opportunity v-if="pick.opportunity.isShow" @close="pick.opportunity.isShow=false"
-                      @finish="pickOpportunityFinish"
-                      :multiple="true" :data="pick.opportunity.data"></pick-opportunity>
-    <pick-contract v-if="pick.contract.isShow" @close="pick.contract.isShow=false" @finish="pickContractFinish"
-                   :multiple="true" :data="pick.contract.data"></pick-contract>
+    <pick-customer v-if="query.customer.isShow" :multiple="false" v-model="query.customer"></pick-customer>
+    <pick-opportunity v-if="query.opportunity.isShow" :multiple="false" v-model="query.opportunity"></pick-opportunity>
+    <pick-contract v-if="query.contract.isShow" :multiple="false" v-model="query.contract"></pick-contract>
   </div>
 </template>
 <script>
   import { getActivityList } from '../api/activity'
   import { tableMixin } from '../common/js/tableMixin'
   import { mapActions } from 'vuex'
-  import PickCustomer from '../components/pick/pickCustomer'
-  import PickOpportunity from '../components/pick/pickOpportunity'
-  import PickContract from '../components/pick/pickContract'
 
   export default {
     mixins: [tableMixin],
     data() {
       return {
-        pick: {
-          opportunity: {
-            data: [],
-            display: '',
-            isShow: false
-          },
-          contract: {
-            data: [],
-            display: '',
-            isShow: false
-          },
-          customer: {
-            data: [],
-            display: '',
-            isShow: false
-          }
-        },
         query: {
           subject: '',
-          customer: '',
-          opportunity: '',
-          contract: '',
+          customer: { data: [], tuid: '', display: '', isShow: false },
+          opportunity: { data: [], tuid: '', display: '', isShow: false },
+          contract: { data: [], tuid: '', display: '', isShow: false },
           type: '',
           date: []
         },
         dicts: {
           type: { type: 'dict', name: 'BIZ_ACT_KIND', items: [] } // 活动类型
-        },
-        pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }]
         }
       }
     },
@@ -235,12 +167,12 @@
         return getActivityList(
           this.isAll,
           this.query.subject,
-          this.query.customer,
-          this.query.opportunity,
-          this.query.contract,
+          this.query.customer.tuid,
+          this.query.opportunity.tuid,
+          this.query.contract.tuid,
           this.query.type,
-          (this.query.date && this.query.date[0]) || '',
-          (this.query.date && this.query.date[1]) || '',
+          this.query.date[0],
+          this.query.date[1],
           this.page.pageSize,
           this.page.currentPage
         )
@@ -261,44 +193,7 @@
         this.$router.push({
           path: '/activity/detail'
         })
-      },
-      pickOpportunityFinish(data) {
-        this.pick.opportunity.data = data
-        let names = ''
-        let ids = ''
-        for (const { tuid, oppName } of data) {
-          if (tuid && oppName) {
-            names += `,${oppName}`
-            ids += `,${tuid}`
-          }
-        }
-        this.pick.opportunity.display = names.substring(1)
-        this.query.opportunity = ids.substring(1)
-      },
-      pickContractFinish(data) {
-        this.pick.contract.data = data
-        let names = ''
-        let ids = ''
-        for (const { tuid, contractName } of data) {
-          if (tuid && contractName) {
-            names += `,${contractName}`
-            ids += `,${tuid}`
-          }
-        }
-        this.pick.contract.display = names.substring(1)
-        this.query.contract = ids.substring(1)
-      },
-      pickCustomerFinish(data) {
-        this.pick.customer.data = data
-        const { tuid, custName } = data[0]
-        this.pick.customer.display = custName
-        this.query.customer = tuid
       }
-    },
-    components: {
-      PickOpportunity,
-      PickContract,
-      PickCustomer
     }
   }
 </script>

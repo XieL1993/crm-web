@@ -1,10 +1,15 @@
 import { getDictItem, getUserList } from '../../api/login'
+import { clone } from './utils'
+import PickInput from '../../components/pickInput'
+import PickCustomer from '../../components/pick/pickCustomer'
+import PickOpportunity from '../../components/pick/pickOpportunity'
+import PickContract from '../../components/pick/pickContract'
 
 export const tableMixin = {
   data() {
     return {
       tableData: [],
-      query: {},
+      baseQuery: {},
       loading: false,
       isAll: 0,
       tableHeight: 0,
@@ -12,10 +17,38 @@ export const tableMixin = {
         total: 0,
         currentPage: 1,
         pageSize: 10
+      },
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
       }
     }
   },
   created() {
+    this.baseQuery = clone(this.query)
     this.__fetchData()
     this.getDicts()
   },
@@ -41,16 +74,7 @@ export const tableMixin = {
   },
   methods: {
     resetQuery() {
-      this.query = {}
-      if (this.pick) {
-        for (const key of Object.keys(this.pick)) {
-          this.pick[key] = {
-            data: [],
-            display: '',
-            isShow: false
-          }
-        }
-      }
+      this.query = clone(this.baseQuery)
       this.__fetchData()
     },
     handleSizeChange(val) {
@@ -103,5 +127,11 @@ export const tableMixin = {
         this.tableHeight = rHeight - hHeight - fHeight
       }
     }
+  },
+  components: {
+    PickInput,
+    PickCustomer,
+    PickOpportunity,
+    PickContract
   }
 }

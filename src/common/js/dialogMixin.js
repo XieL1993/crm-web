@@ -1,12 +1,13 @@
 export const dialogMixin = {
   props: {
-    data: {
-      type: Array,
-      default: () => []
-    },
     multiple: {
       type: Boolean,
       default: true
+    },
+    value: {
+      type: Object,
+      default: () => {
+      }
     }
   },
   data() {
@@ -28,8 +29,8 @@ export const dialogMixin = {
   },
   mounted() {
     this.$nextTick(() => {
-      this.resetSelection()
       this.setTableHeight()
+      this.resetSelection()
     })
     let timer = 0
     window.addEventListener('resize', () => {
@@ -81,8 +82,8 @@ export const dialogMixin = {
       }
     },
     resetSelection() {
-      if (this.data && this.data.length > 0) {
-        this.data.forEach(row => {
+      if (this.value.data && this.value.data.length > 0) {
+        this.value.data.forEach(row => {
           this.$refs.table.toggleRowSelection(row, true)
         })
       }
@@ -91,7 +92,7 @@ export const dialogMixin = {
       this.selection = selection
     },
     close() {
-      this.$emit('close')
+      this.$emit('input', Object.assign({}, this.value, { isShow: false }))
     },
     confirm() {
       if (!this.selection || this.selection.length === 0) {
@@ -99,8 +100,22 @@ export const dialogMixin = {
       } else if (this.selection.length > 1 && !this.multiple) {
         this.showError('最多只能选择一条数据')
       } else {
-        this.$emit('close')
-        this.$emit('finish', this.selection)
+        const names = []
+        const ids = []
+        this.selection.forEach(item => {
+          const tuid = item.tuid
+          const label = item[this.labelKey]
+          if (tuid && label) {
+            names.push(label)
+            ids.push(tuid)
+          }
+        })
+        this.$emit('input', {
+          data: this.selection,
+          tuid: ids.join(','),
+          display: names.join(','),
+          isShow: false
+        })
       }
     }
   }

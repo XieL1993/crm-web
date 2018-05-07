@@ -9,15 +9,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <p class="row_des">（提示：系统将根据您选择的产品、客户名称、创建时间自动组合为商机名称，您也可以自行录入)</p>
       <el-row>
         <el-col :span="8">
           <el-form-item label="客户名称" prop="customer">
-            <div class="pick-box">
-              <input v-model="pick.customer.display" readonly placeholder="请选择" @click="pick.customer.isShow=true">
-              <div class="icon-box" v-waves @click="pick.customer.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="formItems.customer" icon="customer"></pick-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -99,21 +95,19 @@
     </el-form>
     <div class="btn-box">
       <el-button class="customer query" @click.native.prevent="__fetchData" v-waves :loading="loading">保存</el-button>
-      <el-button class="customer reset" @click.native.prevent="cancel" v-waves>取消</el-button>
+      <el-button class="customer reset" @click.native.prevent="back" v-waves>取消</el-button>
     </div>
-    <pick-customer v-if="pick.customer.isShow" @close="pick.customer.isShow=false" @finish="pickCustomerFinish"
-                   :multiple="false" :data="pick.customer.data"></pick-customer>
+    <pick-customer v-if="formItems.customer.isShow" :multiple="false" v-model="formItems.customer"></pick-customer>
   </div>
 </template>
 <script>
   import { formMixin } from '../../common/js/formMixin'
-  import PickCustomer from '../../components/pick/pickCustomer'
+  import { opportunityData } from './js/data'
   import { undateOpportunity, getOppDetail } from '../../api/opportunity'
   import { mapGetters } from 'vuex'
-  import SelectTree from '../../components/selectTree'
 
   export default {
-    mixins: [formMixin],
+    mixins: [formMixin, opportunityData],
     computed: {
       ...mapGetters(['opportunityId'])
     },
@@ -122,92 +116,20 @@
     },
     data() {
       return {
-        pick: {
-          customer: {
-            data: [],
-            display: '',
-            isShow: false
-          }
-        },
-        formItems: {
-          bd: '',
-          competitor: '',
-          customer: '',
-          description: '',
-          estimate: '',
-          expectedTime: '',
-          oppName: '',
-          products: '',
-          sale: '',
-          status: '',
-          type: ''
-        },
-        formRules: {
-          customer: [{ required: true, message: '必填项' }],
-          oppName: [{ required: true, message: '必填项' }],
-          products: [{ required: true, message: '必填项' }],
-          status: [{ required: true, message: '必填项' }],
-          type: [{ required: true, message: '必填项' }]
-        },
-        dicts: {
-          sale: { type: 'user', name: '2', items: [] }, // 销售
-          bd: { type: 'user', name: '0', items: [] }, // bd
-          status: { type: 'dict', name: 'BIZ_OPP_STAT', items: [] }, // 商机状态
-          type: { type: 'dict', name: 'BIZ_OPP_KIND', items: [] }, // 商机类型
-          products: { type: 'products', items: [] } //  产品树
-        }
+        successMsg: '编辑商机成功！'
       }
     },
     methods: {
-      pickCustomerFinish(data) {
-        this.pick.customer.data = data
-        const { tuid, custName } = data[0]
-        this.pick.customer.display = custName
-        this.formItems.customer = tuid
-      },
       fetchData() {
-        return undateOpportunity(this.opportunityId, this.formItems)
+        return undateOpportunity(this.opportunityId, this.getParams())
       },
       fetchDetail() {
         getOppDetail(this.opportunityId).then(data => {
-          const oppDetail = data.obj
-          for (const key of Object.keys(this.formItems)) {
-            if (oppDetail[key]) {
-              if (key === 'expectedTime') {
-                this.formItems.expectedTime = new Date(oppDetail.expectedTime)
-              } else if (key === 'customer') {
-                this.formItems.customer = oppDetail.customer
-                this.pick.customer.display = oppDetail.customerDname
-                this.pick.customer.data = [
-                  {
-                    tuid: oppDetail.customer,
-                    custName: oppDetail.customerDname
-                  }
-                ]
-              } else {
-                this.formItems[key] = oppDetail[key]
-              }
-            }
-          }
+          this.dealDetail(data)
         }).catch(error => {
           this.showError(error.message)
         })
-      },
-      success() {
-        this.$alert('编辑商机成功！', '提示', {
-          confirmButtonText: '确定',
-          type: 'success',
-          showClose: false,
-          closeOnClickModal: false,
-          closeOnPressEscape: false
-        }).then(() => {
-          this.go()
-        })
       }
-    },
-    components: {
-      PickCustomer,
-      SelectTree
     }
   }
 </script>

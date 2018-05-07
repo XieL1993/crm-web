@@ -11,38 +11,22 @@
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="商机名称" prop="oppId">
-            <div class="pick-box">
-              <input v-model="pick.oppIds.display" readonly placeholder="请选择" @click="pick.oppIds.isShow=true">
-              <div class="icon-box" v-waves @click="pick.oppIds.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+          <el-form-item label="商机名称" prop="oppIds">
+            <pick-input v-model="formItems.oppIds" icon="opportunity"></pick-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="合同名称" prop="contractId">
-            <div class="pick-box">
-              <input v-model="pick.contractIds.display" readonly placeholder="请选择"
-                     @click="pick.contractIds.isShow=true">
-              <div class="icon-box" v-waves @click="pick.contractIds.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+          <el-form-item label="合同名称" prop="contractIds">
+            <pick-input v-model="formItems.contractIds" icon="contract"></pick-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <el-form-item label="客户名称" prop="customer">
-            <div class="pick-box">
-              <input v-model="pick.customer.display" readonly placeholder="请选择" @click="pick.customer.isShow=true">
-              <div class="icon-box" v-waves @click="pick.customer.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="formItems.customer" icon="customer"></pick-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -104,27 +88,21 @@
     </el-form>
     <div class="btn-box">
       <el-button class="customer query" @click.native.prevent="__fetchData" v-waves :loading="loading">保存</el-button>
-      <el-button class="customer reset" @click.native.prevent="cancel" v-waves>取消</el-button>
+      <el-button class="customer reset" @click.native.prevent="back" v-waves>取消</el-button>
     </div>
-    <pick-customer v-if="pick.customer.isShow" @close="pick.customer.isShow=false" @finish="pickCustomerFinish"
-                   :multiple="false" :data="pick.customer.data"></pick-customer>
-    <pick-opportunity v-if="pick.oppIds.isShow" @close="pick.oppIds.isShow=false" @finish="pickOpportunityFinish"
-                      :multiple="true" :data="pick.oppIds.data"></pick-opportunity>
-    <pick-contract v-if="pick.contractIds.isShow" @close="pick.contractIds.isShow=false" @finish="pickContractFinish"
-                   :multiple="true" :data="pick.contractIds.data"></pick-contract>
+    <pick-customer v-if="formItems.customer.isShow" :multiple="false" v-model="formItems.customer"></pick-customer>
+    <pick-opportunity v-if="formItems.oppIds.isShow" :multiple="true" v-model="formItems.oppIds"></pick-opportunity>
+    <pick-contract v-if="formItems.contractIds.isShow" :multiple="true" v-model="formItems.contractIds"></pick-contract>
   </div>
 </template>
 <script>
   import { formMixin } from '../../common/js/formMixin'
-  import PickCustomer from '../../components/pick/pickCustomer'
-  import PickOpportunity from '../../components/pick/pickOpportunity'
-  import PickContract from '../../components/pick/pickContract'
+  import { activityData } from './js/data'
   import { undateActivity, getActDetail } from '../../api/activity'
   import { mapGetters } from 'vuex'
-  import SelectTree from '../../components/selectTree'
 
   export default {
-    mixins: [formMixin],
+    mixins: [formMixin, activityData],
     computed: {
       ...mapGetters(['activityId'])
     },
@@ -133,156 +111,20 @@
     },
     data() {
       return {
-        pick: {
-          oppIds: {
-            data: [],
-            display: '',
-            isShow: false
-          },
-          contractIds: {
-            data: [],
-            display: '',
-            isShow: false
-          },
-          customer: {
-            data: [],
-            display: '',
-            isShow: false
-          }
-        },
-        formItems: {
-          address: '',
-          bd: '',
-          contact: '',
-          content: '',
-          contractIds: [],
-          customer: '',
-          date: '',
-          oppIds: [],
-          products: '',
-          subject: '',
-          type: ''
-        },
-        formRules: {
-          customer: [{ required: true, message: '必填项' }],
-          date: [{ required: true, message: '必填项' }],
-          subject: [{ required: true, message: '必填项' }]
-        },
-        dicts: {
-          bd: { type: 'user', name: '0', items: [] }, // bd
-          type: { type: 'dict', name: 'BIZ_ACT_KIND', items: [] }, // 活动类型
-          products: { type: 'products', items: [] } //  产品树
-        }
+        successMsg: '编辑活动成功！'
       }
     },
     methods: {
-      pickOpportunityFinish(data) {
-        this.pick.oppIds.data = data
-        let names = ''
-        const ids = []
-        for (const { tuid, oppName } of data) {
-          if (tuid && oppName) {
-            names += `,${oppName}`
-            ids.push(tuid)
-          }
-        }
-        this.pick.oppIds.display = names.substring(1)
-        this.formItems.oppIds = ids
-      },
-      pickContractFinish(data) {
-        this.pick.contractIds.data = data
-        let names = ''
-        const ids = []
-        for (const { tuid, contractName } of data) {
-          if (tuid && contractName) {
-            names += `,${contractName}`
-            ids.push(tuid)
-          }
-        }
-        this.pick.contractIds.display = names.substring(1)
-        this.formItems.contractIds = ids
-      },
-      pickCustomerFinish(data) {
-        this.pick.customer.data = data
-        const { tuid, custName } = data[0]
-        this.pick.customer.display = custName
-        this.formItems.customer = tuid
-      },
       fetchData() {
-        return undateActivity(this.activityId, this.formItems)
+        return undateActivity(this.activityId, this.getParams())
       },
       fetchDetail() {
         getActDetail(this.activityId).then(data => {
-          const actDetail = data.obj
-          for (const key of Object.keys(this.formItems)) {
-            if (actDetail[key]) {
-              if (key === 'date') {
-                this.formItems.date = new Date(actDetail.date)
-              } else if (key === 'oppIds') {
-                const names = actDetail.oppIdsDname.split(',')
-                const ids = actDetail.oppIds.split(',')
-                this.formItems.oppIds = ids
-                this.pick.oppIds.display = actDetail.oppIdsDname
-                const data = []
-                if (ids.length === names.length) {
-                  for (let i = 0; i < ids.length; i++) {
-                    data.push({
-                      tuid: ids[i],
-                      oppName: names[i]
-                    })
-                  }
-                }
-                this.pick.oppIds.data = data
-              } else if (key === 'contractIds') {
-                const names = actDetail.contractIdsDname.split(',')
-                const ids = actDetail.contractIds.split(',')
-                this.formItems.contractIds = ids
-                this.pick.contractIds.display = actDetail.contractIdsDname
-                const data = []
-                if (ids.length === names.length) {
-                  for (let i = 0; i < ids.length; i++) {
-                    data.push({
-                      tuid: ids[i],
-                      contractName: names[i]
-                    })
-                  }
-                }
-                this.pick.contractIds.data = data
-              } else if (key === 'customer') {
-                this.formItems.customer = actDetail.customer
-                this.pick.customer.display = actDetail.customerDname
-                this.pick.customer.data = [
-                  {
-                    tuid: actDetail.customer,
-                    custName: actDetail.customerDname
-                  }
-                ]
-              } else {
-                this.formItems[key] = actDetail[key]
-              }
-            }
-          }
+          this.dealDetail(data)
         }).catch(error => {
           this.showError(error.message)
         })
-      },
-      success() {
-        this.$alert('编辑活动成功！', '提示', {
-          confirmButtonText: '确定',
-          type: 'success',
-          showClose: false,
-          closeOnClickModal: false,
-          closeOnPressEscape: false
-        }).then(() => {
-          this.go()
-        })
       }
-    },
-    components: {
-      PickOpportunity,
-      PickContract,
-      PickCustomer,
-      SelectTree
     }
   }
 </script>

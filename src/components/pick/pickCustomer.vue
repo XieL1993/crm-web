@@ -98,6 +98,7 @@
     mixins: [dialogMixin],
     data() {
       return {
+        labelKey: 'custName',
         types: [
           { key: 0, value: '我的客户' },
           { key: 1, value: '全部客户' }

@@ -1,8 +1,8 @@
 <template>
   <div class="x-tree" v-clickoutside="handleHide">
     <div class="x-input-wrapper" @click="toggleDropVisible" :title="model"
-         :class="{'active':dropVisible,'noEmpty':model!==''}">
-      <input readonly class="x-input" placeholder="请选择" :class="{'active':dropVisible}" v-model="model">
+         :class="{'active':dropVisible,'hasValue':model!==''}">
+      <input readonly class="x-input" placeholder="请选择" v-model="model">
       <svg-icon icon-class="arrowbottom" class="arrow"></svg-icon>
       <svg-icon icon-class="delete" class="delete" @click.native.prevent.stop="clear"></svg-icon>
     </div>
@@ -112,63 +112,66 @@
 <style scoped lang="scss">
   .x-tree {
     height: 100%;
-    background: white;
-    position: relative;
+    background: #ffffff;
     .x-input-wrapper {
+      position: relative;
       height: 100%;
+      border: 1px solid #d7dde4;
+      border-radius: 4px;
       .x-input {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        line-height: 1.5;
-        padding: 4px 28px 4px 7px;
-        font-size: 12px;
-        outline: 0;
-        border: 1px solid #d7dde4;
-        color: #657180;
-        background-color: #fff;
         cursor: pointer;
-        overflow: auto;
+        font-size: 12px;
+        color: #657180;
+        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        outline: none;
+        border: none;
         border-radius: 4px;
-        &:hover {
-          border-color: #3591e0;
-        }
-        &.active {
-          border-color: #3591e0;
-          box-shadow: 0 0 0 2px rgba(2, 117, 216, 0.2);
-        }
+        padding-left: 7px;
+        padding-right: 28px;
         &::-webkit-input-placeholder {
           color: #c3cbd6;
         }
       }
       .arrow {
+        position: absolute;
+        top: 50%;
+        margin-top: -6px;
+        right: 8px;
         color: #c0c4cc;
         font-size: 12px;
-        position: absolute;
-        top: 12px;
-        right: 8px;
         display: block;
-        transition: all 0.3s ease-in-out;
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       }
       .delete {
         position: absolute;
-        top: 10px;
+        top: 50%;
+        margin-top: -9px;
         right: 5px;
         font-size: 18px;
         color: #c0c4cc;
         display: none;
         cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         &:hover {
           color: #909399;
         }
+      }
+      &:hover {
+        border-color: #3591e0;
       }
       &.active {
         .arrow {
           transform: rotateZ(-180deg);
         }
       }
-      &.noEmpty:hover {
+      &.hasValue:hover {
         .delete {
           display: block;
         }

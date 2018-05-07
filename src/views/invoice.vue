@@ -5,27 +5,16 @@
         <el-row>
           <el-col :span="8">
             <span class="item-label">客户名称</span>
-            <div class="pick-box">
-              <input v-model="pick.customer.display" readonly placeholder="请选择" @click="pick.customer.isShow=true">
-              <div class="icon-box" v-waves @click="pick.customer.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="query.customer" icon="customer"></pick-input>
           </el-col>
           <el-col :span="8">
             <span class="item-label">合同名称</span>
-            <div class="pick-box">
-              <input v-model="pick.contract.display" readonly placeholder="请选择"
-                     @click="pick.contract.isShow=true">
-              <div class="icon-box" v-waves @click="pick.contract.isShow=true">
-                <el-icon name="search"></el-icon>
-              </div>
-            </div>
+            <pick-input v-model="query.contract" icon="contract"></pick-input>
           </el-col>
           <el-col :span="8">
             <span class="item-label">是否收款完毕</span>
             <el-select v-model="query.isFinished" clearable placeholder="请选择">
-              <el-option v-for="item in isFinished" :key="item.key" :value="item.key" :label="item.value">
+              <el-option v-for="item in dicts.isFinished.items" :key="item.key" :value="item.key" :label="item.value">
               </el-option>
             </el-select>
           </el-col>
@@ -131,46 +120,31 @@
         @current-change="handleCurrentChange">
       </el-pagination>
     </div>
-    <pick-customer v-if="pick.customer.isShow" @close="pick.customer.isShow=false" @finish="pickCustomerFinish"
-                   :multiple="false" :data="pick.customer.data"></pick-customer>
-    <pick-contract v-if="pick.contract.isShow" @close="pick.contract.isShow=false" @finish="pickContractFinish"
-                   :multiple="true" :data="pick.contract.data"></pick-contract>
+    <pick-customer v-if="query.customer.isShow" :multiple="false" v-model="query.customer"></pick-customer>
+    <pick-contract v-if="query.contract.isShow" :multiple="false" v-model="query.contract"></pick-contract>
   </div>
 </template>
 <script>
   import { getInvoiceList } from '../api/invoice'
   import { tableMixin } from '../common/js/tableMixin'
   import { mapActions } from 'vuex'
-  import PickCustomer from '../components/pick/pickCustomer'
-  import PickContract from '../components/pick/pickContract'
 
   export default {
     mixins: [tableMixin],
     data() {
       return {
-        isFinished: [
-          { key: '1', value: '是' },
-          { key: '0', value: '否' }
-        ],
-        pick: {
-          contract: {
-            data: [],
-            display: '',
-            isShow: false
-          },
-          customer: {
-            data: [],
-            display: '',
-            isShow: false
-          }
-        },
         query: {
-          customer: '',
-          contract: '',
+          customer: { data: [], tuid: '', display: '', isShow: false },
+          contract: { data: [], tuid: '', display: '', isShow: false },
           isFinished: ''
         },
         dicts: {
-          isFinished: { type: 'dict', name: 'BIZ_INV_KIND', items: [] } // 是否收款完毕
+          isFinished: { // 是否收款完毕
+            items: [
+              { key: '1', value: '是' },
+              { key: '0', value: '否' }
+            ]
+          }
         }
       }
     },
@@ -179,8 +153,8 @@
       fetchData() {
         return getInvoiceList(
           this.isAll,
-          this.query.customer,
-          this.query.contract,
+          this.query.customer.tuid,
+          this.query.contract.tuid,
           this.query.isFinished,
           this.page.pageSize,
           this.page.currentPage
@@ -202,30 +176,7 @@
         this.$router.push({
           path: '/invoice/detail'
         })
-      },
-      pickContractFinish(data) {
-        this.pick.contract.data = data
-        let names = ''
-        let ids = ''
-        for (const { tuid, contractName } of data) {
-          if (tuid && contractName) {
-            names += `,${contractName}`
-            ids += `,${tuid}`
-          }
-        }
-        this.pick.contract.display = names.substring(1)
-        this.query.contract = ids.substring(1)
-      },
-      pickCustomerFinish(data) {
-        this.pick.customer.data = data
-        const { tuid, custName } = data[0]
-        this.pick.customer.display = custName
-        this.query.customer = tuid
       }
-    },
-    components: {
-      PickContract,
-      PickCustomer
     }
   }
 </script>
