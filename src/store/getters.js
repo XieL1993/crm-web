@@ -7,6 +7,7 @@ const getters = {
   tabViews: state => state.tabViews.tabViews,
   opportunityId: state => state.params.opportunityId,
   activityId: state => state.params.activityId,
+  contractId: state => state.params.contractId,
   invoiceId: state => state.params.invoiceId
 }
 export default getters

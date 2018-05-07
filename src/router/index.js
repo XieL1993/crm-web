@@ -80,6 +80,26 @@ export const subRouter = [
     hidden: true
   },
   {
+    name: '新建合同',
+    path: '/contract/add',
+    component: resolve => {
+      import('../subpages/contract/add').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  },
+  {
+    name: '编辑合同',
+    path: '/contract/edit',
+    component: resolve => {
+      import('../subpages/contract/edit').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  },
+  {
     name: '新建收款',
     path: '/invoice/add',
     component: resolve => {

@@ -1,6 +1,6 @@
 <template>
   <transition name="dialog-fade">
-    <div id="mask">
+    <div id="mask" :class="{hideSidebar:!sidebar.opened}">
       <div class="dialog" ref="root">
         <div ref="header">
           <div class="header">

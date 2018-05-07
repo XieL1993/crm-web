@@ -202,9 +202,11 @@
       transform: scale(0);
     }
   }
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  padding-left: 180px;
+  padding-top: 85px;
   bottom: 0;
   right: 0;
   z-index: 999;
@@ -212,6 +214,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  &.hideSidebar {
+    padding-left: 36px;
+  }
   &.dialog-fade-enter-active {
     animation: dialog-fadein 0.5s;
     .dialog {

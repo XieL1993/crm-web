@@ -1,4 +1,5 @@
 export function getCollection(tuid, label, labelKey) {
+  if (!tuid || !label) return []
   const tuids = tuid.split(',')
   const labels = label.split(',')
   const data = []

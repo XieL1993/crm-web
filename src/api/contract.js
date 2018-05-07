@@ -28,3 +28,22 @@ export function getContractList(isAll, contractName, customer, status, signType,
     }
   })
 }
+
+export function addContract(params) {
+  return fetch({
+    method: 'post',
+    url: '/contract',
+    data: params
+  })
+}
+
+export function getcatDetail(tuid) {
+  return fetch.get(`/contract/${tuid}`)
+}
+export function undateContract(tuid, params) {
+  return fetch({
+    method: 'put',
+    url: `/contract/${tuid}`,
+    data: Object.assign(params, { tuid })
+  })
+}

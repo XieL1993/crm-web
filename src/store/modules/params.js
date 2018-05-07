@@ -2,6 +2,7 @@ const params = {
   state: {
     opportunityId: window.sessionStorage.getItem('opportunityId'),
     activityId: window.sessionStorage.getItem('activityId'),
+    contractId: window.sessionStorage.getItem('contractId'),
     invoiceId: window.sessionStorage.getItem('invoiceId')
   },
   mutations: {
@@ -10,6 +11,9 @@ const params = {
     },
     SET_ACTIVITYID(state, tuid) {
       state.activityId = tuid
+    },
+    SET_CONTRACTID(state, tuid) {
+      state.contractId = tuid
     },
     SET_INVOICEID(state, tuid) {
       state.invoiceId = tuid
@@ -23,6 +27,10 @@ const params = {
     setActivityId({ commit }, tuid) {
       window.sessionStorage.setItem('activityId', tuid)
       commit('SET_ACTIVITYID', tuid)
+    },
+    setContractId({ commit }, tuid) {
+      window.sessionStorage.setItem('contractId', tuid)
+      commit('SET_CONTRACTID', tuid)
     },
     setInvoiceId({ commit }, tuid) {
       window.sessionStorage.setItem('invoiceId', tuid)

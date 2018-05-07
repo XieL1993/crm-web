@@ -1,3 +1,5 @@
+import { mapGetters } from 'vuex'
+
 export const dialogMixin = {
   props: {
     multiple: {
@@ -9,6 +11,9 @@ export const dialogMixin = {
       default: () => {
       }
     }
+  },
+  computed: {
+    ...mapGetters(['sidebar'])
   },
   data() {
     return {

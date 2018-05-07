@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="operate-box">
-        <el-button class="customer reset" v-waves @click.native.prevent="addOpportunity">新建合同</el-button>
+        <el-button class="customer reset" v-waves @click.native.prevent="addContract">新建合同</el-button>
         <el-button class="customer reset" v-waves>新建收款</el-button>
         <el-button class="customer reset" v-waves>新建活动</el-button>
       </div>
@@ -115,7 +115,7 @@
           width="120"
           align="center">
           <template slot-scope="scope">
-            <el-button type="text" size="small">编辑</el-button>
+            <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
             <el-button type="text" size="small">查看</el-button>
           </template>
         </el-table-column>
@@ -139,6 +139,7 @@
 <script>
   import { getContractList } from '../api/contract'
   import { tableMixin } from '../common/js/tableMixin'
+  import { mapActions } from 'vuex'
 
   export default {
     mixins: [tableMixin],
@@ -157,6 +158,7 @@
       }
     },
     methods: {
+      ...mapActions(['setContractId']),
       fetchData() {
         return getContractList(
           this.isAll,
@@ -168,9 +170,15 @@
           this.page.currentPage
         )
       },
-      addOpportunity() {
+      addContract() {
         this.$router.push({
-          path: '/addOpportunity'
+          path: '/contract/add'
+        })
+      },
+      edit(tuid) {
+        this.setContractId(tuid)
+        this.$router.push({
+          path: '/contract/edit'
         })
       }
     }
