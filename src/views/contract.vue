@@ -116,7 +116,7 @@
           align="center">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
-            <el-button type="text" size="small">查看</el-button>
+            <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -153,7 +153,7 @@
         },
         dicts: {
           status: { type: 'dict', name: 'BIZ_CON_STAT', items: [] }, // 合同状态
-          signType: { type: 'dict', name: 'BIZ_CON_KIND', items: [] }// 合同签约类型
+          signType: { type: 'dict', name: 'BIZ_OPP_KIND', items: [] }// 合同签约类型
         }
       }
     },
@@ -179,6 +179,12 @@
         this.setContractId(tuid)
         this.$router.push({
           path: '/contract/edit'
+        })
+      },
+      detail(tuid) {
+        this.setContractId(tuid)
+        this.$router.push({
+          path: '/contract/detail'
         })
       }
     }

@@ -38,3 +38,49 @@ export function clone(obj) {
   }
   throw new Error("Unable to copy obj! Its type isn't supported.")
 }
+
+export function getCurrentWeek() {
+  const end = new Date()
+  const start = new Date()
+  start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+  return [formatDateTime(start), formatDateTime(end)]
+}
+
+export function getCurrentDay() {
+  const start = new Date()
+  return formatDateTime(start)
+}
+
+export function formatDateTime(date) {
+  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
+}
+
+export function pickerOptions() {
+  return {
+    shortcuts: [{
+      text: '最近一周',
+      onClick(picker) {
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+        picker.$emit('pick', [start, end])
+      }
+    }, {
+      text: '最近一个月',
+      onClick(picker) {
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+        picker.$emit('pick', [start, end])
+      }
+    }, {
+      text: '最近三个月',
+      onClick(picker) {
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+        picker.$emit('pick', [start, end])
+      }
+    }]
+  }
+}

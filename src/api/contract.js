@@ -37,7 +37,7 @@ export function addContract(params) {
   })
 }
 
-export function getcatDetail(tuid) {
+export function getContractDetail(tuid) {
   return fetch.get(`/contract/${tuid}`)
 }
 export function undateContract(tuid, params) {

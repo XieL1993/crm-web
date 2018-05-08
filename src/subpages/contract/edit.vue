@@ -179,7 +179,7 @@
 <script>
   import { formMixin } from '../../common/js/formMixin'
   import { contractData } from './js/data'
-  import { undateContract, getcatDetail } from '../../api/contract'
+  import { undateContract, getContractDetail } from '../../api/contract'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -200,7 +200,7 @@
         return undateContract(this.contractId, this.getParams())
       },
       fetchDetail() {
-        getcatDetail(this.contractId).then(data => {
+        getContractDetail(this.contractId).then(data => {
           this.dealDetail(data)
         }).catch(error => {
           this.showError(error.message)

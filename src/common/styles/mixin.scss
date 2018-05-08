@@ -157,9 +157,10 @@
   }
   .btn-box {
     margin-top: 20px;
-    height: 30px;
+    height: 50px;
     display: flex;
     justify-content: center;
+    padding-bottom: 20px;
   }
 }
 
@@ -214,7 +215,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  &.hideSidebar {
+  &.hideSidebar{
     padding-left: 36px;
   }
   &.dialog-fade-enter-active {

@@ -1,19 +1,211 @@
 <template>
-  <div class="box">我是首页(*￣︶￣)</div>
+  <div id="main-index">
+    <el-row class="header">
+      <el-col :span="12">
+        <div class="overview ">
+          <div class="title">
+            <span>我的数据概览</span>
+            <el-date-picker
+              size="mini"
+              :clearable="false"
+              v-model="overviewDate"
+              type="daterange"
+              align="left"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd">
+            </el-date-picker>
+          </div>
+          <div class="content">
+            <patch v-for="(item,index) in overviewData" :key="index" :data="item"></patch>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div class="remind">
+          <div class="title">
+            <span>我的重要提醒</span>
+            <el-date-picker
+              :clearable="false"
+              size="mini"
+              v-model="remindDate"
+              align="center"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd">
+            </el-date-picker>
+          </div>
+          <div class="week-box">
+            <week-item v-for="(item,index) in remindData" :key="index" :data="item"></week-item>
+          </div>
+          <div class="content"></div>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script>
+  import { getCurrentWeek, getCurrentDay, pickerOptions, formatDateTime } from '../common/js/utils'
+  import { getOverView, getRemind } from '../api'
+  import Patch from '../components/patch'
+  import WeekItem from '../components/week-item'
+
   export default {
+    created() {
+      this.getOverView()
+      this.createWeekForm()
+    },
     data() {
-      return {}
+      return {
+        overviewDate: getCurrentWeek(),
+        overviewData: [],
+        remindDate: getCurrentDay(),
+        remindData: [],
+        pickerOptions: pickerOptions()
+      }
+    },
+    watch: {
+      overviewDate() {
+        this.getOverView()
+      },
+      remindDate() {
+        this.createWeekForm()
+      }
+    },
+    methods: {
+      getOverView() {
+        getOverView(this.overviewDate[0], this.overviewDate[1]).then(res => {
+          this.overviewData = res.obj
+        }).catch(error => {
+          this.$message.info({ showClose: true, message: error.message, duration: 3000 })
+        })
+      },
+      createWeekForm() {
+        const data = {}
+        for (let i = 0; i < 7; i++) {
+          const date = new Date(this.remindDate)
+          date.setDate(date.getDate() + i)
+          const weekday = ['日', '一', '二', '三', '四', '五', '六']
+          const object = {
+            week: weekday[date.getDay()],
+            day: `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
+            entity: []
+          }
+          if (i === 0) {
+            object.current = true
+          }
+          data[formatDateTime(date)] = object
+        }
+        this.getRemindData(data)
+      },
+      getRemindData(data) {
+        getRemind(this.remindDate).then(res => {
+          res.obj.forEach(item => {
+            const day = item.remindDate
+            if (data[day]) {
+              data[day].active = true
+              data[day].entity.push(item)
+            }
+          })
+        })
+        this.remindData = Object.values(data)
+      }
+    },
+    components: {
+      Patch,
+      WeekItem
     }
   }
 </script>
 <style scoped lang="scss">
-  .box{
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
+  @import "../common/styles/variables";
+  @import "../common/styles/mixin";
+
+  #main-index {
+    background: white;
+    .header {
+      height: 250px;
+      .el-col {
+        height: 100%;
+        padding: 10px;
+        .overview {
+          background: #F8F8F8;
+          height: 100%;
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.12);
+          .title {
+            height: 40px;
+            background: #F2F2F2;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #E4E7ED;
+            span {
+              flex: 0 0 auto;
+              font-size: 13px;
+              line-height: 40px;
+              margin-left: 15px;
+              color: $color-text-table;
+            }
+
+            .el-date-editor {
+              flex: 0 0 auto;
+              margin-left: 15px;
+              height: 27px;
+            }
+          }
+          .content {
+            width: 100%;
+            height: 160px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+        .remind {
+          background: #F8F8F8;
+          height: 100%;
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.12);
+          border-left: 1px solid #E4E7ED;
+          display: flex;
+          flex-direction: column;
+          .title {
+            flex: 0 0 auto;
+            height: 40px;
+            background: #F2F2F2;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #E4E7ED;
+            span {
+              flex: 0 0 auto;
+              font-size: 13px;
+              line-height: 40px;
+              margin-left: 15px;
+              color: $color-text-table;
+            }
+
+            .el-date-editor {
+              flex: 0 0 auto;
+              margin-left: 15px;
+              height: 27px;
+            }
+          }
+          .week-box {
+            flex: 0 0 auto;
+            height: 60px;
+            display: flex;
+            border-bottom: 1px solid #E4E7ED;
+          }
+          .content {
+            flex: 1 1 auto;
+            height: 100%;
+            background: #ffffff;
+          }
+        }
+      }
+    }
   }
 </style>
