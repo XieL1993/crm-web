@@ -42,11 +42,11 @@
     border-radius: 4px;
     background: #ffffff;
     border: 1px solid transparent;
-    margin-left: 15px;
+    /*margin-left: 15px;*/
     position: relative;
     cursor: pointer;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.12);
-    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     &:first-child {
       margin-left: 0;
     }
@@ -69,7 +69,7 @@
       font-size: 18px;
       margin-top: 15px;
       color: #303133;
-      @include no-wrap
+      @include no-wrap()
     }
     .note_sum {
       position: absolute;
@@ -79,7 +79,7 @@
       width: 100%;
       text-align: center;
       font-size: 12px;
-      @include no-wrap
+      @include no-wrap()
     }
     .footer {
       position: absolute;

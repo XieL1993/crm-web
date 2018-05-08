@@ -40,9 +40,19 @@
             </el-date-picker>
           </div>
           <div class="week-box">
-            <week-item v-for="(item,index) in remindData" :key="index" :data="item"></week-item>
+            <week-item v-for="(item,index) in remindData" :key="index" :data="item"
+                       @click.native.prevent.stop="showRemind(index)"></week-item>
           </div>
-          <div class="content"></div>
+          <div class="content">
+            <div class="item" v-for="(item,index) in remindData[currentRemind].entity" :key="index">
+              <span class="type">{{item.reminfType}}</span>
+              <span class="info">{{item.remindInfo}}</span>
+            </div>
+            <div class="empty-box" v-show="!remindData[currentRemind].entity.length">
+              <svg-icon icon-class="nodata"></svg-icon>
+              <span>暂无数据</span>
+            </div>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -65,6 +75,7 @@
         overviewData: [],
         remindDate: getCurrentDay(),
         remindData: [],
+        currentRemind: 0,
         pickerOptions: pickerOptions()
       }
     },
@@ -93,7 +104,9 @@
           const object = {
             week: weekday[date.getDay()],
             day: `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
-            entity: []
+            entity: [],
+            active: false,
+            current: false
           }
           if (i === 0) {
             object.current = true
@@ -113,6 +126,12 @@
           })
         })
         this.remindData = Object.values(data)
+      },
+      showRemind(index) {
+        for (let i = 0; i < this.remindData.length; i++) {
+          this.remindData[i].current = i === index
+        }
+        this.currentRemind = index
       }
     },
     components: {
@@ -161,7 +180,7 @@
             height: 160px;
             margin-top: 15px;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
           }
         }
@@ -195,7 +214,7 @@
           }
           .week-box {
             flex: 0 0 auto;
-            height: 60px;
+            height: 65px;
             display: flex;
             border-bottom: 1px solid #E4E7ED;
           }
@@ -203,6 +222,46 @@
             flex: 1 1 auto;
             height: 100%;
             background: #ffffff;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            .item {
+              height: 30px;
+              border-bottom: 1px solid #E4E7ED;
+              display: flex;
+              cursor: pointer;
+              .type {
+                flex: 0 0 auto;
+                color: red;
+                padding: 0 10px;
+                font-size: 13px;
+                line-height: 30px;
+              }
+              .info {
+                color: $color-text-table;
+                font-size: 13px;
+                line-height: 30px;
+                @include no-wrap()
+              }
+            }
+            .empty-box {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              text-align: center;
+              .svg-icon {
+                font-size: 50px;
+                color: #909399;
+              }
+              span {
+                display: block;
+                font-size: 14px;
+                color: #909399;
+                margin-top: 10px;
+                padding-left: 15px;
+              }
+            }
           }
         }
       }

@@ -1,5 +1,5 @@
 <template>
-  <div id="week" :class="weekClass">
+  <div id="week" :class="{active:data.active,current:data.current}" v-waves>
     <div class="week-title">{{data.week}}</div>
     <div class="day">{{data.day}}</div>
     <i></i>
@@ -13,22 +13,8 @@
         default: {}
       }
     },
-    computed: {
-      weekClass() {
-        const sty = []
-        if (this.data.active) {
-          sty.push('active')
-        }
-        if (this.data.current) {
-          sty.push('current')
-        }
-        return sty
-      }
-    },
     data() {
-      return {
-        current: false
-      }
+      return {}
     }
   }
 </script>
@@ -39,18 +25,19 @@
     flex: 1 1 auto;
     height: 100%;
     position: relative;
-    background: #999999;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: border 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     .week-title {
       font-size: 12px;
-      height: 20px;
-      line-height: 20px;
+      line-height: 12px;
+      margin-top: 8px;
       text-align: center;
       color: #909399;
     }
     .day {
       font-size: 13px;
-      height: 30px;
-      line-height: 30px;
+      margin-top: 12px;
       color: #303133;
       text-align: center;
     }
@@ -59,16 +46,32 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #f00;
+      background: #ff3223;
       bottom: 5px;
       left: 50%;
       margin-left: -3px;
       display: none;
     }
     &.active {
+      background: #999999;
+      .week-title, .day {
+        color: #ffffff;
+      }
       i {
         display: block;
       }
+    }
+    &.current, &:hover {
+      background: #4a94fa;
+      .week-title, .day {
+        color: #ffffff;
+      }
+      i {
+        background: #ffffff;
+      }
+    }
+    &:hover {
+      border: 1px solid #ffffff;
     }
   }
 </style>
