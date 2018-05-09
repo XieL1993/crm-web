@@ -40,8 +40,11 @@
             </el-date-picker>
           </div>
           <div class="week-box">
-            <week-item v-for="(item,index) in remindData" :key="index" :data="item"
-                       @click.native.prevent.stop="showRemind(index)"></week-item>
+            <div class="week">
+              <week-item v-for="(item,index) in remindData" :key="index" :data="item"
+                         @click.native.prevent.stop="showRemind(index)"></week-item>
+            </div>
+            <week-item :data="remindData[currentRemind]" class="slider" ref="slider"></week-item>
           </div>
           <div class="content">
             <div class="item" v-for="(item,index) in remindData[currentRemind].entity" :key="index">
@@ -56,6 +59,12 @@
         </div>
       </el-col>
     </el-row>
+    <div class="chart-box">
+      <mix-chart2></mix-chart2>
+    </div>
+    <div class="chart-box">
+      <mix-chart></mix-chart>
+    </div>
   </div>
 </template>
 <script>
@@ -63,6 +72,8 @@
   import { getOverView, getRemind } from '../api'
   import Patch from '../components/patch'
   import WeekItem from '../components/week-item'
+  import mixChart from '../components/chart/mixChart'
+  import mixChart2 from '../components/chart/mixChart2'
 
   export default {
     created() {
@@ -85,6 +96,9 @@
       },
       remindDate() {
         this.createWeekForm()
+      },
+      currentRemind(val) {
+        this.$refs.slider.$el.style.left = val * 100 / 7 + '%'
       }
     },
     methods: {
@@ -136,7 +150,9 @@
     },
     components: {
       Patch,
-      WeekItem
+      WeekItem,
+      mixChart,
+      mixChart2
     }
   }
 </script>
@@ -215,8 +231,23 @@
           .week-box {
             flex: 0 0 auto;
             height: 65px;
-            display: flex;
             border-bottom: 1px solid #E4E7ED;
+            position: relative;
+            .week {
+              width: 100%;
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 100%;
+              display: flex;
+            }
+            .slider {
+              width: calc(100% / 7);
+              position: absolute;
+              top: 0;
+              left: 0;
+              /*transition: all 0.3s;*/
+            }
           }
           .content {
             flex: 1 1 auto;
@@ -232,14 +263,15 @@
               cursor: pointer;
               .type {
                 flex: 0 0 auto;
-                color: red;
+                color: #FF6600;
                 padding: 0 10px;
-                font-size: 13px;
+                font-size: 12px;
                 line-height: 30px;
+                font-weight: bold;
               }
               .info {
                 color: $color-text-table;
-                font-size: 13px;
+                font-size: 12px;
                 line-height: 30px;
                 @include no-wrap()
               }
@@ -265,6 +297,11 @@
           }
         }
       }
+    }
+    .chart-box{
+      width: 100%;
+      height: 500px;
+      padding: 20px 15px;
     }
   }
 </style>

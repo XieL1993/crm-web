@@ -27,7 +27,7 @@
     position: relative;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: border 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     .week-title {
       font-size: 12px;
       line-height: 12px;
@@ -46,7 +46,7 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #ff3223;
+      background: #FF6C60;
       bottom: 5px;
       left: 50%;
       margin-left: -3px;
