@@ -60,10 +60,7 @@
       </el-col>
     </el-row>
     <div class="chart-box">
-      <mix-chart2></mix-chart2>
-    </div>
-    <div class="chart-box">
-      <mix-chart></mix-chart>
+      <home-chart></home-chart>
     </div>
   </div>
 </template>
@@ -72,8 +69,7 @@
   import { getOverView, getRemind } from '../api'
   import Patch from '../components/patch'
   import WeekItem from '../components/week-item'
-  import mixChart from '../components/chart/mixChart'
-  import mixChart2 from '../components/chart/mixChart2'
+  import HomeChart from '../components/chart/home-chart'
 
   export default {
     created() {
@@ -151,8 +147,7 @@
     components: {
       Patch,
       WeekItem,
-      mixChart,
-      mixChart2
+      HomeChart
     }
   }
 </script>
@@ -300,7 +295,7 @@
     }
     .chart-box{
       width: 100%;
-      height: 500px;
+      height: 550px;
       padding: 20px 15px;
     }
   }

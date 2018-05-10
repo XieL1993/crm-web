@@ -1,4 +1,4 @@
-export const data = {
+export const chartData = {
   xAxis: ['第三方支付', '独立基金销售机构', '基金', '基金管理', '期货', '私募', '证券', '证券子公司', '其他'],
   series: [
     {
@@ -20,6 +20,31 @@ export const data = {
       name: '第四季度',
       color: '#e5323e',
       data: [1327, 376, 1107, 450, 340, 1082, 774, 999, 777]
+    }
+  ]
+}
+export const chartData2 = {
+  xAxis: ['1.0产品', '2.0产品', '3.0产品'],
+  series: [
+    {
+      name: '第一季度',
+      color: '#fabd38',
+      data: [709, 1917, 2455]
+    },
+    {
+      name: '第二季度',
+      color: '#4cabce',
+      data: [1327, 1776, 507]
+    },
+    {
+      name: '第三季度',
+      color: '#006699',
+      data: [327, 776, 607]
+    },
+    {
+      name: '第四季度',
+      color: '#e5323e',
+      data: [1327, 376, 1107]
     }
   ]
 }

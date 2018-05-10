@@ -1,60 +1,137 @@
 <template>
   <div id="product">
     <div class="tree">
-      <el-tree :data="productTrees" show-checkbox ref="tree" default-expand-all :expand-on-click-node="false"></el-tree>
+      <el-tree :data="dicts.products.items" ref="tree" default-expand-all :expand-on-click-node="true"></el-tree>
+    </div>
+    <div class="right" ref="root">
+      <div class="operate-box" ref="header">
+        <el-button class="customer reset" v-waves icon="el-icon-circle-plus-outline">新增产品</el-button>
+        <el-button class="customer reset" v-waves icon="el-icon-delete">删除产品</el-button>
+      </div>
+      <div class="table-box">
+        <el-table
+          :height="tableHeight"
+          size="mini"
+          tooltip-effect="dark"
+          border
+          v-loading="loading"
+          :data="tableData">
+          <el-table-column
+            prop="productLineDname"
+            label="产品线"
+            show-overflow-tooltip
+            align="center">
+          </el-table-column>
+          <el-table-column
+            prop="productName"
+            label="产品名"
+            show-overflow-tooltip
+            align="center">
+          </el-table-column>
+          <el-table-column
+            prop="typeDname"
+            label="产品类型"
+            show-overflow-tooltip
+            align="center">
+          </el-table-column>
+          <el-table-column
+            fixed="right"
+            label="操作"
+            width="120"
+            align="center">
+            <template slot-scope="scope">
+              <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
+              <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="table-footer" ref="footer">
+        <el-pagination
+          background
+          :total="page.total"
+          :current-page="page.currentPage"
+          :page-size="page.pageSize"
+          :page-sizes="[10,20,30,40]"
+          layout="total, prev, pager, next, sizes, jumper"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
 <script>
-  import { productTree } from '../api/login'
+  import { getProductList } from '../api/product'
+  import { tableMixin } from '../common/js/tableMixin'
 
   export default {
+    mixins: [tableMixin],
     data() {
       return {
-        productTrees: []
+        dicts: {
+          products: { type: 'products', items: [] } //  产品树
+        }
       }
     },
-    created() {
-      this.getProductTrees()
-    },
     methods: {
-      getProductTrees() {
-        productTree().then(res => {
-          this.productTrees = this.filterTreesBydata([], [res.obj])
-        }).catch(error => {
-          this.$message.warning({ showClose: true, message: error.message, duration: 3000 })
-        })
-      },
-      filterTreesBydata(trees, data) { // 递归遍历产品树
-        if (data && data.length > 0) {
-          for (const { tuid, productName, children } of data) {
-            const parent = { label: productName, tuid }
-            trees.push(parent)
-            if (children && children.length > 0) {
-              parent.children = []
-              this.filterTreesBydata(parent.children, children)
-            }
-          }
-        }
-        return trees
+      fetchData() {
+        return getProductList(
+          this.page.pageSize,
+          this.page.currentPage
+        )
       }
     }
   }
 </script>
 <style scoped lang="scss">
+  @import "../common/styles/variables";
+  @import "../common/styles/mixin";
+
   #product {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    display: flex;
     .tree {
-      flex: 0 0 250px;
       width: 250px;
       border-right: 1px solid #DCDFE6;
       height: 100%;
       padding: 10px;
+
+    }
+    /*就布局而论完全可以用flex的，不需要定位，*/
+    /*但奇怪的是用了flex之后计算表格高度不对，有bug，所以先用定位吧*/
+    .right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 250px;
+      .operate-box {
+        text-align: center;
+        padding: 15px 25px;
+        height: 60px;
+        display: flex;
+        justify-content: left;
+      }
+      .table-box {
+        font-size: 12px;
+        margin: 0 25px;
+        color: $color-text-table;
+      }
+      .table-footer {
+        padding: 10px 25px;
+        height: 48px;
+        .el-pagination {
+          height: 28px;
+          padding: 0;
+          text-align: left;
+          font-size: 12px;
+          color: $color-text-table;
+        }
+      }
     }
   }
 </style>

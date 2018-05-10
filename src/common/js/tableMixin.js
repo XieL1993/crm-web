@@ -1,4 +1,4 @@
-import { getDictItem, getUserList } from '../../api/login'
+import { getDictItem, getUserList, productTree } from '../../api/login'
 import { clone } from './utils'
 import PickInput from '../../components/pickInput'
 import PickCustomer from '../../components/pick/pickCustomer'
@@ -111,9 +111,26 @@ export const tableMixin = {
             getUserList(item.name).then(res => {
               item.items = res.obj.list
             })
+          } else if (item.type === 'products') {
+            productTree().then(res => {
+              item.items = this.filterTreesBydata([], [res.obj])
+            })
           }
         }
       }
+    },
+    filterTreesBydata(trees, data) { // 递归遍历产品树
+      if (data && data.length > 0) {
+        for (const { tuid, productName, children } of data) {
+          const parent = { label: productName, tuid }
+          trees.push(parent)
+          if (children && children.length > 0) {
+            parent.children = []
+            this.filterTreesBydata(parent.children, children)
+          }
+        }
+      }
+      return trees
     },
     showError(val) {
       this.$message.closeAll()
@@ -125,6 +142,7 @@ export const tableMixin = {
         const hHeight = this.$refs.header.clientHeight // 搜索框、按钮等header容器
         const fHeight = this.$refs.footer.clientHeight // 分页footer
         this.tableHeight = rHeight - hHeight - fHeight
+        console.error(rHeight, hHeight, fHeight, this.tableHeight)
       }
     }
   },
