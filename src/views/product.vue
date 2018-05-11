@@ -5,8 +5,8 @@
     </div>
     <div class="right" ref="root">
       <div class="operate-box" ref="header">
-        <el-button class="customer reset" v-waves icon="el-icon-circle-plus-outline">新增产品</el-button>
-        <el-button class="customer reset" v-waves icon="el-icon-delete">删除产品</el-button>
+        <el-button class="customer reset" v-waves icon="el-icon-circle-plus-outline" @click="isShowAdd=true">新增产品
+        </el-button>
       </div>
       <div class="table-box">
         <el-table
@@ -37,11 +37,12 @@
           <el-table-column
             fixed="right"
             label="操作"
-            width="120"
+            width="140"
             align="center">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
               <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
+              <el-button type="text" size="small" @click.native.prevent="deleteProduct(scope.row.tuid)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -59,16 +60,26 @@
         </el-pagination>
       </div>
     </div>
+    <add v-if="isShowAdd" @close="isShowAdd=false" @success="refresh"></add>
+    <edit v-if="isShowEdit" @close="isShowEdit=false" :product-id="currentId" @success="refresh"></edit>
+    <detail v-if="isShowDetail" @close="isShowDetail=false" :product-id="currentId"></detail>
   </div>
 </template>
 <script>
-  import { getProductList } from '../api/product'
+  import { getProductList, deleteProduct } from '../api/product'
   import { tableMixin } from '../common/js/tableMixin'
+  import Add from '../subpages/product/add'
+  import Edit from '../subpages/product/edit'
+  import Detail from '../subpages/product/detail'
 
   export default {
     mixins: [tableMixin],
     data() {
       return {
+        isShowAdd: false,
+        isShowEdit: false,
+        isShowDetail: false,
+        currentId: '',
         dicts: {
           products: { type: 'products', items: [] } //  产品树
         }
@@ -80,7 +91,39 @@
           this.page.pageSize,
           this.page.currentPage
         )
+      },
+      edit(tuid) {
+        this.currentId = tuid
+        this.isShowEdit = true
+      },
+      detail(tuid) {
+        this.currentId = tuid
+        this.isShowDetail = true
+      },
+      deleteProduct(tuid) {
+        this.$confirm('此操作将永久删除该产品, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteProduct(tuid).then(() => {
+            this.showError('删除产品成功！')
+            this.refresh()
+          }).catch(error => {
+            this.showError(error.message)
+          })
+        }).catch(() => {
+        })
+      },
+      refresh() {
+        this.__fetchData()
+        this.getDicts()
       }
+    },
+    components: {
+      Add,
+      Edit,
+      Detail
     }
   }
 </script>

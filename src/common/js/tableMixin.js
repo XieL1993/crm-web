@@ -134,7 +134,7 @@ export const tableMixin = {
     },
     showError(val) {
       this.$message.closeAll()
-      this.$message.warning({ showClose: true, message: val, duration: 3000 })
+      this.$message.info({ showClose: true, message: val, duration: 3000 })
     },
     setTableHeight() {
       if (this.$refs.root && this.$refs.header && this.$refs.footer) {
@@ -142,7 +142,7 @@ export const tableMixin = {
         const hHeight = this.$refs.header.clientHeight // 搜索框、按钮等header容器
         const fHeight = this.$refs.footer.clientHeight // 分页footer
         this.tableHeight = rHeight - hHeight - fHeight
-        console.error(rHeight, hHeight, fHeight, this.tableHeight)
+        // console.error(rHeight, hHeight, fHeight, this.tableHeight)
       }
     }
   },
