@@ -48,6 +48,8 @@
       fetchDetail() {
         getActDetail(this.activityId).then(data => {
           this.actDetail = data.obj
+        }).catch(error => {
+          this.$message.info(error.message)
         })
       },
       edit() {

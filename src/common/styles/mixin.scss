@@ -156,6 +156,55 @@
       }
     }
   }
+  .attach-box {
+    margin-top: 20px;
+    padding: 0 20px;
+    .header {
+      height: 30px;
+      display: flex;
+      .info {
+        width: 140px;
+        text-align: right;
+        font-size: 13px;
+        color: $color-text-table;
+        line-height: 30px;
+        padding-right: 20px;
+        cursor: default;
+      }
+    }
+    .el-upload__tip {
+      padding-left: 140px;
+      color: $color-text-table;
+      font-size: 12px;
+    }
+    .el-upload-list {
+      margin: 10px 20px 10px 140px;
+      .el-upload-list__item {
+        border: 1px solid transparent;
+        margin: 0;
+        &:hover {
+          border: 1px solid #409EFF;
+          background: #ffffff;
+        }
+        .el-upload-list__item-name {
+          line-height: 40px;
+          color: $color-text-table;
+          font-size: 13px;
+        }
+        .el-upload-list__item-status-label {
+          margin-top: 8px;
+          margin-right: 20px;
+        }
+        .el-icon-close {
+          top: 13px;
+          margin-right: 20px;
+        }
+        .el-icon-close-tip {
+          display: none;
+        }
+      }
+    }
+  }
   .btn-box {
     margin-top: 20px;
     height: 50px;
@@ -253,6 +302,7 @@
     }
   }
 }
+
 @mixin dialog-detail-css() {
   @include dialog-animation();
   position: fixed;

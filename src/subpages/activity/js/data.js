@@ -5,6 +5,7 @@ export const activityData = {
     return {
       formItems: {
         address: '',
+        attachements: [],
         bd: '',
         contact: '',
         content: '',
@@ -39,6 +40,7 @@ export const activityData = {
   methods: {
     getParams() {
       const data = Object.assign({}, this.formItems)
+      data.attachements = this.fixAttach()
       data.contractIds = data.contractIds.tuid.split(',')
       data.customer = data.customer.tuid
       data.oppIds = data.oppIds.tuid.split(',')
@@ -62,6 +64,19 @@ export const activityData = {
             this.formItems.customer.data = getCollection(actDetail.customer, actDetail.customerDname, 'custName')
             this.formItems.customer.tuid = actDetail.customer
             this.formItems.customer.display = actDetail.customerDname
+          } else if (key === 'attachements') {
+            const list = []
+            for (const item of actDetail.attachements) {
+              list.push({
+                name: item.attachName,
+                response: {
+                  data: { obj: item.tuid }
+                },
+                url: item.attachPath
+              })
+            }
+            this.defaultFileList = list
+            this.fileList = [...list]
           } else {
             this.formItems[key] = actDetail[key]
           }

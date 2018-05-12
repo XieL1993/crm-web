@@ -51,11 +51,11 @@
     font-size: 12px;
     padding: 0;
     &.query {
-      background: #2F89FF;
-      border: 1px solid #2F89FF;
+      background: #409EFF;
+      border: 1px solid #409EFF;
       color: #ffffff;
       &:hover {
-        background: #0275D8;
+        background: #66b1ff;
         color: #ffffff;
       }
     }
@@ -69,6 +69,13 @@
         border-color: #0275d8;
       }
     }
+  }
+}
+
+.el-popover {
+  padding: 0 !important;
+  .popper__arrow {
+    display: none !important;
   }
 }
 

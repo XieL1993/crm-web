@@ -84,6 +84,7 @@ export function pickerOptions() {
     }]
   }
 }
+
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
@@ -117,4 +118,11 @@ export function debounce(func, wait, immediate) {
 
     return result
   }
+}
+
+export function isImage(fileName) {
+  if (!fileName) return false
+  const suffixIndex = fileName.lastIndexOf('.')
+  const suffix = fileName.substring(suffixIndex + 1).toUpperCase()
+  return suffix === 'BMP' || suffix === 'JPG' || suffix === 'JPEG' || suffix === 'PNG' || suffix === 'GIF'
 }

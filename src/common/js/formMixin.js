@@ -72,7 +72,7 @@ export const formMixin = {
     },
     showError(val) {
       this.$message.closeAll()
-      this.$message.warning({ showClose: true, message: val, duration: 3000 })
+      this.$message.info({ showClose: true, message: val, duration: 3000 })
     },
     success() {
       this.$alert(this.successMsg, '提示', {

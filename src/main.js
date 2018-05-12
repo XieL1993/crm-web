@@ -10,12 +10,16 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import filters from './common/filters'
 import waves from './common/directive/waves'
+import VueLazyload from 'vue-lazyload'
 
 Vue.use(waves)
 Object.keys(filters).forEach(key => Vue.filter(key, filters[key]))
 import './icons'
 
 Vue.use(Element, { size: 'medium' })
+Vue.use(VueLazyload, {
+  loading: require('./common/image/loading.png')
+})
 
 Vue.config.productionTip = false
 import './common/js/permission'
