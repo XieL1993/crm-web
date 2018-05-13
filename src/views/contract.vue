@@ -51,7 +51,7 @@
       <div class="operate-box">
         <el-button class="customer reset" v-waves @click.native.prevent="addContract">新建合同</el-button>
         <el-button class="customer reset" v-waves>新建收款</el-button>
-        <el-button class="customer reset" v-waves>新建活动</el-button>
+        <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
       </div>
     </div>
     <div class="table-box">
@@ -61,8 +61,11 @@
         tooltip-effect="dark"
         border
         v-loading="loading"
-        :data="tableData">
+        :data="tableData"
+        row-key="tuid"
+        @selection-change="onChange">
         <el-table-column
+          :reserve-selection="true"
           type="selection"
           width="60"
           align="center">
@@ -158,7 +161,7 @@
       }
     },
     methods: {
-      ...mapActions(['setContractId']),
+      ...mapActions(['setContractId', 'addActivityParams']),
       fetchData() {
         return getContractList(
           this.isAll,
@@ -186,6 +189,24 @@
         this.$router.push({
           path: '/contract/detail'
         })
+      },
+      addActivity() {
+        if (this.selection.length === 0) {
+          this.showError('请选择合同！')
+        } else {
+          const customer = { tuid: this.selection[0].customer, custName: this.selection[0].customerDname }
+          const index = this.selection.findIndex(item => {
+            return item.customer !== customer.tuid
+          })
+          if (index > -1) {
+            this.showError('只能选择相同客户的合同！')
+          } else {
+            this.addActivityParams({ contract: this.selection, customer: [customer] })
+            this.$router.push({
+              path: '/activity/add'
+            })
+          }
+        }
       }
     }
   }

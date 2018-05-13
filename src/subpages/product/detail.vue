@@ -19,12 +19,12 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <span class="label">产品编号：</span>
-              <span class="value">{{productDetail.productNo}}</span>
-            </el-col>
-            <el-col :span="12">
               <span class="label">所属产品线：</span>
               <span class="value">{{productDetail.productLineDname}}</span>
+            </el-col>
+            <el-col :span="12">
+              <span class="label">产品类型：</span>
+              <span class="value">{{productDetail.typeDname}}</span>
             </el-col>
           </el-row>
           <el-row>

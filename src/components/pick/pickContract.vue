@@ -102,6 +102,12 @@
 
   export default {
     mixins: [dialogMixin],
+    props: {
+      customer: {
+        type: String,
+        default: ''
+      }
+    },
     data() {
       return {
         labelKey: 'contractName',
@@ -119,7 +125,7 @@
         return getContractList(
           this.isAll,
           this.query.contractName,
-          '',
+          this.customer,
           '',
           '',
           this.page.pageSize,

@@ -96,8 +96,10 @@
       <el-button class="customer reset" @click.native.prevent="back" v-waves>取消</el-button>
     </div>
     <pick-customer v-if="formItems.customer.isShow" :multiple="false" v-model="formItems.customer"></pick-customer>
-    <pick-opportunity v-if="formItems.oppIds.isShow" :multiple="true" v-model="formItems.oppIds"></pick-opportunity>
-    <pick-contract v-if="formItems.contractIds.isShow" :multiple="true" v-model="formItems.contractIds"></pick-contract>
+    <pick-opportunity v-if="formItems.oppIds.isShow" :multiple="true" v-model="formItems.oppIds"
+                      :customer="customer" @link-customer="fillCustomer"></pick-opportunity>
+    <pick-contract v-if="formItems.contractIds.isShow" :multiple="true" v-model="formItems.contractIds"
+                   :customer="customer" @link-customer="fillCustomer"></pick-contract>
     <image-preview v-if="showPreview" :img="currentAttach" @close="showPreview=false"></image-preview>
   </div>
 </template>
@@ -111,7 +113,7 @@
   export default {
     mixins: [formMixin, attachMixin, activityData],
     computed: {
-      ...mapGetters(['activityId'])
+      ...mapGetters(['addActivityParams'])
     },
     created() {
       this.fetchDetail()
@@ -123,10 +125,10 @@
     },
     methods: {
       fetchData() {
-        return undateActivity(this.activityId, this.getParams())
+        return undateActivity(this.addActivityParams.tuid, this.getParams())
       },
       fetchDetail() {
-        getActDetail(this.activityId).then(data => {
+        getActDetail(this.addActivityParams.tuid).then(data => {
           this.dealDetail(data)
         }).catch(error => {
           this.showError(error.message)

@@ -29,7 +29,6 @@ export const attachMixin = {
       this.fileList = fileList
     },
     preview(file) {
-      console.log(file)
       if (file.response && file.response.data && file.response.data.obj) {
         const url = `${this.downloadUrl}/${file.response.data.obj}`
         if (isImage(file.name)) {

@@ -44,7 +44,7 @@
       </div>
       <div class="operate-box">
         <el-button class="customer reset" v-waves @click.native.prevent="addOpportunity">注册商机</el-button>
-        <el-button class="customer reset" v-waves>新建活动</el-button>
+        <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
         <el-button class="customer reset" v-waves>新增合同</el-button>
       </div>
     </div>
@@ -55,8 +55,11 @@
         tooltip-effect="dark"
         border
         v-loading="loading"
-        :data="tableData">
+        :data="tableData"
+        row-key="tuid"
+        @selection-change="onChange">
         <el-table-column
+          :reserve-selection="true"
           type="selection"
           width="60"
           align="center">
@@ -126,6 +129,7 @@
 <script>
   import { getCustomerList } from '../api/customer'
   import { tableMixin } from '../common/js/tableMixin'
+  import { mapActions } from 'vuex'
 
   export default {
     mixins: [tableMixin],
@@ -143,6 +147,7 @@
       }
     },
     methods: {
+      ...mapActions(['addActivityParams']),
       fetchData() {
         return getCustomerList(
           this.isAll,
@@ -157,6 +162,18 @@
         this.$router.push({
           path: '/addOpportunity'
         })
+      },
+      addActivity() {
+        if (this.selection.length === 0) {
+          this.showError('请选择客户！')
+        } else if (this.selection.length > 1) {
+          this.showError('最多只能选择一条客户！')
+        } else {
+          this.addActivityParams({ customer: this.selection })
+          this.$router.push({
+            path: '/activity/add'
+          })
+        }
       }
     }
   }

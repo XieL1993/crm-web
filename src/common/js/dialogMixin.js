@@ -20,7 +20,7 @@ export const dialogMixin = {
       selection: [],
       tableData: [],
       loading: false,
-      isAll: 0,
+      isAll: 1,
       tableHeight: 0,
       page: {
         total: 0,
@@ -76,7 +76,7 @@ export const dialogMixin = {
     },
     showError(val) {
       this.$message.closeAll()
-      this.$message.warning({ showClose: true, message: val, duration: 3000 })
+      this.$message.info({ showClose: true, message: val, duration: 3000 })
     },
     setTableHeight() {
       if (this.$refs.root && this.$refs.header && this.$refs.footer) {
@@ -105,6 +105,18 @@ export const dialogMixin = {
       } else if (this.selection.length > 1 && !this.multiple) {
         this.showError('最多只能选择一条数据')
       } else {
+        if (this.labelKey !== 'custName') {
+          const customer = { tuid: this.selection[0].customer, custName: this.selection[0].customerDname }
+          const index = this.selection.findIndex(item => {
+            return item.customer !== customer.tuid
+          })
+          if (index > -1) {
+            this.showError('只能选择相同客户的数据！')
+            return
+          } else {
+            this.$emit('link-customer', [customer])
+          }
+        }
         const names = []
         const ids = []
         this.selection.forEach(item => {

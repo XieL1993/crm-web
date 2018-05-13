@@ -1,5 +1,5 @@
 <template>
-  <div class="input-box" :class="{'hasValue':text!==''}" @click="onClick">
+  <div class="input-box" :class="{'hasValue':text!==''}" @click="onClick" :title="text">
     <input readonly placeholder="请选择" v-model="text" ref="input">
     <svg-icon :icon-class="icon" class="icon"></svg-icon>
     <svg-icon icon-class="delete" class="delete" @click.native.stop="clear"></svg-icon>

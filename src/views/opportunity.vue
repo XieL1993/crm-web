@@ -50,7 +50,7 @@
       </div>
       <div class="operate-box">
         <el-button class="customer reset" v-waves @click.native.prevent="addOpportunity">注册商机</el-button>
-        <el-button class="customer reset" v-waves>新建活动</el-button>
+        <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
         <el-button class="customer reset" v-waves>新增合同</el-button>
       </div>
     </div>
@@ -61,8 +61,11 @@
         tooltip-effect="dark"
         border
         v-loading="loading"
-        :data="tableData">
+        :data="tableData"
+        row-key="tuid"
+        @selection-change="onChange">
         <el-table-column
+          :reserve-selection="true"
           type="selection"
           width="60"
           align="center">
@@ -167,7 +170,7 @@
       }
     },
     methods: {
-      ...mapActions(['setOpportunityId']),
+      ...mapActions(['setOpportunityId', 'addActivityParams']),
       fetchData() {
         return getOpportunityList(
           this.isAll,
@@ -195,6 +198,24 @@
         this.$router.push({
           path: '/opportunity/detail'
         })
+      },
+      addActivity() {
+        if (this.selection.length === 0) {
+          this.showError('请选择商机！')
+        } else {
+          const customer = { tuid: this.selection[0].customer, custName: this.selection[0].customerDname }
+          const index = this.selection.findIndex(item => {
+            return item.customer !== customer.tuid
+          })
+          if (index > -1) {
+            this.showError('只能选择相同客户的商机！')
+          } else {
+            this.addActivityParams({ opportunity: this.selection, customer: [customer] })
+            this.$router.push({
+              path: '/activity/add'
+            })
+          }
+        }
       }
     }
   }

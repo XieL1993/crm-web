@@ -9,6 +9,7 @@ export const tableMixin = {
   data() {
     return {
       tableData: [],
+      selection: [],
       baseQuery: {},
       loading: false,
       isAll: 0,
@@ -144,6 +145,9 @@ export const tableMixin = {
         this.tableHeight = rHeight - hHeight - fHeight
         // console.error(rHeight, hHeight, fHeight, this.tableHeight)
       }
+    },
+    onChange(selection) {
+      this.selection = selection
     }
   },
   components: {

@@ -1,6 +1,18 @@
 import { getCollection } from '../../../common/js/utils'
 
 export const activityData = {
+  computed: {
+    customer() {
+      return this.formItems.customer.tuid
+    }
+  },
+  watch: {
+    customer(n, o) {
+      if (o === '') return
+      this.formItems.oppIds = { data: [], tuid: '', display: '', isShow: false }
+      this.formItems.contractIds = { data: [], tuid: '', display: '', isShow: false }
+    }
+  },
   data() {
     return {
       formItems: {
@@ -82,6 +94,39 @@ export const activityData = {
           }
         }
       }
+    },
+    fillOpportunity(data) {
+      const names = []
+      const ids = []
+      for (const { tuid, oppName } of data) {
+        ids.push(tuid)
+        names.push(oppName)
+      }
+      this.formItems.oppIds.data = data
+      this.formItems.oppIds.tuid = ids.join(',')
+      this.formItems.oppIds.display = names.join(',')
+    },
+    fillContract(data) {
+      const names = []
+      const ids = []
+      for (const { tuid, contractName } of data) {
+        ids.push(tuid)
+        names.push(contractName)
+      }
+      this.formItems.contractIds.data = data
+      this.formItems.contractIds.tuid = ids.join(',')
+      this.formItems.contractIds.display = names.join(',')
+    },
+    fillCustomer(data) {
+      const names = []
+      const ids = []
+      for (const { tuid, custName } of data) {
+        ids.push(tuid)
+        names.push(custName)
+      }
+      this.formItems.customer.data = data
+      this.formItems.customer.tuid = ids.join(',')
+      this.formItems.customer.display = names.join(',')
     }
   }
 }

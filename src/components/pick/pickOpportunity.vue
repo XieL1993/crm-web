@@ -111,6 +111,12 @@
 
   export default {
     mixins: [dialogMixin],
+    props: {
+      customer: {
+        type: String,
+        default: ''
+      }
+    },
     data() {
       return {
         labelKey: 'oppName',
@@ -128,7 +134,7 @@
         return getOpportunityList(
           this.isAll,
           this.query.oppName,
-          '',
+          this.customer,
           '',
           '',
           this.page.pageSize,

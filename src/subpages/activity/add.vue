@@ -96,8 +96,10 @@
       <el-button class="customer reset" @click.native.prevent="back" v-waves>取消</el-button>
     </div>
     <pick-customer v-if="formItems.customer.isShow" :multiple="false" v-model="formItems.customer"></pick-customer>
-    <pick-opportunity v-if="formItems.oppIds.isShow" :multiple="true" v-model="formItems.oppIds"></pick-opportunity>
-    <pick-contract v-if="formItems.contractIds.isShow" :multiple="true" v-model="formItems.contractIds"></pick-contract>
+    <pick-opportunity v-if="formItems.oppIds.isShow" :multiple="true" v-model="formItems.oppIds"
+                      :customer="customer" @link-customer="fillCustomer"></pick-opportunity>
+    <pick-contract v-if="formItems.contractIds.isShow" :multiple="true" v-model="formItems.contractIds"
+                   :customer="customer" @link-customer="fillCustomer"></pick-contract>
     <image-preview v-if="showPreview" :img="currentAttach" @close="showPreview=false"></image-preview>
   </div>
 </template>
@@ -106,9 +108,16 @@
   import { attachMixin } from '../../common/js/attachMixin'
   import { activityData } from './js/data'
   import { addActivity } from '../../api/activity'
+  import { mapGetters } from 'vuex'
 
   export default {
     mixins: [formMixin, attachMixin, activityData],
+    computed: {
+      ...mapGetters(['addActivityParams'])
+    },
+    mounted() {
+      this.fillData()
+    },
     data() {
       return {
         successMsg: '新建活动成功！'
@@ -117,6 +126,17 @@
     methods: {
       fetchData() {
         return addActivity(this.getParams())
+      },
+      fillData() {
+        if (this.addActivityParams.opportunity) {
+          this.fillOpportunity(this.addActivityParams.opportunity)
+        }
+        if (this.addActivityParams.customer) {
+          this.fillCustomer(this.addActivityParams.customer)
+        }
+        if (this.addActivityParams.contract) {
+          this.fillContract(this.addActivityParams.contract)
+        }
       }
     }
   }
