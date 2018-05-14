@@ -31,23 +31,26 @@
       </div>
       <div class="tab-box">
         <div class="tab-list">
-          <span class="tab-item" :class="{active:isAll===0}" @click="isAll=0">基本信息</span>
-          <span class="tab-item" :class="{active:isAll===1}" @click="isAll=1">合同</span>
-          <span class="tab-item" :class="{active:isAll===2}" @click="isAll=2">活动计划</span>
+          <span class="tab-item" :class="{active:isAll===0}" @click="isAll=0">概况</span>
+          <span class="tab-item" :class="{active:isAll===1}" @click="isAll=1">基本信息</span>
+          <span class="tab-item" :class="{active:isAll===2}" @click="isAll=2">合同</span>
+          <span class="tab-item" :class="{active:isAll===3}" @click="isAll=3">活动计划</span>
           <i class=" line" :style="{left: 30+80*isAll + 'px'}"></i>
         </div>
       </div>
     </div>
     <div class="content">
-      <basic :opp-detail="cusDetail" v-if="isAll===0"></basic>
-      <contract v-if="isAll===1" :height="subHeight" :cusNo="cusDetail.customer" @addContract="addContract"></contract>
-      <activity v-if="isAll===2" :height="subHeight" :oppId="cusDetail.tuid" @addActivity="addActivity"></activity>
+      <over-view v-if="isAll===0"></over-view>
+      <basic :opp-detail="cusDetail" v-if="isAll===1"></basic>
+      <contract v-if="isAll===2" :height="subHeight" :cusNo="cusDetail.customer" @addContract="addContract"></contract>
+      <activity v-if="isAll===3" :height="subHeight" :oppId="cusDetail.tuid" @addActivity="addActivity"></activity>
     </div>
   </div>
 </template>
 <script>
   import { mapGetters, mapActions } from 'vuex'
   import { getCusDetail } from '../../api/customer'
+  import OverView from './child/overview'
   import Basic from './child/basic'
   import Contract from './child/contract'
   import Activity from './child/activity'
@@ -126,6 +129,7 @@
       }
     },
     components: {
+      OverView,
       Basic,
       Contract,
       Activity
