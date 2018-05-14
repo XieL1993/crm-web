@@ -27,3 +27,7 @@ export function getCustomerList(isAll, customerName, customerIndustry, customerT
     }
   })
 }
+
+export function getCusDetail(tuid) {
+  return fetch.get(`/customer/${tuid}`)
+}

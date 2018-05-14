@@ -20,6 +20,16 @@ export const errorRouter = [
 ]
 export const subRouter = [
   {
+    name: '客户详情',
+    path: '/customer/detail',
+    component: resolve => {
+      import('../subpages/customer/detail').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  },
+  {
     name: '注册商机',
     path: '/opportunity/add',
     component: resolve => {

@@ -1,5 +1,9 @@
 const params = {
   state: {
+    // 客户
+    addCustomerParams: JSON.parse(window.sessionStorage.getItem('addCustomerParams')),
+    editCustomerParams: JSON.parse(window.sessionStorage.getItem('editCustomerParams')),
+    detailCustomerParams: JSON.parse(window.sessionStorage.getItem('detailCustomerParams')),
     // 商机
     addOpportunityParams: JSON.parse(window.sessionStorage.getItem('addOpportunityParams')),
     editOpportunityParams: JSON.parse(window.sessionStorage.getItem('editOpportunityParams')),
@@ -18,6 +22,16 @@ const params = {
     detailInvoiceParams: JSON.parse(window.sessionStorage.getItem('detailInvoiceParams'))
   },
   mutations: {
+    // 客户
+    ADD_CUSTOMER_PARAMS(state, params) {
+      state.addCustomerParams = params
+    },
+    EDIT_CUSTOMER_PARAMS(state, params) {
+      state.editCustomerParams = params
+    },
+    DETAIL_CUSTOMER_PARAMS(state, params) {
+      state.detailCustomerParams = params
+    },
     // 商机
     ADD_OPPORTUNITY_PARAMS(state, params) {
       state.addOpportunityParams = params
@@ -60,6 +74,19 @@ const params = {
     }
   },
   actions: {
+    // 客户
+    addCustomerParams({ commit }, params) {
+      window.sessionStorage.setItem('addCustomerParams', JSON.stringify(params))
+      commit('ADD_CUSTOMER_PARAMS', params)
+    },
+    editCustomerParams({ commit }, params) {
+      window.sessionStorage.setItem('editCustomerParams', JSON.stringify(params))
+      commit('EDIT_CUSTOMER_PARAMS', params)
+    },
+    detailCustomerParams({ commit }, params) {
+      window.sessionStorage.setItem('detailCustomerParams', JSON.stringify(params))
+      commit('DETAIL_CUSTOMER_PARAMS', params)
+    },
     // 商机
     addOpportunityParams({ commit }, params) {
       window.sessionStorage.setItem('addOpportunityParams', JSON.stringify(params))

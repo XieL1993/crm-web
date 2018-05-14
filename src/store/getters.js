@@ -5,6 +5,10 @@ const getters = {
   newRouters: state => state.permission.newRouters,
   sidebar: state => state.app.sidebar,
   tabViews: state => state.tabViews.tabViews,
+  // 客户
+  addCustomerParams: state => state.params.addCustomerParams,
+  editCustomerParams: state => state.params.editCustomerParams,
+  detailCustomerParams: state => state.params.detailCustomerParams,
   // 商机
   addOpportunityParams: state => state.params.addOpportunityParams,
   editOpportunityParams: state => state.params.editOpportunityParams,

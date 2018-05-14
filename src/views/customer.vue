@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="operate-box">
-        <el-button class="customer reset" v-waves>新建客户</el-button>
+        <el-button class="customer reset" v-waves @click.native.prevent="addCustomer">新建客户</el-button>
         <el-button class="customer reset" v-waves @click.native.prevent="addOpportunity">注册商机</el-button>
         <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
       </div>
@@ -107,7 +107,7 @@
           align="center">
           <template slot-scope="scope">
             <el-button type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">查看</el-button>
+            <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -147,7 +147,11 @@
       }
     },
     methods: {
-      ...mapActions(['addActivityParams', 'addOpportunityParams']),
+      ...mapActions([
+        'detailCustomerParams',
+        'addActivityParams',
+        'addOpportunityParams'
+      ]),
       fetchData() {
         return getCustomerList(
           this.isAll,
@@ -157,6 +161,15 @@
           this.page.pageSize,
           this.page.currentPage
         )
+      },
+      addCustomer() {
+
+      },
+      detail(tuid) {
+        this.detailCustomerParams({ tuid })
+        this.$router.push({
+          path: '/customer/detail'
+        })
       },
       addOpportunity() {
         if (this.selection.length === 0) {
