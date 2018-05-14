@@ -31,8 +31,10 @@
     </div>
     <div class="content">
       <basic :contract-detail="contractDetail" v-if="isAll===0"></basic>
-      <invoice v-if="isAll===1" :height="subHeight" :contract-id="contractDetail.tuid"></invoice>
-      <activity v-if="isAll===2" :height="subHeight" :contract-id="contractDetail.tuid"></activity>
+      <invoice v-if="isAll===1" :height="subHeight" :contract-id="contractDetail.tuid"
+               @addInvoice="addInvoice"></invoice>
+      <activity v-if="isAll===2" :height="subHeight" :contract-id="contractDetail.tuid"
+                @addActivity="addActivity"></activity>
     </div>
   </div>
 </template>
@@ -52,7 +54,7 @@
       }
     },
     computed: {
-      ...mapGetters(['contractId'])
+      ...mapGetters(['detailContractParams'])
     },
     created() {
       this.fetchDetail()
@@ -68,9 +70,13 @@
       }, 100)// 100毫秒内只执行一次resize
     },
     methods: {
-      ...mapActions(['setContractId']),
+      ...mapActions([
+        'editContractParams',
+        'addActivityParams',
+        'addInvoiceParams'
+      ]),
       fetchDetail() {
-        getContractDetail(this.contractId).then(data => {
+        getContractDetail(this.detailContractParams.tuid).then(data => {
           this.contractDetail = data.obj
         })
       },
@@ -82,10 +88,30 @@
         }
       },
       edit() {
-        this.setContractId(this.contractDetail.tuid)
-        this.$router.push({
-          path: '/contract/edit'
+        this.editContractParams({ tuid: this.detailContractParams.tuid })
+        this.$router.push({ path: '/contract/edit' })
+      },
+      addActivity() {
+        this.addActivityParams({
+          contract: [{
+            tuid: this.contractDetail.tuid,
+            contractName: this.contractDetail.contractName
+          }],
+          customer: [{
+            tuid: this.contractDetail.customer,
+            custName: this.contractDetail.customerDname
+          }]
         })
+        this.$router.push({ path: '/activity/add' })
+      },
+      addInvoice() {
+        this.addInvoiceParams({
+          contract: [{
+            tuid: this.contractDetail.tuid,
+            contractName: this.contractDetail.contractName
+          }]
+        })
+        this.$router.push({ path: '/invoice/add' })
       }
     },
     components: {

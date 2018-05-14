@@ -79,7 +79,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="竞争对手" class="textarea" prop="competitor">
-            <el-input class="textarea" clearable placeholder="请输入" type="textarea"
+            <el-input clearable placeholder="请输入" type="textarea"
                       v-model="formItems.competitor" resize="none"></el-input>
           </el-form-item>
         </el-col>
@@ -87,7 +87,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="商机描述" class="textarea" prop="description">
-            <el-input class="textarea" clearable placeholder="请输入" type="textarea"
+            <el-input clearable placeholder="请输入" type="textarea"
                       v-model="formItems.description" resize="none"></el-input>
           </el-form-item>
         </el-col>
@@ -104,9 +104,16 @@
   import { formMixin } from '../../common/js/formMixin'
   import { opportunityData } from './js/data'
   import { addOpportunity } from '../../api/opportunity'
+  import { mapGetters } from 'vuex'
 
   export default {
     mixins: [formMixin, opportunityData],
+    computed: {
+      ...mapGetters(['addOpportunityParams'])
+    },
+    mounted() {
+      this.fillData()
+    },
     data() {
       return {
         successMsg: '注册商机成功！'
@@ -115,6 +122,11 @@
     methods: {
       fetchData() {
         return addOpportunity(this.getParams())
+      },
+      fillData() {
+        if (this.addOpportunityParams.customer) {
+          this.fillCustomer(this.addOpportunityParams.customer)
+        }
       }
     }
   }

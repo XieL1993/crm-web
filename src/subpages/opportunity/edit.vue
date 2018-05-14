@@ -79,7 +79,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="竞争对手" class="textarea" prop="competitor">
-            <el-input class="textarea" clearable placeholder="请输入" type="textarea"
+            <el-input clearable placeholder="请输入" type="textarea"
                       v-model="formItems.competitor" resize="none"></el-input>
           </el-form-item>
         </el-col>
@@ -87,7 +87,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="商机描述" class="textarea" prop="description">
-            <el-input class="textarea" clearable placeholder="请输入" type="textarea"
+            <el-input clearable placeholder="请输入" type="textarea"
                       v-model="formItems.description" resize="none"></el-input>
           </el-form-item>
         </el-col>
@@ -109,7 +109,7 @@
   export default {
     mixins: [formMixin, opportunityData],
     computed: {
-      ...mapGetters(['opportunityId'])
+      ...mapGetters(['editOpportunityParams'])
     },
     created() {
       this.fetchDetail()
@@ -121,10 +121,10 @@
     },
     methods: {
       fetchData() {
-        return undateOpportunity(this.opportunityId, this.getParams())
+        return undateOpportunity(this.editOpportunityParams.tuid, this.getParams())
       },
       fetchDetail() {
-        getOppDetail(this.opportunityId).then(data => {
+        getOppDetail(this.editOpportunityParams.tuid).then(data => {
           this.dealDetail(data)
         }).catch(error => {
           this.showError(error.message)

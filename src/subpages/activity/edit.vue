@@ -77,7 +77,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="内容描述" class="textarea" prop="content">
-            <el-input class="textarea" clearable placeholder="请输入" type="textarea"
+            <el-input clearable placeholder="请输入" type="textarea"
                       v-model="formItems.content" resize="none"></el-input>
           </el-form-item>
         </el-col>
@@ -113,7 +113,7 @@
   export default {
     mixins: [formMixin, attachMixin, activityData],
     computed: {
-      ...mapGetters(['addActivityParams'])
+      ...mapGetters(['editActivityParams'])
     },
     created() {
       this.fetchDetail()
@@ -125,10 +125,10 @@
     },
     methods: {
       fetchData() {
-        return undateActivity(this.addActivityParams.tuid, this.getParams())
+        return undateActivity(this.editActivityParams.tuid, this.getParams())
       },
       fetchDetail() {
-        getActDetail(this.addActivityParams.tuid).then(data => {
+        getActDetail(this.editActivityParams.tuid).then(data => {
           this.dealDetail(data)
         }).catch(error => {
           this.showError(error.message)

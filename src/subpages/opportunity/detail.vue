@@ -31,8 +31,8 @@
     </div>
     <div class="content">
       <basic :opp-detail="oppDetail" v-if="isAll===0"></basic>
-      <contract v-if="isAll===1" :height="subHeight" :cusNo="oppDetail.customer"></contract>
-      <activity v-if="isAll===2" :height="subHeight" :oppId="oppDetail.tuid"></activity>
+      <contract v-if="isAll===1" :height="subHeight" :cusNo="oppDetail.customer" @addContract="addContract"></contract>
+      <activity v-if="isAll===2" :height="subHeight" :oppId="oppDetail.tuid" @addActivity="addActivity"></activity>
     </div>
   </div>
 </template>
@@ -52,7 +52,7 @@
       }
     },
     computed: {
-      ...mapGetters(['opportunityId'])
+      ...mapGetters(['detailOpportunityParams'])
     },
     created() {
       this.fetchDetail()
@@ -68,9 +68,13 @@
       }, 100)// 100毫秒内只执行一次resize
     },
     methods: {
-      ...mapActions(['setOpportunityId']),
+      ...mapActions([
+        'editOpportunityParams',
+        'addActivityParams',
+        'addContractParams'
+      ]),
       fetchDetail() {
-        getOppDetail(this.opportunityId).then(data => {
+        getOppDetail(this.detailOpportunityParams.tuid).then(data => {
           this.oppDetail = data.obj
         })
       },
@@ -82,10 +86,34 @@
         }
       },
       edit() {
-        this.setOpportunityId(this.oppDetail.tuid)
-        this.$router.push({
-          path: '/opportunity/edit'
+        this.editOpportunityParams({ tuid: this.detailOpportunityParams.tuid })
+        this.$router.push({ path: '/opportunity/edit' })
+      },
+      addActivity() {
+        this.addActivityParams({
+          opportunity: [{
+            tuid: this.oppDetail.tuid,
+            oppName: this.oppDetail.oppName
+          }],
+          customer: [{
+            tuid: this.oppDetail.customer,
+            custName: this.oppDetail.customerDname
+          }]
         })
+        this.$router.push({ path: '/activity/add' })
+      },
+      addContract() {
+        this.addContractParams({
+          opportunity: [{
+            tuid: this.oppDetail.tuid,
+            oppName: this.oppDetail.oppName
+          }],
+          customer: [{
+            tuid: this.oppDetail.customer,
+            custName: this.oppDetail.customerDname
+          }]
+        })
+        this.$router.push({ path: '/contract/add' })
       }
     },
     components: {

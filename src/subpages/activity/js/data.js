@@ -118,6 +118,7 @@ export const activityData = {
       this.formItems.contractIds.display = names.join(',')
     },
     fillCustomer(data) {
+      if (this.formItems.customer.tuid !== '') return
       const names = []
       const ids = []
       for (const { tuid, custName } of data) {

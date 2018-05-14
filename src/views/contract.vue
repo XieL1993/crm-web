@@ -161,7 +161,12 @@
       }
     },
     methods: {
-      ...mapActions(['setContractId', 'addActivityParams']),
+      ...mapActions([
+        'addContractParams',
+        'editContractParams',
+        'detailContractParams',
+        'addActivityParams'
+      ]),
       fetchData() {
         return getContractList(
           this.isAll,
@@ -174,18 +179,19 @@
         )
       },
       addContract() {
+        this.addContractParams({})
         this.$router.push({
           path: '/contract/add'
         })
       },
       edit(tuid) {
-        this.setContractId(tuid)
+        this.editContractParams({ tuid })
         this.$router.push({
           path: '/contract/edit'
         })
       },
       detail(tuid) {
-        this.setContractId(tuid)
+        this.detailContractParams({ tuid })
         this.$router.push({
           path: '/contract/detail'
         })

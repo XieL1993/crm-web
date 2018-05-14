@@ -51,7 +51,7 @@
       <div class="operate-box">
         <el-button class="customer reset" v-waves @click.native.prevent="addOpportunity">注册商机</el-button>
         <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
-        <el-button class="customer reset" v-waves>新增合同</el-button>
+        <el-button class="customer reset" v-waves @click.native.prevent="addContract">新增合同</el-button>
       </div>
     </div>
     <div class="table-box">
@@ -170,7 +170,13 @@
       }
     },
     methods: {
-      ...mapActions(['setOpportunityId', 'addActivityParams']),
+      ...mapActions([
+        'addOpportunityParams',
+        'editOpportunityParams',
+        'detailOpportunityParams',
+        'addActivityParams',
+        'addContractParams'
+      ]),
       fetchData() {
         return getOpportunityList(
           this.isAll,
@@ -183,18 +189,19 @@
         )
       },
       addOpportunity() {
+        this.addOpportunityParams({})
         this.$router.push({
           path: '/opportunity/add'
         })
       },
       edit(tuid) {
-        this.setOpportunityId(tuid)
+        this.editOpportunityParams({ tuid })
         this.$router.push({
           path: '/opportunity/edit'
         })
       },
       detail(tuid) {
-        this.setOpportunityId(tuid)
+        this.detailOpportunityParams({ tuid })
         this.$router.push({
           path: '/opportunity/detail'
         })
@@ -215,6 +222,19 @@
               path: '/activity/add'
             })
           }
+        }
+      },
+      addContract() {
+        if (this.selection.length === 0) {
+          this.showError('请选择商机！')
+        } else if (this.selection.length > 1) {
+          this.showError('最多只能选择一条商机！')
+        } else {
+          const customer = { tuid: this.selection[0].customer, custName: this.selection[0].customerDname }
+          this.addContractParams({ opportunity: this.selection, customer: [customer] })
+          this.$router.push({
+            path: '/contract/add'
+          })
         }
       }
     }

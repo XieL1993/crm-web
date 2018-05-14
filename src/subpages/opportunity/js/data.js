@@ -61,6 +61,18 @@ export const opportunityData = {
           }
         }
       }
+    },
+    fillCustomer(data) {
+      if (this.formItems.customer.tuid !== '') return
+      const names = []
+      const ids = []
+      for (const { tuid, custName } of data) {
+        ids.push(tuid)
+        names.push(custName)
+      }
+      this.formItems.customer.data = data
+      this.formItems.customer.tuid = ids.join(',')
+      this.formItems.customer.display = names.join(',')
     }
   }
 }

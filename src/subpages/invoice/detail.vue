@@ -38,20 +38,20 @@
       }
     },
     computed: {
-      ...mapGetters(['invoiceId'])
+      ...mapGetters(['detailInvoiceParams'])
     },
     created() {
       this.fetchDetail()
     },
     methods: {
-      ...mapActions(['setInvoiceId']),
+      ...mapActions(['editInvoiceParams']),
       fetchDetail() {
-        getinvDetail(this.invoiceId).then(data => {
+        getinvDetail(this.detailInvoiceParams.tuid).then(data => {
           this.invDetail = data.obj
         })
       },
       edit() {
-        this.setInvoiceId(this.invDetail.tuid)
+        this.editInvoiceParams({ tuid: this.detailInvoiceParams.tuid })
         this.$router.push({
           path: '/invoice/edit'
         })

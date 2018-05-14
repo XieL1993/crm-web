@@ -77,7 +77,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="内容描述" class="textarea" prop="content">
-            <el-input class="textarea" clearable placeholder="请输入" type="textarea"
+            <el-input clearable placeholder="请输入" type="textarea"
                       v-model="formItems.content" resize="none"></el-input>
           </el-form-item>
         </el-col>

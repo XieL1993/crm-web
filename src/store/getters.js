@@ -5,10 +5,21 @@ const getters = {
   newRouters: state => state.permission.newRouters,
   sidebar: state => state.app.sidebar,
   tabViews: state => state.tabViews.tabViews,
-  opportunityId: state => state.params.opportunityId,
-  activityId: state => state.params.activityId,
-  contractId: state => state.params.contractId,
-  invoiceId: state => state.params.invoiceId,
-  addActivityParams: state => state.params.addActivityParams
+  // 商机
+  addOpportunityParams: state => state.params.addOpportunityParams,
+  editOpportunityParams: state => state.params.editOpportunityParams,
+  detailOpportunityParams: state => state.params.detailOpportunityParams,
+  // 活动
+  addActivityParams: state => state.params.addActivityParams,
+  editActivityParams: state => state.params.editActivityParams,
+  detailActivityParams: state => state.params.detailActivityParams,
+  // 合同
+  addContractParams: state => state.params.addContractParams,
+  editContractParams: state => state.params.editContractParams,
+  detailContractParams: state => state.params.detailContractParams,
+  // 收款
+  addInvoiceParams: state => state.params.addInvoiceParams,
+  editInvoiceParams: state => state.params.editInvoiceParams,
+  detailInvoiceParams: state => state.params.detailInvoiceParams
 }
 export default getters

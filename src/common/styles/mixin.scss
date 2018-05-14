@@ -329,7 +329,11 @@
     color: #555555;
     font-size: 13px;
     border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     .header {
+      flex: 0 0 auto;
       width: 100%;
       display: flex;
       padding: 0 20px;
@@ -351,48 +355,52 @@
         }
       }
     }
-    .form {
-      .el-row {
-        padding: 0 30px;
-        margin-top: 20px;
-        .el-col {
-          display: flex;
-          font-size: 14px;
-          color: #606266;
-          .label {
-            width: 130px;
-            flex: 0 0 130px;
-            height: 30px;
-            line-height: 30px;
-            text-align: right;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-          }
-          .value {
-            height: 30px;
-            line-height: 30px;
-            flex: 1 1 auto;
-            text-align: left;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            &.single {
-              height: auto;
-              min-height: 30px;
+    .main {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      .form {
+        .el-row {
+          padding: 0 30px;
+          margin-top: 20px;
+          .el-col {
+            display: flex;
+            font-size: 14px;
+            color: #606266;
+            .label {
+              width: 130px;
+              flex: 0 0 130px;
+              height: 30px;
               line-height: 30px;
-              white-space: normal;
+              text-align: right;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+            .value {
+              height: 30px;
+              line-height: 30px;
+              flex: 1 1 auto;
+              text-align: left;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              &.single {
+                height: auto;
+                min-height: 30px;
+                line-height: 30px;
+                white-space: normal;
+              }
             }
           }
         }
       }
-    }
-    .btn-box {
-      margin-top: 20px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      padding-bottom: 20px;
+      .btn-box {
+        margin-top: 20px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+      }
     }
   }
 }

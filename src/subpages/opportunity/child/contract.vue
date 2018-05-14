@@ -2,7 +2,7 @@
   <transition name="page-fade">
     <div id="opp-contract">
       <div ref="header" class="header">
-        <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建合同</el-button>
+        <el-button class="customer reset" v-waves @click.native.prevent="addContract">新建合同</el-button>
       </div>
       <div class="table-box">
         <el-table
@@ -60,8 +60,8 @@
             width="120"
             align="center">
             <template slot-scope="scope">
-              <el-button type="text" size="small">编辑</el-button>
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
+              <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -95,7 +95,7 @@
       }
     },
     methods: {
-      ...mapActions(['setActivityId']),
+      ...mapActions(['editContractParams', 'detailContractParams']),
       fetchData() {
         return getContractList(
           1,
@@ -107,15 +107,19 @@
           this.page.currentPage
         )
       },
-      addActivity() {
-        this.$router.push({
-          path: '/activity/add'
-        })
+      addContract() {
+        this.$emit('addContract')
       },
       edit(tuid) {
-        this.setActivityId(tuid)
+        this.editContractParams({ tuid })
         this.$router.push({
-          path: '/activity/edit'
+          path: '/contract/edit'
+        })
+      },
+      detail(tuid) {
+        this.detailContractParams({ tuid })
+        this.$router.push({
+          path: '/contract/detail'
         })
       }
     }

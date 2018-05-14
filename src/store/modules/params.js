@@ -1,48 +1,116 @@
 const params = {
   state: {
+    // 商机
+    addOpportunityParams: JSON.parse(window.sessionStorage.getItem('addOpportunityParams')),
+    editOpportunityParams: JSON.parse(window.sessionStorage.getItem('editOpportunityParams')),
+    detailOpportunityParams: JSON.parse(window.sessionStorage.getItem('detailOpportunityParams')),
+    // 活动
     addActivityParams: JSON.parse(window.sessionStorage.getItem('addActivityParams')),
-    opportunityId: window.sessionStorage.getItem('opportunityId'),
-    activityId: window.sessionStorage.getItem('activityId'),
-    contractId: window.sessionStorage.getItem('contractId'),
-    invoiceId: window.sessionStorage.getItem('invoiceId')
+    editActivityParams: JSON.parse(window.sessionStorage.getItem('editActivityParams')),
+    detailActivityParams: JSON.parse(window.sessionStorage.getItem('detailActivityParams')),
+    // 合同
+    addContractParams: JSON.parse(window.sessionStorage.getItem('addContractParams')),
+    editContractParams: JSON.parse(window.sessionStorage.getItem('editContractParams')),
+    detailContractParams: JSON.parse(window.sessionStorage.getItem('detailContractParams')),
+    // 收款
+    addInvoiceParams: JSON.parse(window.sessionStorage.getItem('addInvoiceParams')),
+    editInvoiceParams: JSON.parse(window.sessionStorage.getItem('editInvoiceParams')),
+    detailInvoiceParams: JSON.parse(window.sessionStorage.getItem('detailInvoiceParams'))
   },
   mutations: {
+    // 商机
+    ADD_OPPORTUNITY_PARAMS(state, params) {
+      state.addOpportunityParams = params
+    },
+    EDIT_OPPORTUNITY_PARAMS(state, params) {
+      state.editOpportunityParams = params
+    },
+    DETAIL_OPPORTUNITY_PARAMS(state, params) {
+      state.detailOpportunityParams = params
+    },
+    // 活动
     ADD_ACTIVITY_PARAMS(state, params) {
       state.addActivityParams = params
     },
-    SET_OPPORTUNITYID(state, tuid) {
-      state.opportunityId = tuid
+    EDIT_ACTIVITY_PARAMS(state, params) {
+      state.editActivityParams = params
     },
-    SET_ACTIVITYID(state, tuid) {
-      state.activityId = tuid
+    DETAIL_ACTIVITY_PARAMS(state, params) {
+      state.detailActivityParams = params
     },
-    SET_CONTRACTID(state, tuid) {
-      state.contractId = tuid
+    // 合同
+    ADD_CONTRACT_PARAMS(state, params) {
+      state.addContractParams = params
     },
-    SET_INVOICEID(state, tuid) {
-      state.invoiceId = tuid
+    EDIT_CONTRACT_PARAMS(state, params) {
+      state.editContractParams = params
+    },
+    DETAIL_CONTRACT_PARAMS(state, params) {
+      state.detailContractParams = params
+    },
+    // 收款
+    ADD_INVOICE_PARAMS(state, params) {
+      state.addInvoiceParams = params
+    },
+    EDIT_INVOICE_PARAMS(state, params) {
+      state.editInvoiceParams = params
+    },
+    DETAIL_INVOICE_PARAMS(state, params) {
+      state.detailInvoiceParams = params
     }
   },
   actions: {
+    // 商机
+    addOpportunityParams({ commit }, params) {
+      window.sessionStorage.setItem('addOpportunityParams', JSON.stringify(params))
+      commit('ADD_OPPORTUNITY_PARAMS', params)
+    },
+    editOpportunityParams({ commit }, params) {
+      window.sessionStorage.setItem('editOpportunityParams', JSON.stringify(params))
+      commit('EDIT_OPPORTUNITY_PARAMS', params)
+    },
+    detailOpportunityParams({ commit }, params) {
+      window.sessionStorage.setItem('detailOpportunityParams', JSON.stringify(params))
+      commit('DETAIL_OPPORTUNITY_PARAMS', params)
+    },
+    // 活动
     addActivityParams({ commit }, params) {
       window.sessionStorage.setItem('addActivityParams', JSON.stringify(params))
       commit('ADD_ACTIVITY_PARAMS', params)
     },
-    setOpportunityId({ commit }, tuid) {
-      window.sessionStorage.setItem('opportunityId', tuid)
-      commit('SET_OPPORTUNITYID', tuid)
+    editActivityParams({ commit }, params) {
+      window.sessionStorage.setItem('editActivityParams', JSON.stringify(params))
+      commit('EDIT_ACTIVITY_PARAMS', params)
     },
-    setActivityId({ commit }, tuid) {
-      window.sessionStorage.setItem('activityId', tuid)
-      commit('SET_ACTIVITYID', tuid)
+    detailActivityParams({ commit }, params) {
+      window.sessionStorage.setItem('detailActivityParams', JSON.stringify(params))
+      commit('DETAIL_ACTIVITY_PARAMS', params)
     },
-    setContractId({ commit }, tuid) {
-      window.sessionStorage.setItem('contractId', tuid)
-      commit('SET_CONTRACTID', tuid)
+    // 合同
+    addContractParams({ commit }, params) {
+      window.sessionStorage.setItem('addContractParams', JSON.stringify(params))
+      commit('ADD_CONTRACT_PARAMS', params)
     },
-    setInvoiceId({ commit }, tuid) {
-      window.sessionStorage.setItem('invoiceId', tuid)
-      commit('SET_INVOICEID', tuid)
+    editContractParams({ commit }, params) {
+      window.sessionStorage.setItem('editContractParams', JSON.stringify(params))
+      commit('EDIT_CONTRACT_PARAMS', params)
+    },
+    detailContractParams({ commit }, params) {
+      window.sessionStorage.setItem('detailContractParams', JSON.stringify(params))
+      commit('DETAIL_CONTRACT_PARAMS', params)
+    },
+    // 收款
+    addInvoiceParams({ commit }, params) {
+      window.sessionStorage.setItem('addInvoiceParams', JSON.stringify(params))
+      commit('ADD_INVOICE_PARAMS', params)
+    },
+    editInvoiceParams({ commit }, params) {
+      window.sessionStorage.setItem('editInvoiceParams', JSON.stringify(params))
+      commit('EDIT_INVOICE_PARAMS', params)
+    },
+    detailInvoiceParams({ commit }, params) {
+      window.sessionStorage.setItem('detailInvoiceParams', JSON.stringify(params))
+      commit('DETAIL_INVOICE_PARAMS', params)
     }
   }
 }

@@ -101,7 +101,7 @@
       }
     },
     methods: {
-      ...mapActions(['setInvoiceId']),
+      ...mapActions(['editInvoiceParams', 'detailInvoiceParams']),
       fetchData() {
         return getInvoiceList(
           1,
@@ -113,18 +113,16 @@
         )
       },
       addInvoice() {
-        this.$router.push({
-          path: '/invoice/add'
-        })
+        this.$emit('addInvoice')
       },
       edit(tuid) {
-        this.setInvoiceId(tuid)
+        this.editInvoiceParams({ tuid })
         this.$router.push({
           path: '/invoice/edit'
         })
       },
       detail(tuid) {
-        this.setInvoiceId(tuid)
+        this.detailInvoiceParams({ tuid })
         this.$router.push({
           path: '/invoice/detail'
         })

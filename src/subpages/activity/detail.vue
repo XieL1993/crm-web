@@ -38,22 +38,22 @@
       }
     },
     computed: {
-      ...mapGetters(['activityId'])
+      ...mapGetters(['detailActivityParams'])
     },
     created() {
       this.fetchDetail()
     },
     methods: {
-      ...mapActions(['setActivityId']),
+      ...mapActions(['editActivityParams']),
       fetchDetail() {
-        getActDetail(this.activityId).then(data => {
+        getActDetail(this.detailActivityParams.tuid).then(data => {
           this.actDetail = data.obj
         }).catch(error => {
           this.$message.info(error.message)
         })
       },
       edit() {
-        this.setActivityId(this.actDetail.tuid)
+        this.editActivityParams({ tuid: this.detailActivityParams.tuid })
         this.$router.push({
           path: '/activity/edit'
         })

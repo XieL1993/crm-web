@@ -1,6 +1,17 @@
 import { getCollection } from '../../../common/js/utils'
 
 export const contractData = {
+  computed: {
+    customer() {
+      return this.formItems.customer.tuid
+    }
+  },
+  watch: {
+    customer(n, o) {
+      if (o === '') return
+      this.formItems.opportunity = { data: [], tuid: '', display: '', isShow: false }
+    }
+  },
   data() {
     return {
       formItems: {
@@ -97,6 +108,29 @@ export const contractData = {
           }
         }
       }
+    },
+    fillOpportunity(data) {
+      const names = []
+      const ids = []
+      for (const { tuid, oppName } of data) {
+        ids.push(tuid)
+        names.push(oppName)
+      }
+      this.formItems.opportunity.data = data
+      this.formItems.opportunity.tuid = ids.join(',')
+      this.formItems.opportunity.display = names.join(',')
+    },
+    fillCustomer(data) {
+      if (this.formItems.customer.tuid !== '') return
+      const names = []
+      const ids = []
+      for (const { tuid, custName } of data) {
+        ids.push(tuid)
+        names.push(custName)
+      }
+      this.formItems.customer.data = data
+      this.formItems.customer.tuid = ids.join(',')
+      this.formItems.customer.display = names.join(',')
     }
   }
 }

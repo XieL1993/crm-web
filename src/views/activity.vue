@@ -162,7 +162,7 @@
       }
     },
     methods: {
-      ...mapActions(['setActivityId', 'addActivityParams']),
+      ...mapActions(['addActivityParams', 'editActivityParams', 'detailActivityParams']),
       fetchData() {
         return getActivityList(
           this.isAll,
@@ -184,13 +184,13 @@
         })
       },
       edit(tuid) {
-        this.addActivityParams({ tuid })
+        this.editActivityParams({ tuid })
         this.$router.push({
           path: '/activity/edit'
         })
       },
       detail(tuid) {
-        this.setActivityId(tuid)
+        this.detailActivityParams({ tuid })
         this.$router.push({
           path: '/activity/detail'
         })

@@ -64,6 +64,17 @@ export const invoiceData = {
           }
         }
       }
+    },
+    fillContract(data) {
+      const names = []
+      const ids = []
+      for (const { tuid, contractName } of data) {
+        ids.push(tuid)
+        names.push(contractName)
+      }
+      this.formItems.contract.data = data
+      this.formItems.contract.tuid = ids.join(',')
+      this.formItems.contract.display = names.join(',')
     }
   }
 }

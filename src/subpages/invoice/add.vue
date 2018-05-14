@@ -86,7 +86,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="备注" class="textarea" prop="remarks">
-            <el-input class="textarea" clearable placeholder="请输入" type="textarea"
+            <el-input clearable placeholder="请输入" type="textarea"
                       v-model="formItems.remarks" resize="none"></el-input>
           </el-form-item>
         </el-col>
@@ -103,9 +103,16 @@
   import { formMixin } from '../../common/js/formMixin'
   import { invoiceData } from './js/data'
   import { addInvoice } from '../../api/invoice'
+  import { mapGetters } from 'vuex'
 
   export default {
     mixins: [formMixin, invoiceData],
+    computed: {
+      ...mapGetters(['addInvoiceParams'])
+    },
+    mounted() {
+      this.fillData()
+    },
     data() {
       return {
         successMsg: '新建收款成功！'
@@ -114,6 +121,11 @@
     methods: {
       fetchData() {
         return addInvoice(this.getParams())
+      },
+      fillData() {
+        if (this.addInvoiceParams.contract) {
+          this.fillContract(this.addInvoiceParams.contract)
+        }
       }
     }
   }

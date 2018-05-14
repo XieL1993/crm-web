@@ -43,9 +43,9 @@
         </div>
       </div>
       <div class="operate-box">
+        <el-button class="customer reset" v-waves>新建客户</el-button>
         <el-button class="customer reset" v-waves @click.native.prevent="addOpportunity">注册商机</el-button>
         <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
-        <el-button class="customer reset" v-waves>新增合同</el-button>
       </div>
     </div>
     <div class="table-box">
@@ -147,7 +147,7 @@
       }
     },
     methods: {
-      ...mapActions(['addActivityParams']),
+      ...mapActions(['addActivityParams', 'addOpportunityParams']),
       fetchData() {
         return getCustomerList(
           this.isAll,
@@ -159,9 +159,16 @@
         )
       },
       addOpportunity() {
-        this.$router.push({
-          path: '/addOpportunity'
-        })
+        if (this.selection.length === 0) {
+          this.showError('请选择客户！')
+        } else if (this.selection.length > 1) {
+          this.showError('最多只能选择一条客户！')
+        } else {
+          this.addOpportunityParams({ customer: this.selection })
+          this.$router.push({
+            path: '/opportunity/add'
+          })
+        }
       },
       addActivity() {
         if (this.selection.length === 0) {

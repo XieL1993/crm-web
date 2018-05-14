@@ -149,7 +149,11 @@
       }
     },
     methods: {
-      ...mapActions(['setInvoiceId']),
+      ...mapActions([
+        'addInvoiceParams',
+        'editInvoiceParams',
+        'detailInvoiceParams'
+      ]),
       fetchData() {
         return getInvoiceList(
           this.isAll,
@@ -161,18 +165,19 @@
         )
       },
       addInvoice() {
+        this.addInvoiceParams({})
         this.$router.push({
           path: '/invoice/add'
         })
       },
       edit(tuid) {
-        this.setInvoiceId(tuid)
+        this.editInvoiceParams({ tuid })
         this.$router.push({
           path: '/invoice/edit'
         })
       },
       detail(tuid) {
-        this.setInvoiceId(tuid)
+        this.detailInvoiceParams({ tuid })
         this.$router.push({
           path: '/invoice/detail'
         })
