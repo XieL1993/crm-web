@@ -2,7 +2,7 @@ export function getOption(obj) {
   const baseConfig = {
     backgroundColor: '#364150',
     title: {
-      text: '我的业绩报表',
+      text: obj.title,
       // subtext: '(单位:万元)',
       x: '20',
       top: '20',
@@ -96,10 +96,10 @@ export function getOption(obj) {
   }
   for (const item of obj.series) {
     baseConfig.legend.data.push(item.name)
-    baseConfig.series.push({
+    const eneity = {
       name: item.name,
-      type: 'bar',
-      barMaxWidth: 80,
+      type: item.type,
+      barMaxWidth: 60,
       barGap: '0',
       itemStyle: {
         normal: {
@@ -109,7 +109,7 @@ export function getOption(obj) {
             textStyle: {
               color: '#fff'
             },
-            position: 'top',
+            position: item.position,
             formatter(p) {
               return p.value > 0 ? p.value : ''
             },
@@ -118,7 +118,15 @@ export function getOption(obj) {
         }
       },
       data: item.data
-    })
+    }
+    if (eneity.type === 'line') {
+      eneity.symbol = 'circle'
+      eneity.symbolSize = 10
+    }
+    if (item.stack) {
+      eneity.stack = item.stack
+    }
+    baseConfig.series.push(eneity)
   }
   return baseConfig
 }

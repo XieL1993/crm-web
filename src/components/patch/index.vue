@@ -42,7 +42,6 @@
     border-radius: 4px;
     background: #ffffff;
     border: 1px solid transparent;
-    /*margin-left: 15px;*/
     position: relative;
     cursor: pointer;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.12);

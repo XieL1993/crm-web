@@ -40,16 +40,16 @@
       </div>
     </div>
     <div class="content">
-      <over-view v-if="isAll===0"></over-view>
-      <basic :opp-detail="cusDetail" v-if="isAll===1"></basic>
-      <contract v-if="isAll===2" :height="subHeight" :cusNo="cusDetail.customer" @addContract="addContract"></contract>
+      <over-view v-if="isAll===0" :overviewData="overviewData" :remindData="remindData"></over-view>
+      <basic :cus-detail="cusDetail" v-if="isAll===1"></basic>
+      <contract v-if="isAll===2" :height="subHeight" :cusNo="cusDetail.tuid" @addContract="addContract"></contract>
       <activity v-if="isAll===3" :height="subHeight" :oppId="cusDetail.tuid" @addActivity="addActivity"></activity>
     </div>
   </div>
 </template>
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import { getCusDetail } from '../../api/customer'
+  import { getCusDetail, getCustOverview, getCustRemind } from '../../api/customer'
   import OverView from './child/overview'
   import Basic from './child/basic'
   import Contract from './child/contract'
@@ -60,7 +60,9 @@
       return {
         isAll: 0,
         cusDetail: {},
-        subHeight: 0
+        subHeight: 0,
+        overviewData: [],
+        remindData: []
       }
     },
     computed: {
@@ -68,6 +70,12 @@
     },
     created() {
       this.fetchDetail()
+      getCustOverview(this.detailCustomerParams.tuid).then(res => {
+        this.overviewData = res.obj
+      })
+      getCustRemind(this.detailCustomerParams.tuid).then(res => {
+        this.remindData = res.obj
+      })
     },
     mounted() {
       this.setSubHeight()

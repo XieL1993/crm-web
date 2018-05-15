@@ -31,3 +31,11 @@ export function getCustomerList(isAll, customerName, customerIndustry, customerT
 export function getCusDetail(tuid) {
   return fetch.get(`/customer/${tuid}`)
 }
+
+export function getCustOverview(tuid) {
+  return fetch.get(`/customer/overview/${tuid}`)
+}
+
+export function getCustRemind(tuid) {
+  return fetch.get(`/customer/remind/${tuid}`)
+}

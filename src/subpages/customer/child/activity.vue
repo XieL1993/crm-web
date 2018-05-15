@@ -1,76 +1,74 @@
 <template>
-  <transition name="page-fade">
-    <div id="opp-active">
-      <div ref="header" class="header">
-        <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
-      </div>
-      <div class="table-box">
-        <el-table
-          :height="tableHeight"
-          size="mini"
-          tooltip-effect="dark"
-          border
-          v-loading="loading"
-          :data="tableData">
-          <el-table-column
-            prop="typeDname"
-            label="活动类型"
-            align="center"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            prop="date"
-            label="活动日期"
-            align="center"
-            show-overflow-tooltip>
-            <template slot-scope="scope">
-              <span>{{scope.row.date | formatDateTime}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="customerDname"
-            label="客户名称"
-            align="center"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            prop="bdDname"
-            label="BD"
-            align="center"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            prop="subject"
-            label="活动主题"
-            align="center"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            fixed="right"
-            label="操作"
-            width="120"
-            align="center">
-            <template slot-scope="scope">
-              <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
-              <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <div class="table-footer" ref="footer">
-        <el-pagination
-          background
-          :total="page.total"
-          :current-page="page.currentPage"
-          :page-size="page.pageSize"
-          :page-sizes="[10,20,30,40]"
-          layout="total, prev, pager, next, sizes, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
-        </el-pagination>
-      </div>
+  <div id="opp-active">
+    <div ref="header" class="header">
+      <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
     </div>
-  </transition>
+    <div class="table-box">
+      <el-table
+        :height="tableHeight"
+        size="mini"
+        tooltip-effect="dark"
+        border
+        v-loading="loading"
+        :data="tableData">
+        <el-table-column
+          prop="typeDname"
+          label="活动类型"
+          align="center"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="date"
+          label="活动日期"
+          align="center"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{scope.row.date | formatDateTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="customerDname"
+          label="客户名称"
+          align="center"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="bdDname"
+          label="BD"
+          align="center"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="subject"
+          label="活动主题"
+          align="center"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="120"
+          align="center">
+          <template slot-scope="scope">
+            <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
+            <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="table-footer" ref="footer">
+      <el-pagination
+        background
+        :total="page.total"
+        :current-page="page.currentPage"
+        :page-size="page.pageSize"
+        :page-sizes="[10,20,30,40]"
+        layout="total, prev, pager, next, sizes, jumper"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange">
+      </el-pagination>
+    </div>
+  </div>
 </template>
 <script>
   import { getActivityList } from '../../../api/activity'
@@ -121,12 +119,6 @@
 </script>
 <style scoped lang="scss">
   #opp-active {
-    &.page-fade-enter-active, &.page-fade-leave-active {
-      transition: opacity 0.4s ease-in-out;
-    }
-    &.page-fade-enter, &.page-fade-leave-to {
-      opacity: 0;
-    }
     .header {
       padding: 15px 30px;
     }
