@@ -2,7 +2,7 @@
   <div id="opp-detail" ref="root">
     <div ref="header">
       <div class="header">
-        <img class="avatar" src="../../common/image/opportunity.png"/>
+        <svg-icon icon-class="cusopportunity" class="avatar opportunity"></svg-icon>
         <div class="header-right">
           <div class="title-box">
             <span class="opp-name">{{oppDetail.oppName}}</span>

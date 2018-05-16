@@ -37,7 +37,7 @@
             align="center">
           </el-table-column>
           <el-table-column
-            prop=""
+            prop="typeDname"
             label="合同类型"
             show-overflow-tooltip
             align="center">

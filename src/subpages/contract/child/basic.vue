@@ -33,7 +33,7 @@
           </el-col>
           <el-col :span="8">
             <span class="label">合同类型：</span>
-            <span class="value">{{contractDetail.contractTypeDname}}</span>
+            <span class="value">{{contractDetail.typeDname}}</span>
           </el-col>
         </el-row>
         <el-row>
@@ -47,7 +47,7 @@
           </el-col>
           <el-col :span="8">
             <span class="label"> 是否收款完毕：</span>
-            <span class="value">{{contractDetail.isFinishedDame}}</span>
+            <span class="value">{{contractDetail.isFinishedDname}}</span>
           </el-col>
         </el-row>
         <el-row>

@@ -1,5 +1,5 @@
 <template>
-  <div id="cus-contract">
+  <div id="contract-invoice">
     <div ref="header" class="header"></div>
     <div class="table-box">
       <el-table
@@ -10,38 +10,50 @@
         v-loading="loading"
         :data="tableData">
         <el-table-column
-          prop="contractNo"
-          label="合同编号"
-          show-overflow-tooltip
-          align="center">
-        </el-table-column>
-        <el-table-column
-          prop="contractName"
+          prop="contractDname"
           label="合同名称"
           show-overflow-tooltip
           align="center">
         </el-table-column>
         <el-table-column
-          prop="productsDname"
-          label="产品名称"
-          show-overflow-tooltip
-          align="center">
-        </el-table-column>
-        <el-table-column
           prop="typeDname"
-          label="合同类型"
+          label="收款类型"
           show-overflow-tooltip
           align="center">
         </el-table-column>
         <el-table-column
-          prop="statusDname"
-          label="合同状态"
+          prop="totalAmount"
+          label="收款额"
           show-overflow-tooltip
           align="center">
         </el-table-column>
         <el-table-column
-          prop="bdDname"
-          label="BD"
+          prop="expectedTime"
+          label="预计收款时间"
+          show-overflow-tooltip
+          align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.expectedTime | formatDateTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="actualAmount"
+          label="实际收款额"
+          show-overflow-tooltip
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="actualTime"
+          label="实际收款时间"
+          show-overflow-tooltip
+          align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.actualTime | formatDateTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="isFinishedDname"
+          label="是否收款完毕"
           show-overflow-tooltip
           align="center">
         </el-table-column>
@@ -62,7 +74,7 @@
   </div>
 </template>
 <script>
-  import { getContractList } from '../../../api/contract'
+  import { getInvoiceList } from '../../../api/invoice'
   import { childTableMixin } from '../../../common/js/childTableMixin'
 
   export default {
@@ -75,9 +87,8 @@
     },
     methods: {
       fetchData() {
-        return getContractList(
+        return getInvoiceList(
           1,
-          '',
           this.cusNo,
           '',
           '',
@@ -89,7 +100,7 @@
   }
 </script>
 <style scoped lang="scss">
-  #cus-contract {
+  #contract-invoice {
     .header {
       padding: 15px 30px;
     }

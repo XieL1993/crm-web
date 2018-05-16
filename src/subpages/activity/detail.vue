@@ -2,7 +2,7 @@
   <div id="act-detail" ref="root">
     <div ref="header">
       <div class="header">
-        <img class="avatar" src="../../common/image/opportunity.png"/>
+        <svg-icon icon-class="cusactivity" class="avatar activity"></svg-icon>
         <div class="header-right">
           <div class="title-box">
             <span class="opp-name">{{actDetail.subject}}</span>

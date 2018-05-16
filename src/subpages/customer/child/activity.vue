@@ -1,5 +1,5 @@
 <template>
-  <div id="opp-active">
+  <div id="cus-active">
     <div ref="header" class="header">
       <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建活动</el-button>
     </div>
@@ -27,8 +27,8 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="customerDname"
-          label="客户名称"
+          prop="contact"
+          label="客户联系人"
           align="center"
           show-overflow-tooltip>
         </el-table-column>
@@ -78,7 +78,7 @@
   export default {
     mixins: [childTableMixin],
     props: {
-      oppId: {
+      cusNo: {
         type: String,
         default: ''
       }
@@ -89,8 +89,8 @@
         return getActivityList(
           1,
           '',
+          this.cusNo,
           '',
-          this.oppId,
           '',
           '',
           '',
@@ -118,7 +118,7 @@
   }
 </script>
 <style scoped lang="scss">
-  #opp-active {
+  #cus-active {
     .header {
       padding: 15px 30px;
     }

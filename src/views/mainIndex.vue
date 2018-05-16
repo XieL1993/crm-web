@@ -136,6 +136,7 @@
           })
         })
         this.remindData = Object.values(data)
+        this.currentRemind = 0
       },
       showRemind(index) {
         for (let i = 0; i < this.remindData.length; i++) {
@@ -292,7 +293,7 @@
         }
       }
     }
-    .chart-box{
+    .chart-box {
       width: 100%;
       height: 550px;
       padding: 20px 15px;

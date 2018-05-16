@@ -28,6 +28,16 @@ export function getCustomerList(isAll, customerName, customerIndustry, customerT
   })
 }
 
+export function getCusContact(tuid) {
+  return fetch({
+    method: 'get',
+    url: '/customer/contact',
+    params: {
+      customerId: tuid
+    }
+  })
+}
+
 export function getCusDetail(tuid) {
   return fetch.get(`/customer/${tuid}`)
 }
@@ -38,4 +48,30 @@ export function getCustOverview(tuid) {
 
 export function getCustRemind(tuid) {
   return fetch.get(`/customer/remind/${tuid}`)
+}
+
+export function addContact(params) {
+  return fetch({
+    method: 'post',
+    url: '/customer/contact',
+    data: params
+  })
+}
+
+export function undateContact(tuid, params) {
+  return fetch({
+    method: 'put',
+    url: `/customer/contact/${tuid}`,
+    data: Object.assign(params, { tuid })
+  })
+}
+export function getContactDetail(tuid) {
+  return fetch.get(`/customer/contact/${tuid}`)
+}
+export function deleteContact(tuid) {
+  return fetch({
+    method: 'delete',
+    url: `/customer/contact/${tuid}`,
+    data: { tuid }
+  })
 }

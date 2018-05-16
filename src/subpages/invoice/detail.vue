@@ -2,7 +2,7 @@
   <div id="inv-detail" ref="root">
     <div ref="header">
       <div class="header">
-        <img class="avatar" src="../../common/image/opportunity.png"/>
+        <svg-icon icon-class="cusinvoice" class="avatar invoice"></svg-icon>
         <div class="header-right">
           <div class="title-box">
             <span class="opp-name">{{invDetail.contractDname+'收款'}}</span>

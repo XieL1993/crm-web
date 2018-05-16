@@ -143,11 +143,13 @@
   import { getActivityList } from '../api/activity'
   import { tableMixin } from '../common/js/tableMixin'
   import { mapActions } from 'vuex'
+  import { pickerOptions } from '../common/js/utils'
 
-  export default {
+export default {
     mixins: [tableMixin],
     data() {
       return {
+        pickerOptions: pickerOptions(),
         query: {
           subject: '',
           customer: { data: [], tuid: '', display: '', isShow: false },

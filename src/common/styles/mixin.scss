@@ -240,7 +240,11 @@
     color: #555555;
     font-size: 13px;
     border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     .header {
+      flex: 0 0 auto;
       width: 100%;
       display: flex;
       padding: 0 20px;
@@ -262,43 +266,47 @@
         }
       }
     }
-    .el-form {
-      padding: 0 20px;
-      .el-col {
-        margin-top: 20px;
-        .el-form-item {
-          height: 32px;
-          width: 100%;
-          display: flex;
-          &.textarea {
-            height: 75px
-          }
-          .el-form-item__label {
-            width: 120px;
-            flex: 0 0 120px;
-            text-align: right;
-            font-weight: normal;
-            font-size: 13px;
-            color: $color-text-table;
+    .main {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      .el-form {
+        padding: 0 20px;
+        .el-col {
+          margin-top: 20px;
+          .el-form-item {
             height: 32px;
-            @include no-wrap()
-          }
-          .el-form-item__content {
-            flex: 1 1 auto;
-            margin: 0 20px;
-            .el-input, .el-select, .el-date-editor {
-              width: 100%;
+            width: 100%;
+            display: flex;
+            &.textarea {
+              height: 75px
+            }
+            .el-form-item__label {
+              width: 100px;
+              flex: 0 0 100px;
+              text-align: right;
+              font-weight: normal;
+              font-size: 13px;
+              color: $color-text-table;
+              height: 32px;
+              @include no-wrap()
+            }
+            .el-form-item__content {
+              flex: 1 1 auto;
+              margin: 0 20px;
+              .el-input, .el-select, .el-date-editor {
+                width: 100%;
+              }
             }
           }
         }
       }
-    }
-    .btn-box {
-      margin-top: 20px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      padding-bottom: 20px;
+      .btn-box {
+        margin-top: 20px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+      }
     }
   }
 }
@@ -360,15 +368,15 @@
       overflow-y: auto;
       .form {
         .el-row {
-          padding: 0 30px;
+          padding: 0 20px;
           margin-top: 20px;
           .el-col {
             display: flex;
             font-size: 14px;
             color: #606266;
             .label {
-              width: 130px;
-              flex: 0 0 130px;
+              width: 100px;
+              flex: 0 0 100px;
               height: 30px;
               line-height: 30px;
               text-align: right;
@@ -512,9 +520,20 @@
     height: 100px;
     padding: 0 30px;
     .avatar {
-      flex: 0 0 50px;
-      width: 50px;
-      height: 50px;
+      flex: 0 0 60px;
+      font-size: 60px;
+      &.contract {
+        color: #E6A23C;
+      }
+      &.opportunity {
+        color: #5ecda9;
+      }
+      &.activity, &.customer, &.invoice {
+        color: #20C6F4
+      }
+      &.contact {
+        color: #FF7F64
+      }
     }
     .header-right {
       flex: 1 1 auto;
@@ -531,6 +550,7 @@
           line-height: 25px;
           color: #000000;
           font-weight: 400;
+          @include no-wrap;
         }
         .type-name {
           height: 25px;

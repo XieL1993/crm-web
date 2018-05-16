@@ -56,7 +56,7 @@ export const childTableMixin = {
     },
     showError(val) {
       this.$message.closeAll()
-      this.$message.warning({ showClose: true, message: val, duration: 3000 })
+      this.$message.info({ showClose: true, message: val, duration: 3000 })
     },
     setTableHeight() {
       if (this.$refs.header && this.$refs.footer) {

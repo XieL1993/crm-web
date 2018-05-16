@@ -1,6 +1,8 @@
 <template>
-  <div id="cus-contract">
-    <div ref="header" class="header"></div>
+  <div id="cus-opportunity">
+    <div ref="header" class="header">
+      <el-button class="customer reset" v-waves @click.native.prevent="addActivity">新建商机</el-button>
+    </div>
     <div class="table-box">
       <el-table
         :height="tableHeight"
@@ -10,14 +12,8 @@
         v-loading="loading"
         :data="tableData">
         <el-table-column
-          prop="contractNo"
-          label="合同编号"
-          show-overflow-tooltip
-          align="center">
-        </el-table-column>
-        <el-table-column
-          prop="contractName"
-          label="合同名称"
+          prop="oppName"
+          label="商机名称"
           show-overflow-tooltip
           align="center">
         </el-table-column>
@@ -28,14 +24,8 @@
           align="center">
         </el-table-column>
         <el-table-column
-          prop="typeDname"
-          label="合同类型"
-          show-overflow-tooltip
-          align="center">
-        </el-table-column>
-        <el-table-column
-          prop="statusDname"
-          label="合同状态"
+          prop="saleDname"
+          label="销售"
           show-overflow-tooltip
           align="center">
         </el-table-column>
@@ -44,6 +34,37 @@
           label="BD"
           show-overflow-tooltip
           align="center">
+        </el-table-column>
+        <el-table-column
+          prop="statusDname"
+          label="商机状态"
+          show-overflow-tooltip
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="estimate"
+          label="预计合同额（万元）"
+          show-overflow-tooltip
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="expectedTime"
+          label="预计合同签订时间"
+          show-overflow-tooltip
+          align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.expectedTime | formatDateTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="120"
+          align="center">
+          <template slot-scope="scope">
+            <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
+            <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -62,8 +83,9 @@
   </div>
 </template>
 <script>
-  import { getContractList } from '../../../api/contract'
+  import { getOpportunityList } from '../../../api/opportunity'
   import { childTableMixin } from '../../../common/js/childTableMixin'
+  import { mapActions } from 'vuex'
 
   export default {
     mixins: [childTableMixin],
@@ -74,8 +96,9 @@
       }
     },
     methods: {
+      ...mapActions(['editOpportunityParams', 'detailOpportunityParams']),
       fetchData() {
-        return getContractList(
+        return getOpportunityList(
           1,
           '',
           this.cusNo,
@@ -84,12 +107,27 @@
           this.page.pageSize,
           this.page.currentPage
         )
+      },
+      addActivity() {
+        this.$emit('addOpportunity')
+      },
+      edit(tuid) {
+        this.editOpportunityParams({ tuid })
+        this.$router.push({
+          path: '/opportunity/edit'
+        })
+      },
+      detail(tuid) {
+        this.detailOpportunityParams({ tuid })
+        this.$router.push({
+          path: '/opportunity/detail'
+        })
       }
     }
   }
 </script>
 <style scoped lang="scss">
-  #cus-contract {
+  #cus-opportunity {
     .header {
       padding: 15px 30px;
     }

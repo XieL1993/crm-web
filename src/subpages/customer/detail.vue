@@ -2,11 +2,11 @@
   <div id="cus-detail" ref="root">
     <div ref="header">
       <div class="header">
-        <img class="avatar" src="../../common/image/opportunity.png"/>
+        <svg-icon icon-class="cuscustomer" class="avatar customer"></svg-icon>
         <div class="header-right">
           <div class="title-box">
             <span class="opp-name">{{cusDetail.custName}}</span>
-            <span class="type-name">{{cusDetail.typeDname}}</span>
+            <span class="type-name" v-if="cusDetail.typeDname">{{cusDetail.typeDname}}</span>
             <svg-icon iconClass="edit" title="修改商机" @click.native.prevent="edit"></svg-icon>
           </div>
           <div class="info-box">
@@ -33,17 +33,25 @@
         <div class="tab-list">
           <span class="tab-item" :class="{active:isAll===0}" @click="isAll=0">概况</span>
           <span class="tab-item" :class="{active:isAll===1}" @click="isAll=1">基本信息</span>
-          <span class="tab-item" :class="{active:isAll===2}" @click="isAll=2">合同</span>
+          <span class="tab-item" :class="{active:isAll===2}" @click="isAll=2">商机</span>
           <span class="tab-item" :class="{active:isAll===3}" @click="isAll=3">活动计划</span>
+          <span class="tab-item" :class="{active:isAll===4}" @click="isAll=4">合同</span>
+          <span class="tab-item" :class="{active:isAll===5}" @click="isAll=5">收款</span>
+          <span class="tab-item" :class="{active:isAll===6}" @click="isAll=6">联系人</span>
           <i class=" line" :style="{left: 30+80*isAll + 'px'}"></i>
         </div>
       </div>
     </div>
     <div class="content">
       <over-view v-if="isAll===0" :overviewData="overviewData" :remindData="remindData"></over-view>
-      <basic :cus-detail="cusDetail" v-if="isAll===1"></basic>
-      <contract v-if="isAll===2" :height="subHeight" :cusNo="cusDetail.tuid" @addContract="addContract"></contract>
-      <activity v-if="isAll===3" :height="subHeight" :oppId="cusDetail.tuid" @addActivity="addActivity"></activity>
+      <basic v-if="isAll===1" :cus-detail="cusDetail"></basic>
+      <opportunity v-if="isAll===2" :height="subHeight" :cusNo="cusDetail.tuid"
+                   @addOpportunity="addOpportunity"></opportunity>
+      <activity v-if="isAll===3" :height="subHeight" :cusNo="cusDetail.tuid"
+                @addActivity="addActivity"></activity>
+      <contract v-if="isAll===4" :height="subHeight" :cusNo="cusDetail.tuid"></contract>
+      <invoice v-if="isAll===5" :height="subHeight" :cusNo="cusDetail.tuid"></invoice>
+      <contact v-if="isAll===6" :height="subHeight" :cusNo="cusDetail.tuid"></contact>
     </div>
   </div>
 </template>
@@ -52,8 +60,11 @@
   import { getCusDetail, getCustOverview, getCustRemind } from '../../api/customer'
   import OverView from './child/overview'
   import Basic from './child/basic'
+  import Opportunity from './child/opportunity'
   import Contract from './child/contract'
   import Activity from './child/activity'
+  import Invoice from './child/invoice'
+  import Contact from './child/contact'
 
   export default {
     data() {
@@ -90,8 +101,8 @@
     methods: {
       ...mapActions([
         'editOpportunityParams',
-        'addActivityParams',
-        'addContractParams'
+        'addOpportunityParams',
+        'addActivityParams'
       ]),
       fetchDetail() {
         getCusDetail(this.detailCustomerParams.tuid).then(data => {
@@ -109,38 +120,33 @@
         this.editOpportunityParams({ tuid: this.detailOpportunityParams.tuid })
         this.$router.push({ path: '/opportunity/edit' })
       },
+      addOpportunity() {
+        this.addOpportunityParams({
+          customer: [{
+            tuid: this.cusDetail.tuid,
+            custName: this.cusDetail.custName
+          }]
+        })
+        this.$router.push({ path: '/opportunity/add' })
+      },
       addActivity() {
         this.addActivityParams({
-          opportunity: [{
-            tuid: this.cusDetail.tuid,
-            oppName: this.cusDetail.oppName
-          }],
           customer: [{
-            tuid: this.cusDetail.customer,
-            custName: this.cusDetail.customerDname
+            tuid: this.cusDetail.tuid,
+            custName: this.cusDetail.custName
           }]
         })
         this.$router.push({ path: '/activity/add' })
-      },
-      addContract() {
-        this.addContractParams({
-          opportunity: [{
-            tuid: this.cusDetail.tuid,
-            oppName: this.cusDetail.oppName
-          }],
-          customer: [{
-            tuid: this.cusDetail.customer,
-            custName: this.cusDetail.customerDname
-          }]
-        })
-        this.$router.push({ path: '/contract/add' })
       }
     },
     components: {
       OverView,
       Basic,
+      Opportunity,
       Contract,
-      Activity
+      Activity,
+      Invoice,
+      Contact
     }
   }
 </script>

@@ -21,7 +21,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="收款额(万元)" prop="totalAmount">
-            <el-input placeholder="请选择" v-model="formItems.totalAmount"></el-input>
+            <el-input placeholder="请选择" clearable v-model="formItems.totalAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -58,7 +58,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="实际收款额(万元)" prop="actualAmount">
-            <el-input placeholder="请选择" v-model="formItems.actualAmount"></el-input>
+            <el-input placeholder="请选择" clearable v-model="formItems.actualAmount"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

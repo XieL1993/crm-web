@@ -5,7 +5,8 @@
     </div>
     <div class="right" ref="root">
       <div class="operate-box" ref="header">
-        <el-button class="customer reset" v-waves icon="el-icon-circle-plus-outline" @click="isShowAdd=true">新增产品
+        <el-button class="customer reset" v-waves icon="el-icon-circle-plus-outline"
+                   @click.native.prevent="isShowAdd=true">新增产品
         </el-button>
       </div>
       <div class="table-box">
