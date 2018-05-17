@@ -29,8 +29,9 @@
         </div>
       </div>
       <div class="operate-box">
-        <el-button class="customer reset" v-waves @click.native.prevent="isShowAdd=true">新建部门</el-button>
-        <el-button class="customer reset" v-waves @click.native.prevent="">删除部门</el-button>
+        <el-button class="customer reset" icon="el-icon-circle-plus-outline" v-waves
+                   @click.native.prevent="isShowAdd=true">新建部门
+        </el-button>
       </div>
     </div>
     <div class="table-box">
@@ -73,11 +74,12 @@
         <el-table-column
           fixed="right"
           label="操作"
-          width="120"
+          width="140"
           align="center">
           <template slot-scope="scope">
-            <el-button type="text" size="small">编辑</el-button>
+            <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
             <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
+            <el-button type="text" size="small" @click.native.prevent="deleteOrg(scope.row.tuid)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -95,12 +97,16 @@
       </el-pagination>
     </div>
     <add v-if="isShowAdd" @close="isShowAdd=false" @success="__fetchData"></add>
+    <edit v-if="isShowEdit" @close="isShowEdit=false" :org-id="currentId" @success="__fetchData"></edit>
+    <detail v-if="isShowDetail" @close="isShowDetail=false" :org-id="currentId"></detail>
   </div>
 </template>
 <script>
-  import { getOrgList } from '../../api/org'
+  import { getOrgList, deleteOrg } from '../../api/org'
   import { tableMixin } from '../../common/js/tableMixin'
   import Add from '../../subpages/org/add'
+  import Edit from '../../subpages/org/edit'
+  import Detail from '../../subpages/org/detail'
 
   export default {
     mixins: [tableMixin],
@@ -127,10 +133,35 @@
           this.page.pageSize,
           this.page.currentPage
         )
+      },
+      edit(tuid) {
+        this.currentId = tuid
+        this.isShowEdit = true
+      },
+      detail(tuid) {
+        this.currentId = tuid
+        this.isShowDetail = true
+      },
+      deleteOrg(tuid) {
+        this.$confirm('此操作将永久删除该部门, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteOrg(tuid).then(() => {
+            this.showError('删除部门成功！')
+            this.__fetchData()
+          }).catch(error => {
+            this.showError(error.message)
+          })
+        }).catch(() => {
+        })
       }
     },
     components: {
-      Add
+      Add,
+      Edit,
+      Detail
     }
   }
 </script>

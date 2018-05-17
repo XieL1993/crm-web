@@ -24,6 +24,8 @@ const getters = {
   // 收款
   addInvoiceParams: state => state.params.addInvoiceParams,
   editInvoiceParams: state => state.params.editInvoiceParams,
-  detailInvoiceParams: state => state.params.detailInvoiceParams
+  detailInvoiceParams: state => state.params.detailInvoiceParams,
+  // 角色
+  roleParams: state => state.params.roleParams
 }
 export default getters

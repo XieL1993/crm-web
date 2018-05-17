@@ -19,7 +19,9 @@ const params = {
     // 收款
     addInvoiceParams: JSON.parse(window.sessionStorage.getItem('addInvoiceParams')),
     editInvoiceParams: JSON.parse(window.sessionStorage.getItem('editInvoiceParams')),
-    detailInvoiceParams: JSON.parse(window.sessionStorage.getItem('detailInvoiceParams'))
+    detailInvoiceParams: JSON.parse(window.sessionStorage.getItem('detailInvoiceParams')),
+    // 角色
+    roleParams: JSON.parse(window.sessionStorage.getItem('roleParams'))
   },
   mutations: {
     // 客户
@@ -71,6 +73,10 @@ const params = {
     },
     DETAIL_INVOICE_PARAMS(state, params) {
       state.detailInvoiceParams = params
+    },
+    // 角色
+    ROLE_PARAMS(state, params) {
+      state.roleParams = params
     }
   },
   actions: {
@@ -138,6 +144,11 @@ const params = {
     detailInvoiceParams({ commit }, params) {
       window.sessionStorage.setItem('detailInvoiceParams', JSON.stringify(params))
       commit('DETAIL_INVOICE_PARAMS', params)
+    },
+    // 角色
+    roleParams({ commit }, params) {
+      window.sessionStorage.setItem('roleParams', JSON.stringify(params))
+      commit('ROLE_PARAMS', params)
     }
   }
 }

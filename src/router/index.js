@@ -148,6 +148,16 @@ export const subRouter = [
       })
     },
     hidden: true
+  },
+  {
+    name: '资源分配',
+    path: '/role/resource',
+    component: resolve => {
+      import('../subpages/role/resource').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
   }
 ]
 export default new Router({

@@ -1,3 +1,5 @@
+import { getOrgListTree } from '../../../api/org'
+
 export const orgData = {
   data() {
     return {
@@ -12,9 +14,15 @@ export const orgData = {
         orgType: [{ required: true, message: '必填项' }]
       },
       dicts: {
+        parentOrgId: { items: [] }, // 上级部门
         orgType: { type: 'dict', name: 'BIZ_ORG_LEVEL', items: [] } // 类型
       }
     }
+  },
+  created() {
+    getOrgListTree().then(res => {
+      this.dicts.parentOrgId.items = res.obj
+    })
   },
   methods: {
     getParams() {
@@ -23,6 +31,7 @@ export const orgData = {
     },
     dealDetail(data) {
       const orgDetail = data.obj
+      orgDetail.orgType = String(orgDetail.orgType)// 接口有个坑，返回的值是0，而不是字符串‘0’
       for (const key of Object.keys(this.formItems)) {
         if (orgDetail[key]) {
           this.formItems[key] = orgDetail[key]

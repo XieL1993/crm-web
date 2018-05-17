@@ -1,23 +1,23 @@
 <template>
   <transition name="dialog-fade">
-    <div id="mask-org-add" :class="{hideSidebar:!sidebar.opened}">
+    <div id="mask-role-add" :class="{hideSidebar:!sidebar.opened}">
       <div class="dialog">
         <div class="header">
-          <h3>新增部门</h3>
+          <h3>新建角色</h3>
           <svg-icon icon-class="closedialog" @click.native.prevent="close"></svg-icon>
         </div>
         <div class="main">
           <el-form :model="formItems" :rules="formRules" label-width="100px" inline :show-message="false" ref="form">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="部门名称" prop="orgName">
-                  <el-input clearable placeholder="请输入" v-model="formItems.orgName"></el-input>
+                <el-form-item label="角色名称" prop="roleName">
+                  <el-input clearable placeholder="请输入" v-model="formItems.roleName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="部门类型" prop="orgType">
-                  <el-select v-model="formItems.orgType" clearable placeholder="请选择">
-                    <el-option v-for="item in dicts.orgType.items" :key="item.dictEntryCode"
+                <el-form-item label="角色状态" prop="roleStatus">
+                  <el-select v-model="formItems.roleStatus" clearable placeholder="请选择">
+                    <el-option v-for="item in dicts.roleStatus.items" :key="item.dictEntryCode"
                                :value="item.dictEntryCode"
                                :label="item.dictItemName">
                     </el-option>
@@ -26,22 +26,10 @@
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="12">
-                <el-form-item label="上级部门" prop="parentOrgId">
-                  <el-select v-model="formItems.parentOrgId" clearable placeholder="请选择">
-                    <el-option v-for="item in dicts.parentOrgId.items" :key="item.tuid"
-                               :value="item.tuid"
-                               :label="item.orgName">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
               <el-col :span="24">
-                <el-form-item label="描述" class="textarea" prop="orgDesc">
+                <el-form-item label="描述" class="textarea" prop="roleDesc">
                   <el-input clearable placeholder="请输入" type="textarea"
-                            v-model="formItems.orgDesc" resize="none"></el-input>
+                            v-model="formItems.roleDesc" resize="none"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -58,19 +46,19 @@
 </template>
 <script>
   import { childFormMixin } from '../../common/js/childFormMixin'
-  import { orgData } from './js/data'
-  import { addOrg } from '../../api/org'
+  import { roleData } from './js/data'
+  import { addRole } from '../../api/role'
 
   export default {
-    mixins: [childFormMixin, orgData],
+    mixins: [childFormMixin, roleData],
     data() {
       return {
-        successMsg: '新增部门成功！'
+        successMsg: '新建角色成功！'
       }
     },
     methods: {
       fetchData() {
-        return addOrg(this.getParams())
+        return addRole(this.getParams())
       }
     }
   }
@@ -78,11 +66,11 @@
 <style lang="scss">
   @import "../../common/styles/mixin";
 
-  #mask-org-add {
+  #mask-role-add {
     @include dialog-form-css;
     .dialog {
       width: 70%;
-      height: 60%;
+      height: 50%;
     }
   }
 </style>

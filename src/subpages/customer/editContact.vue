@@ -7,7 +7,7 @@
           <svg-icon icon-class="closedialog" @click.native.prevent="close"></svg-icon>
         </div>
         <div class="main">
-          <el-form :model="formItems" :rules="formRules" label-width="80px" inline :show-message="false" ref="form">
+          <el-form :model="formItems" :rules="formRules" label-width="100px" inline :show-message="false" ref="form">
             <el-row>
               <el-col :span="8">
                 <el-form-item label="姓名" prop="contactName">

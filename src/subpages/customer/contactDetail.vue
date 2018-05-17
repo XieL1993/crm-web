@@ -3,7 +3,7 @@
     <div id="mask-contact-detail" :class="{hideSidebar:!sidebar.opened}">
       <div class="dialog">
         <div class="header">
-          <h3>{{contactDetail.contactName}}</h3>
+          <h3>联系人详细信息</h3>
           <svg-icon icon-class="closedialog" @click.native.prevent="close"></svg-icon>
         </div>
         <div class="main">

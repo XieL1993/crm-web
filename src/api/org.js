@@ -24,14 +24,26 @@ export function addOrg(data) {
   })
 }
 
-export function getinvDetail(tuid) {
-  return fetch.get(`/invoice/${tuid}`)
+export function getOrgListTree() {
+  return fetch.get('/sys/org/listtree')
 }
 
-export function undateInvoice(tuid, params) {
+export function getOrgDetail(tuid) {
+  return fetch.get(`/sys/org/${tuid}`)
+}
+
+export function updateOrg(tuid, params) {
   return fetch({
     method: 'put',
-    url: `/invoice/${tuid}`,
+    url: `/sys/org/${tuid}`,
     data: Object.assign(params, { tuid })
+  })
+}
+
+export function deleteOrg(tuid) {
+  return fetch({
+    method: 'delete',
+    url: `/sys/org/${tuid}`,
+    data: { tuid }
   })
 }

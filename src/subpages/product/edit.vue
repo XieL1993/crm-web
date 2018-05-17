@@ -3,11 +3,11 @@
     <div id="mask-product-edit" :class="{hideSidebar:!sidebar.opened}">
       <div class="dialog">
         <div class="header">
-          <h3>新增产品</h3>
+          <h3>编辑产品</h3>
           <svg-icon icon-class="closedialog" @click.native.prevent="close"></svg-icon>
         </div>
         <div class="main">
-          <el-form :model="formItems" :rules="formRules" label-width="120px" inline :show-message="false" ref="form">
+          <el-form :model="formItems" :rules="formRules" label-width="100px" inline :show-message="false" ref="form">
             <el-row>
               <el-col :span="12">
                 <el-form-item label="产品名称" prop="productName">

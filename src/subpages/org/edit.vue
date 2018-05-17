@@ -1,9 +1,9 @@
 <template>
   <transition name="dialog-fade">
-    <div id="mask-org-add" :class="{hideSidebar:!sidebar.opened}">
+    <div id="mask-org-edit" :class="{hideSidebar:!sidebar.opened}">
       <div class="dialog">
         <div class="header">
-          <h3>新增部门</h3>
+          <h3>编辑部门</h3>
           <svg-icon icon-class="closedialog" @click.native.prevent="close"></svg-icon>
         </div>
         <div class="main">
@@ -59,18 +59,34 @@
 <script>
   import { childFormMixin } from '../../common/js/childFormMixin'
   import { orgData } from './js/data'
-  import { addOrg } from '../../api/org'
+  import { getOrgDetail, updateOrg } from '../../api/org'
 
   export default {
     mixins: [childFormMixin, orgData],
+    props: {
+      orgId: {
+        type: String,
+        default: ''
+      }
+    },
+    created() {
+      this.fetchDetail()
+    },
     data() {
       return {
-        successMsg: '新增部门成功！'
+        successMsg: '编辑部门成功！'
       }
     },
     methods: {
       fetchData() {
-        return addOrg(this.getParams())
+        return updateOrg(this.orgId, this.getParams())
+      },
+      fetchDetail() {
+        getOrgDetail(this.orgId).then(data => {
+          this.dealDetail(data)
+        }).catch(error => {
+          this.showError(error.message)
+        })
       }
     }
   }
@@ -78,7 +94,7 @@
 <style lang="scss">
   @import "../../common/styles/mixin";
 
-  #mask-org-add {
+  #mask-org-edit {
     @include dialog-form-css;
     .dialog {
       width: 70%;

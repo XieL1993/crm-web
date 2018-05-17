@@ -1,43 +1,33 @@
 <template>
   <transition name="dialog-fade">
-    <div id="mask-product-detail" :class="{hideSidebar:!sidebar.opened}">
+    <div id="mask-org-detail" :class="{hideSidebar:!sidebar.opened}">
       <div class="dialog">
         <div class="header">
-          <h3>产品详细信息</h3>
+          <h3>部门详细信息</h3>
           <svg-icon icon-class="closedialog" @click.native.prevent="close"></svg-icon>
         </div>
         <div class="main">
           <div class="form">
             <el-row>
               <el-col :span="12">
-                <span class="label">产品名称：</span>
-                <span class="value">{{productDetail.productName}}</span>
+                <span class="label">部门名称：</span>
+                <span class="value">{{orgDetail.orgName}}</span>
               </el-col>
               <el-col :span="12">
-                <span class="label">产品编号：</span>
-                <span class="value">{{productDetail.productNo}}</span>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12">
-                <span class="label">所属产品线：</span>
-                <span class="value">{{productDetail.productLineDname}}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="label">产品类型：</span>
-                <span class="value">{{productDetail.typeDname}}</span>
+                <span class="label">部门类型：</span>
+                <span class="value">{{orgDetail.orgType}}</span>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <span class="label">产品状态：</span>
-                <span class="value">{{productDetail.statusDname}}</span>
+                <span class="label">上级部门：</span>
+                <span class="value">{{orgDetail.parentOrgId}}</span>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
-                <span class="label">备注：</span>
-                <span class="value single">{{productDetail.remarks}}</span>
+                <span class="label">描述：</span>
+                <span class="value single">{{orgDetail.orgDesc}}</span>
               </el-col>
             </el-row>
           </div>
@@ -50,12 +40,12 @@
   </transition>
 </template>
 <script>
-  import { getProductDetail } from '../../api/product'
+  import { getOrgDetail } from '../../api/org'
   import { mapGetters } from 'vuex'
 
   export default {
     props: {
-      productId: {
+      orgId: {
         type: String,
         default: ''
       }
@@ -68,13 +58,13 @@
     },
     data() {
       return {
-        productDetail: {}
+        orgDetail: {}
       }
     },
     methods: {
       fetchDetail() {
-        getProductDetail(this.productId).then(data => {
-          this.productDetail = data.obj
+        getOrgDetail(this.orgId).then(data => {
+          this.orgDetail = data.obj
         })
       },
       close() {
@@ -86,7 +76,7 @@
 <style lang="scss">
   @import "../../common/styles/mixin";
 
-  #mask-product-detail {
+  #mask-org-detail {
     @include dialog-detail-css()
   }
 </style>

@@ -79,3 +79,19 @@
   }
 }
 
+// 表格样式重置
+.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
+  border-right: 1px solid #d8dce5 !important;
+}
+
+.el-table td, .el-table th.is-leaf {
+  border-bottom: 1px solid #d8dce5 !important;
+}
+
+.el-table--border, .el-table--group {
+  border: 1px solid #d8dce5 !important;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background: #f0f3f5 !important;
+}
