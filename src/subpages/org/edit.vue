@@ -15,23 +15,19 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="部门类型" prop="orgType">
-                  <el-select v-model="formItems.orgType" clearable placeholder="请选择">
-                    <el-option v-for="item in dicts.orgType.items" :key="item.dictEntryCode"
-                               :value="item.dictEntryCode"
-                               :label="item.dictItemName">
-                    </el-option>
-                  </el-select>
+                <el-form-item label="上级部门" prop="parentOrgId">
+                  <select-tree v-model="formItems.parentOrgId" :data="dicts.parentOrgId.items" :check-level="false"
+                               check-key="id" check-label="title" :multiple="false"></select-tree>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="上级部门" prop="parentOrgId">
-                  <el-select v-model="formItems.parentOrgId" clearable placeholder="请选择">
-                    <el-option v-for="item in dicts.parentOrgId.items" :key="item.tuid"
-                               :value="item.tuid"
-                               :label="item.orgName">
+                <el-form-item label="部门类型" prop="orgType">
+                  <el-select v-model="formItems.orgType" clearable placeholder="请选择">
+                    <el-option v-for="item in dicts.orgType.items" :key="item.dictEntryCode"
+                               :value="item.dictEntryCode"
+                               :label="item.dictItemName">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -60,6 +56,7 @@
   import { childFormMixin } from '../../common/js/childFormMixin'
   import { orgData } from './js/data'
   import { getOrgDetail, updateOrg } from '../../api/org'
+  import SelectTree from '../../components/selectTree'
 
   export default {
     mixins: [childFormMixin, orgData],
@@ -88,6 +85,9 @@
           this.showError(error.message)
         })
       }
+    },
+    components: {
+      SelectTree
     }
   }
 </script>

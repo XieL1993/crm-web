@@ -58,7 +58,7 @@
       width: 100%;
       height: 100%;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 14px;
       color: #657180;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -66,7 +66,7 @@
       outline: none;
       border: none;
       border-radius: 4px;
-      padding-left: 7px;
+      padding-left: 15px;
       padding-right: 28px;
       &::-webkit-input-placeholder {
         color: #c3cbd6;

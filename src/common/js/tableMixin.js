@@ -1,4 +1,5 @@
 import { getDictItem, getUserList, productTree } from '../../api/login'
+import { getOrgTree } from '../../api/org'
 import { clone } from './utils'
 import PickInput from '../../components/pickInput'
 import PickCustomer from '../../components/pick/pickCustomer'
@@ -87,24 +88,15 @@ export const tableMixin = {
             })
           } else if (item.type === 'products') {
             productTree().then(res => {
-              item.items = this.filterTreesBydata([], [res.obj])
+              item.items = [res.obj]
+            })
+          } else if (item.type === 'org') {
+            getOrgTree().then(res => {
+              item.items = res.obj
             })
           }
         }
       }
-    },
-    filterTreesBydata(trees, data) { // 递归遍历产品树
-      if (data && data.length > 0) {
-        for (const { tuid, productName, children } of data) {
-          const parent = { label: productName, tuid }
-          trees.push(parent)
-          if (children && children.length > 0) {
-            parent.children = []
-            this.filterTreesBydata(parent.children, children)
-          }
-        }
-      }
-      return trees
     },
     showError(val) {
       this.$message.closeAll()

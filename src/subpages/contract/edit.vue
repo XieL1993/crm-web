@@ -22,7 +22,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="产品名称" prop="products">
-            <select-tree v-model="formItems.products" :data="dicts.products.items"></select-tree>
+            <select-tree v-model="formItems.products" :data="dicts.products.items" check-key="tuid"
+                         check-label="productName" :check-level="true"></select-tree>
           </el-form-item>
         </el-col>
       </el-row>

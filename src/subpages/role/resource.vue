@@ -12,6 +12,10 @@
                :render-content="renderContent" :filter-node-method="filterNode"></el-tree>
     </div>
     <div class="btn-box">
+      <el-radio-group v-model="isAll">
+        <el-radio :label="1">全部</el-radio>
+        <el-radio :label="0">已授权</el-radio>
+      </el-radio-group>
       <el-button class="customer query" @click.native.prevent="fetchData" v-waves :loading="loading">保存</el-button>
       <el-button class="customer reset" @click.native.prevent="back" v-waves>取消</el-button>
     </div>
@@ -31,13 +35,17 @@
     watch: {
       filterText(val) {
         this.$refs.tree.filter(val)
+      },
+      isAll() {
+        this.$refs.tree.filter(this.filterText)
       }
     },
     data() {
       return {
         filterText: '',
         treeData: [],
-        loading: false
+        loading: false,
+        isAll: 1
       }
     },
     methods: {
@@ -63,7 +71,7 @@
           </span>)
       },
       filterNode(value, data) {
-        return !value || data.name.includes(value)
+        return (!value || data.name.includes(value)) && (this.isAll === 1 || data.hasAuthRight)
       },
       fetchData() {
         this.loading = true
@@ -144,13 +152,23 @@
         .el-tree-node__content:hover {
           background-color: #daeeff;
         }
+        .el-tree-node__expand-icon {
+          color: #657180;
+          font-size: 14px;
+          &.is-leaf {
+            color: transparent;
+          }
+        }
         .custom-tree-node {
           flex: 1 1 auto;
           position: relative;
+          display: flex;
+          align-items: center;
           .pre {
             color: #657180;
             font-size: 18px;
             padding-right: 3px;
+            margin-top: -3px;
           }
           .label {
             font-size: 13px;
@@ -169,6 +187,15 @@
       height: 40px;
       display: flex;
       justify-content: center;
+      position: relative;
+      .el-radio-group {
+        position: absolute;
+        left: 0;
+        top: 22px;
+        .el-radio__input.is-checked + .el-radio__label {
+          color: #0275d8;
+        }
+      }
     }
   }
 </style>

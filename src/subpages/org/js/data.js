@@ -1,5 +1,3 @@
-import { getOrgListTree } from '../../../api/org'
-
 export const orgData = {
   data() {
     return {
@@ -14,15 +12,10 @@ export const orgData = {
         orgType: [{ required: true, message: '必填项' }]
       },
       dicts: {
-        parentOrgId: { items: [] }, // 上级部门
-        orgType: { type: 'dict', name: 'BIZ_ORG_LEVEL', items: [] } // 类型
+        orgType: { type: 'dict', name: 'BIZ_ORG_LEVEL', items: [] }, // 类型
+        parentOrgId: { type: 'org', items: [] } // 上级部门
       }
     }
-  },
-  created() {
-    getOrgListTree().then(res => {
-      this.dicts.parentOrgId.items = res.obj
-    })
   },
   methods: {
     getParams() {

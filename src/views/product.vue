@@ -1,7 +1,8 @@
 <template>
   <div id="product">
     <div class="tree">
-      <el-tree :data="dicts.products.items" ref="tree" default-expand-all :expand-on-click-node="true"></el-tree>
+      <el-tree :data="dicts.products.items" default-expand-all :expand-on-click-node="true"
+               :render-content="renderContent"></el-tree>
     </div>
     <div class="right" ref="root">
       <div class="operate-box" ref="header">
@@ -119,6 +120,11 @@
       refresh() {
         this.__fetchData()
         this.getDicts()
+      },
+      renderContent(h, { node, data }) {
+        return (
+          <span class='custom-tree-node'>{data.productName}</span>
+        )
       }
     },
     components: {
@@ -128,7 +134,7 @@
     }
   }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
   @import "../common/styles/variables";
   @import "../common/styles/mixin";
 
@@ -143,7 +149,17 @@
       border-right: 1px solid #DCDFE6;
       height: 100%;
       padding: 10px;
-
+      .el-tree-node__expand-icon {
+        color: $color-main;
+        font-size: 14px;
+        &.is-leaf {
+          color: transparent;
+        }
+      }
+      .custom-tree-node {
+        font-size: 13px;
+        color: $color-normal;
+      }
     }
     /*就布局而论完全可以用flex的，不需要定位，*/
     /*但奇怪的是用了flex之后计算表格高度不对，有bug，所以先用定位吧*/

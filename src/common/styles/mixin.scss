@@ -29,7 +29,7 @@
         text-align: right;
         @include no-wrap()
       }
-      .el-input, .el-select, .el-date-editor, .input-box {
+      .el-input, .el-select, .el-date-editor, .input-box, .x-tree {
         flex: 1 1 auto;
         margin: 0 20px;
       }

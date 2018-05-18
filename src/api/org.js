@@ -28,6 +28,10 @@ export function getOrgListTree() {
   return fetch.get('/sys/org/listtree')
 }
 
+export function getOrgTree() {
+  return fetch.get('/sys/org/tree')
+}
+
 export function getOrgDetail(tuid) {
   return fetch.get(`/sys/org/${tuid}`)
 }
