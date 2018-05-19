@@ -130,9 +130,5 @@
 
   #mask-user-add {
     @include dialog-form-css;
-    .dialog {
-      width: 85%;
-      height: 80%;
-    }
   }
 </style>

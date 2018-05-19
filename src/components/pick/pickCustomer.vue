@@ -48,7 +48,7 @@
               align="center">
             </el-table-column>
             <el-table-column
-              prop="industry"
+              prop="industryDname"
               label="行业"
               show-overflow-tooltip
               align="center">

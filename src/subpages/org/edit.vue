@@ -96,9 +96,5 @@
 
   #mask-org-edit {
     @include dialog-form-css;
-    .dialog {
-      width: 70%;
-      height: 60%;
-    }
   }
 </style>

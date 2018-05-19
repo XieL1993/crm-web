@@ -1,4 +1,4 @@
-import { getDictItem, getUserList, productTree } from '../../api/login'
+import { getDictItem, getUserList, productTree, getResourceTree } from '../../api/login'
 import { getOrgTree } from '../../api/org'
 import { clone } from './utils'
 import PickInput from '../../components/pickInput'
@@ -92,6 +92,10 @@ export const tableMixin = {
             })
           } else if (item.type === 'org') {
             getOrgTree().then(res => {
+              item.items = res.obj
+            })
+          } else if (item.type === 'res') {
+            getResourceTree().then(res => {
               item.items = res.obj
             })
           }

@@ -84,9 +84,5 @@
 
   #mask-role-edit {
     @include dialog-form-css;
-    .dialog {
-      width: 70%;
-      height: 50%;
-    }
   }
 </style>

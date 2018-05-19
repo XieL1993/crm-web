@@ -76,6 +76,15 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item label="成功率" prop="type">
+            <el-select v-model="formItems.successRate" clearable placeholder="请选择">
+              <el-option v-for="item in dicts.successRate.items" :key="item.dictEntryCode" :value="item.dictEntryCode"
+                         :label="item.dictItemName">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
@@ -94,21 +103,31 @@
         </el-col>
       </el-row>
     </el-form>
+    <el-upload class="attach-box" :action="uploadUrl" multiple :on-success="uplodSuccess" :on-remove="uploadRemove"
+               :on-preview="preview" :headers="headers" :file-list="defaultFileList">
+      <div class="header">
+        <span class="info" @click.prevent.stop="">附件</span>
+        <el-button class="customer query" v-waves>点击上传</el-button>
+      </div>
+      <div slot="tip" class="el-upload__tip">支持扩展名：.rar .zip .doc .docx .pdf .jpg .png</div>
+    </el-upload>
     <div class="btn-box">
       <el-button class="customer query" @click.native.prevent="__fetchData" v-waves :loading="loading">保存</el-button>
       <el-button class="customer reset" @click.native.prevent="back" v-waves>取消</el-button>
     </div>
     <pick-customer v-if="formItems.customer.isShow" :multiple="false" v-model="formItems.customer"></pick-customer>
+    <image-preview v-if="showPreview" :img="currentAttach" @close="showPreview=false"></image-preview>
   </div>
 </template>
 <script>
   import { formMixin } from '../../common/js/formMixin'
+  import { attachMixin } from '../../common/js/attachMixin'
   import { opportunityData } from './js/data'
   import { undateOpportunity, getOppDetail } from '../../api/opportunity'
   import { mapGetters } from 'vuex'
 
   export default {
-    mixins: [formMixin, opportunityData],
+    mixins: [formMixin, attachMixin, opportunityData],
     computed: {
       ...mapGetters(['editOpportunityParams'])
     },

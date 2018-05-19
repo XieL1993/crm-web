@@ -35,6 +35,17 @@
               </el-option>
             </el-select>
           </el-col>
+          <el-col :span="8">
+            <span class="item-label">成功率</span>
+            <el-select v-model="query.successRate" clearable placeholder="请选择">
+              <el-option
+                v-for="item in dicts.successRate.items"
+                :key="item.dictEntryCode"
+                :label="item.dictItemName"
+                :value="item.dictEntryCode">
+              </el-option>
+            </el-select>
+          </el-col>
         </el-row>
       </div>
       <div class="btn-box">
@@ -85,6 +96,12 @@
         <el-table-column
           prop="productsDname"
           label="产品名称"
+          show-overflow-tooltip
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="successRateDname"
+          label="成功率"
           show-overflow-tooltip
           align="center">
         </el-table-column>
@@ -161,10 +178,12 @@
           oppName: '',
           customer: { data: [], tuid: '', display: '', isShow: false },
           status: '',
-          type: ''
+          type: '',
+          successRate: ''
         },
         dicts: {
           status: { type: 'dict', name: 'BIZ_OPP_STAT', items: [] }, // 商机状态
+          successRate: { type: 'dict', name: 'BIZ_OPP_RATE', items: [] }, // 商机状态
           type: { type: 'dict', name: 'BIZ_OPP_KIND', items: [] }// 商机类型
         }
       }
@@ -184,6 +203,7 @@
           this.query.customer.tuid,
           this.query.status,
           this.query.type,
+          this.query.successRate,
           this.page.pageSize,
           this.page.currentPage
         )

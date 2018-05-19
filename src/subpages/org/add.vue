@@ -79,10 +79,6 @@
   @import "../../common/styles/mixin";
 
   #mask-org-add {
-    @include dialog-form-css;
-    .dialog {
-      width: 70%;
-      height: 60%;
-    }
+    @include dialog-form-css
   }
 </style>

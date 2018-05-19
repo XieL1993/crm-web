@@ -149,7 +149,7 @@
         .el-form-item__content {
           flex: 1 1 auto;
           margin: 0 20px;
-          .el-input, .el-select, .el-date-editor {
+          .el-input, .el-select, .el-date-editor, .el-cascader {
             width: 100%;
           }
         }
@@ -220,20 +220,20 @@
   top: 0;
   left: 0;
   padding-left: 180px;
-  padding-top: 85px;
+  padding-top: 185px;
   bottom: 0;
   right: 0;
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   &.hideSidebar {
     padding-left: 36px;
   }
   .dialog {
     width: 70%;
-    height: 70%;
+    max-height: 85%;
     background: #ffffff;
     border: 1px solid #ebeef5;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -317,20 +317,20 @@
   top: 0;
   left: 0;
   padding-left: 180px;
-  padding-top: 85px;
+  padding-top: 185px;
   bottom: 0;
   right: 0;
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   &.hideSidebar {
     padding-left: 36px;
   }
   .dialog {
     width: 70%;
-    height: 70%;
+    max-height: 85%;
     background: #ffffff;
     border: 1px solid #ebeef5;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);

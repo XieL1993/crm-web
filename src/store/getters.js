@@ -26,6 +26,8 @@ const getters = {
   editInvoiceParams: state => state.params.editInvoiceParams,
   detailInvoiceParams: state => state.params.detailInvoiceParams,
   // 角色
-  roleParams: state => state.params.roleParams
+  roleParams: state => state.params.roleParams,
+  // 用户
+  userParams: state => state.params.userParams
 }
 export default getters

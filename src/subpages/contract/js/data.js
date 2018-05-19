@@ -16,6 +16,7 @@ export const contractData = {
     return {
       formItems: {
         contractName: '',
+        attachements: [],
         opportunity: { data: [], tuid: '', display: '', isShow: false },
         customer: { data: [], tuid: '', display: '', isShow: false },
         products: '',
@@ -85,6 +86,7 @@ export const contractData = {
   methods: {
     getParams() {
       const data = Object.assign({}, this.formItems)
+      data.attachements = this.fixAttach()
       data.customer = data.customer.tuid
       data.opportunity = data.opportunity.tuid
       return data
@@ -103,6 +105,19 @@ export const contractData = {
             this.formItems.customer.data = getCollection(catDetail.customer, catDetail.customerDname, 'custName')
             this.formItems.customer.tuid = catDetail.customer
             this.formItems.customer.display = catDetail.customerDname
+          } else if (key === 'attachements') {
+            const list = []
+            for (const item of catDetail.attachements) {
+              list.push({
+                name: item.attachName,
+                response: {
+                  data: { obj: item.tuid }
+                },
+                url: item.attachPath
+              })
+            }
+            this.defaultFileList = list
+            this.fileList = [...list]
           } else {
             this.formItems[key] = catDetail[key]
           }

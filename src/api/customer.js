@@ -28,6 +28,26 @@ export function getCustomerList(isAll, customerName, customerIndustry, customerT
   })
 }
 
+export function addCustomer(params) {
+  return fetch({
+    method: 'post',
+    url: '/customer',
+    data: params
+  })
+}
+
+export function getCusDetail(tuid) {
+  return fetch.get(`/customer/${tuid}`)
+}
+
+export function updateCustomer(tuid, data) {
+  return fetch({
+    method: 'put',
+    url: `/customer/${tuid}`,
+    data
+  })
+}
+
 export function getCusContact(tuid) {
   return fetch({
     method: 'get',
@@ -36,10 +56,6 @@ export function getCusContact(tuid) {
       customerId: tuid
     }
   })
-}
-
-export function getCusDetail(tuid) {
-  return fetch.get(`/customer/${tuid}`)
 }
 
 export function getCustOverview(tuid) {
@@ -58,20 +74,26 @@ export function addContact(params) {
   })
 }
 
-export function undateContact(tuid, params) {
+export function updateContact(tuid, params) {
   return fetch({
     method: 'put',
     url: `/customer/contact/${tuid}`,
     data: Object.assign(params, { tuid })
   })
 }
+
 export function getContactDetail(tuid) {
   return fetch.get(`/customer/contact/${tuid}`)
 }
+
 export function deleteContact(tuid) {
   return fetch({
     method: 'delete',
     url: `/customer/contact/${tuid}`,
     data: { tuid }
   })
+}
+
+export function getAreaCascader() {
+  return fetch.get('/sys/area/cascader')
 }

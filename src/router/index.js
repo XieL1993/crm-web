@@ -20,6 +20,26 @@ export const errorRouter = [
 ]
 export const subRouter = [
   {
+    name: '新建客户',
+    path: '/customer/add',
+    component: resolve => {
+      import('../subpages/customer/add').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  },
+  {
+    name: '编辑客户',
+    path: '/customer/edit',
+    component: resolve => {
+      import('../subpages/customer/edit').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  },
+  {
     name: '客户详情',
     path: '/customer/detail',
     component: resolve => {
@@ -154,6 +174,16 @@ export const subRouter = [
     path: '/role/resource',
     component: resolve => {
       import('../subpages/role/resource').then(module => {
+        resolve(module)
+      })
+    },
+    hidden: true
+  },
+  {
+    name: '角色分配',
+    path: '/resource/role',
+    component: resolve => {
+      import('../subpages/resource/role').then(module => {
         resolve(module)
       })
     },

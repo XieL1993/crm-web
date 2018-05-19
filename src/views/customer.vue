@@ -77,7 +77,7 @@
           align="center">
         </el-table-column>
         <el-table-column
-          prop="industry"
+          prop="industryDname"
           label="行业"
           show-overflow-tooltip
           align="center">
@@ -106,7 +106,7 @@
           width="120"
           align="center">
           <template slot-scope="scope">
-            <el-button type="text" size="small">编辑</el-button>
+            <el-button type="text" size="small" @click.native.prevent="edit(scope.row.tuid)">编辑</el-button>
             <el-button type="text" size="small" @click.native.prevent="detail(scope.row.tuid)">查看</el-button>
           </template>
         </el-table-column>
@@ -148,6 +148,8 @@
     },
     methods: {
       ...mapActions([
+        'addCustomerParams',
+        'editCustomerParams',
         'detailCustomerParams',
         'addActivityParams',
         'addOpportunityParams'
@@ -163,7 +165,16 @@
         )
       },
       addCustomer() {
-
+        this.addCustomerParams({})
+        this.$router.push({
+          path: '/customer/add'
+        })
+      },
+      edit(tuid) {
+        this.editCustomerParams({ tuid })
+        this.$router.push({
+          path: '/customer/edit'
+        })
       },
       detail(tuid) {
         this.detailCustomerParams({ tuid })

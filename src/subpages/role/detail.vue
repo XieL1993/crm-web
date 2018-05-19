@@ -72,9 +72,5 @@
 
   #mask-role-detail {
     @include dialog-detail-css()
-    .dialog {
-      width: 70%;
-      height: 50%;
-    }
   }
 </style>

@@ -15,7 +15,7 @@
               </el-col>
               <el-col :span="12">
                 <span class="label">部门类型：</span>
-                <span class="value">{{orgDetail.orgType}}</span>
+                <span class="value">{{orgDetail.orgTypeDname}}</span>
               </el-col>
             </el-row>
             <el-row>

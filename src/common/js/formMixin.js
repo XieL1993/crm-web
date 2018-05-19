@@ -1,4 +1,5 @@
 import { getDictItem, getUserList, productTree } from '../../api/login'
+import { getAreaCascader } from '../../api/customer'
 import { mapActions } from 'vuex'
 import PickInput from '../../components/pickInput'
 import PickCustomer from '../../components/pick/pickCustomer'
@@ -50,6 +51,10 @@ export const formMixin = {
           } else if (item.type === 'products') {
             productTree().then(res => {
               item.items = [res.obj]
+            })
+          } else if (item.type === 'area') {
+            getAreaCascader().then(res => {
+              item.items = res.obj
             })
           }
         }

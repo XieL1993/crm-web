@@ -59,7 +59,9 @@
       </div>
       <div class="operate-box">
         <el-button class="customer reset" icon="el-icon-circle-plus-outline" v-waves
-                   @click.native.prevent="isShowAdd=true"> 增加
+                   @click.native.prevent="isShowAdd=true"> 新建用户
+        </el-button>
+        <el-button class="customer reset" icon="el-icon-setting" v-waves @click.native.prevent="setRole">分配资源
         </el-button>
       </div>
     </div>
@@ -70,8 +72,11 @@
         tooltip-effect="dark"
         border
         v-loading="loading"
-        :data="tableData">
+        :data="tableData"
+        row-key="tuid"
+        @selection-change="onChange">
         <el-table-column
+          :reserve-selection="true"
           type="selection"
           width="60"
           align="center">
@@ -160,7 +165,7 @@
     </div>
     <add v-if="isShowAdd" @close="isShowAdd=false" @success="__fetchData"></add>
     <edit v-if="isShowEdit" @close="isShowEdit=false" :user-id="currentId" @success="__fetchData"></edit>
-    <detail v-if="isShowDetail" @close="isShowDetail=false" :org-id="currentId"></detail>
+    <detail v-if="isShowDetail" @close="isShowDetail=false" :user-id="currentId"></detail>
   </div>
 </template>
 <script>
@@ -168,8 +173,9 @@
   import { tableMixin } from '../../common/js/tableMixin'
   import Add from '../../subpages/user/add'
   import Edit from '../../subpages/user/edit'
-  import Detail from '../../subpages/org/detail'
+  import Detail from '../../subpages/user/detail'
   import SelectTree from '../../components/selectTree'
+  import { mapActions } from 'vuex'
 
   export default {
     mixins: [tableMixin],
@@ -195,6 +201,7 @@
       }
     },
     methods: {
+      ...mapActions(['userParams']),
       fetchData() {
         return getUserList(
           this.query.realName,
@@ -228,6 +235,22 @@
           })
         }).catch(() => {
         })
+      },
+      setRole() {
+        if (this.selection.length === 0) {
+          this.showError('请选择用户！')
+        } else if (this.selection.length > 1) {
+          this.showError('只能选择一个用户！')
+        } else {
+          this.userParams({
+            tuid: this.selection[0].tuid,
+            realName: this.selection[0].realName,
+            userName: this.selection[0].userName
+          })
+          this.$router.push({
+            path: '/resource/role'
+          })
+        }
       }
     },
     components: {

@@ -5,6 +5,7 @@ export const opportunityData = {
     return {
       formItems: {
         bd: '',
+        attachements: [],
         competitor: '',
         customer: { data: [], tuid: '', display: '', isShow: false },
         description: '',
@@ -14,7 +15,8 @@ export const opportunityData = {
         products: '',
         sale: '',
         status: '',
-        type: ''
+        type: '',
+        successRate: ''
       },
       formRules: {
         customer: [{
@@ -29,13 +31,15 @@ export const opportunityData = {
         oppName: [{ required: true, message: '必填项' }],
         products: [{ required: true, message: '必填项' }],
         status: [{ required: true, message: '必填项' }],
-        type: [{ required: true, message: '必填项' }]
+        type: [{ required: true, message: '必填项' }],
+        successRate: [{ required: true, message: '必填项' }]
       },
       dicts: {
         sale: { type: 'user', name: '2', items: [] }, // 销售
         bd: { type: 'user', name: '0', items: [] }, // bd
         status: { type: 'dict', name: 'BIZ_OPP_STAT', items: [] }, // 商机状态
         type: { type: 'dict', name: 'BIZ_OPP_KIND', items: [] }, // 商机类型
+        successRate: { type: 'dict', name: 'BIZ_OPP_RATE', items: [] }, // 成功率
         products: { type: 'products', items: [] } //  产品树
       }
     }
@@ -44,6 +48,7 @@ export const opportunityData = {
     getParams() {
       const data = Object.assign({}, this.formItems)
       data.customer = data.customer.tuid
+      data.attachements = this.fixAttach()
       return data
     },
     dealDetail(data) {
@@ -56,6 +61,19 @@ export const opportunityData = {
             this.formItems.customer.data = getCollection(oppDetail.customer, oppDetail.customerDname, 'custName')
             this.formItems.customer.tuid = oppDetail.customer
             this.formItems.customer.display = oppDetail.customerDname
+          } else if (key === 'attachements') {
+            const list = []
+            for (const item of oppDetail.attachements) {
+              list.push({
+                name: item.attachName,
+                response: {
+                  data: { obj: item.tuid }
+                },
+                url: item.attachPath
+              })
+            }
+            this.defaultFileList = list
+            this.fileList = [...list]
           } else {
             this.formItems[key] = oppDetail[key]
           }

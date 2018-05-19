@@ -82,3 +82,7 @@ export function productTree() {
     }
   })
 }
+
+export function getResourceTree() {
+  return fetch.get('/sys/resource/tree')
+}

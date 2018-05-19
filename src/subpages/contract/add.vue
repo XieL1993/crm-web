@@ -168,6 +168,14 @@
         </el-col>
       </el-row>
     </el-form>
+    <el-upload class="attach-box" :action="uploadUrl" multiple :on-success="uplodSuccess" :on-remove="uploadRemove"
+               :on-preview="preview" :headers="headers">
+      <div class="header">
+        <span class="info" @click.prevent.stop="">附件</span>
+        <el-button class="customer query" v-waves>点击上传</el-button>
+      </div>
+      <div slot="tip" class="el-upload__tip">支持扩展名：.rar .zip .doc .docx .pdf .jpg .png</div>
+    </el-upload>
     <div class="btn-box">
       <el-button class="customer query" @click.native.prevent="__fetchData" v-waves :loading="loading">保存</el-button>
       <el-button class="customer reset" @click.native.prevent="back" v-waves>取消</el-button>
@@ -175,16 +183,18 @@
     <pick-opportunity v-if="formItems.opportunity.isShow" :multiple="false" v-model="formItems.opportunity"
                       :customer="customer" @link-customer="fillCustomer"></pick-opportunity>
     <pick-customer v-if="formItems.customer.isShow" :multiple="false" v-model="formItems.customer"></pick-customer>
+    <image-preview v-if="showPreview" :img="currentAttach" @close="showPreview=false"></image-preview>
   </div>
 </template>
 <script>
   import { formMixin } from '../../common/js/formMixin'
+  import { attachMixin } from '../../common/js/attachMixin'
   import { contractData } from './js/data'
   import { addContract } from '../../api/contract'
   import { mapGetters } from 'vuex'
 
   export default {
-    mixins: [formMixin, contractData],
+    mixins: [formMixin, attachMixin, contractData],
     computed: {
       ...mapGetters(['addContractParams'])
     },

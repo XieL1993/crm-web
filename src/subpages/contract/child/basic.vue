@@ -86,11 +86,36 @@
             <span class="value single">{{contractDetail.description}}</span>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="24">
+            <span class="label">附件：</span>
+            <div class="attach-list">
+              <a class="item" v-for="(item,index) in contractDetail.attachements" :key="index" :href="getUrl(item.tuid)"
+                 target="_blank">
+                <svg-icon icon-class="attach" class="icon"></svg-icon>
+                <el-popover class="attach-name" v-if="isImageAttach(item)" placement="top-start"
+                            trigger="hover">
+                  <div :style="getStyle()" v-lazy:backgroundImage="getUrl(item.tuid)"
+                       @click="show(item.tuid)"></div>
+                  <span class="attach" slot="reference">{{item.attachName}}</span>
+                </el-popover>
+                <span class="attach-name" v-else>
+                  <span class="attach">{{item.attachName}}</span>
+                </span>
+                <svg-icon icon-class="download" class="download"></svg-icon>
+              </a>
+            </div>
+          </el-col>
+        </el-row>
       </div>
+      <image-preview v-if="showPreview" :img="currentAttach" @close="showPreview=false"></image-preview>
     </div>
   </transition>
 </template>
 <script>
+  import { isImage } from '../../../common/js/utils'
+  import ImagePreview from '../../../components/imagePreview'
+
   export default {
     props: {
       contractDetail: {
@@ -98,6 +123,37 @@
         default: () => {
         }
       }
+    },
+    data() {
+      return {
+        showPreview: false,
+        currentAttach: ''
+      }
+    },
+    methods: {
+      getStyle() {
+        return {
+          width: '300px',
+          height: '300px',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          cursor: 'pointer'
+        }
+      },
+      getUrl(tuid) {
+        /* eslint-disable no-undef */
+        return `${config.baseUrl}/sys/file/download/${tuid}`
+      },
+      isImageAttach(item) {
+        return isImage(item.attachName)
+      },
+      show(tuid) {
+        this.currentAttach = this.getUrl(tuid)
+        this.showPreview = true
+      }
+    },
+    components: {
+      ImagePreview
     }
   }
 </script>
@@ -142,6 +198,40 @@
               min-height: 30px;
               line-height: 30px;
               white-space: normal;
+            }
+          }
+          .attach-list {
+            flex: 1 1 auto;
+            margin-top: -5px;
+            .item {
+              display: flex;
+              height: 40px;
+              border: 1px solid transparent;
+              border-radius: 4px;
+              transition: all 0.3s;
+              &:hover {
+                border: 1px solid #409EFF;
+              }
+              .icon {
+                font-size: 18px;
+                color: #0275d8;
+                margin-top: 11px;
+                margin-left: 10px;
+              }
+              .attach-name {
+                flex: 1 1 auto;
+                padding: 0 10px;
+                span {
+                  line-height: 40px;
+                }
+              }
+              .download {
+                font-size: 18px;
+                margin-top: 11px;
+                margin-right: 20px;
+                color: #0275d8;
+                cursor: pointer;
+              }
             }
           }
         }

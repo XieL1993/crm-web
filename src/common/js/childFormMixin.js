@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex'
-import { getDictItem, getUserList, productTree } from '../../api/login'
+import { getDictItem, getUserList, productTree, getResourceTree } from '../../api/login'
 import { getOrgTree } from '../../api/org'
 
 export const childFormMixin = {
@@ -51,6 +51,10 @@ export const childFormMixin = {
             })
           } else if (item.type === 'org') {
             getOrgTree().then(res => {
+              item.items = res.obj
+            })
+          } else if (item.type === 'res') {
+            getResourceTree().then(res => {
               item.items = res.obj
             })
           }

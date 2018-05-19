@@ -132,9 +132,5 @@
 
   #mask-contact-detail {
     @include dialog-detail-css();
-    .dialog {
-      width: 85%;
-      height: 85%;
-    }
   }
 </style>

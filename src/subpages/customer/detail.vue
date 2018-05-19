@@ -24,7 +24,7 @@
             </div>
             <div class="info-item">
               <span class="info-label">地址：</span>
-              <span class="info-value">{{cusDetail.address}}</span>
+              <span class="info-value">{{cusDetail.provinceDname}}{{cusDetail.cityDname}}{{cusDetail.districtDname}}{{cusDetail.address}}</span>
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@
     },
     methods: {
       ...mapActions([
-        'editOpportunityParams',
+        'editCustomerParams',
         'addOpportunityParams',
         'addActivityParams'
       ]),
@@ -117,8 +117,8 @@
         }
       },
       edit() {
-        this.editOpportunityParams({ tuid: this.detailOpportunityParams.tuid })
-        this.$router.push({ path: '/opportunity/edit' })
+        this.editCustomerParams({ tuid: this.detailCustomerParams.tuid })
+        this.$router.push({ path: '/customer/edit' })
       },
       addOpportunity() {
         this.addOpportunityParams({
