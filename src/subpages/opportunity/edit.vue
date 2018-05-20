@@ -123,7 +123,7 @@
   import { formMixin } from '../../common/js/formMixin'
   import { attachMixin } from '../../common/js/attachMixin'
   import { opportunityData } from './js/data'
-  import { undateOpportunity, getOppDetail } from '../../api/opportunity'
+  import { updateOpportunity, getOppDetail } from '../../api/opportunity'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -141,7 +141,7 @@
     },
     methods: {
       fetchData() {
-        return undateOpportunity(this.editOpportunityParams.tuid, this.getParams())
+        return updateOpportunity(this.editOpportunityParams.tuid, this.getParams())
       },
       fetchDetail() {
         getOppDetail(this.editOpportunityParams.tuid).then(data => {

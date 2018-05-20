@@ -189,7 +189,7 @@
   import { formMixin } from '../../common/js/formMixin'
   import { attachMixin } from '../../common/js/attachMixin'
   import { contractData } from './js/data'
-  import { undateContract, getContractDetail } from '../../api/contract'
+  import { updateContract, getContractDetail } from '../../api/contract'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -207,7 +207,7 @@
     },
     methods: {
       fetchData() {
-        return undateContract(this.editContractParams.tuid, this.getParams())
+        return updateContract(this.editContractParams.tuid, this.getParams())
       },
       fetchDetail() {
         getContractDetail(this.editContractParams.tuid).then(data => {

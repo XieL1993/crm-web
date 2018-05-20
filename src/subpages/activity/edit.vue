@@ -108,7 +108,7 @@
   import { formMixin } from '../../common/js/formMixin'
   import { attachMixin } from '../../common/js/attachMixin'
   import { activityData } from './js/data'
-  import { undateActivity, getActDetail } from '../../api/activity'
+  import { updateActivity, getActDetail } from '../../api/activity'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -126,7 +126,7 @@
     },
     methods: {
       fetchData() {
-        return undateActivity(this.editActivityParams.tuid, this.getParams())
+        return updateActivity(this.editActivityParams.tuid, this.getParams())
       },
       fetchDetail() {
         getActDetail(this.editActivityParams.tuid).then(data => {

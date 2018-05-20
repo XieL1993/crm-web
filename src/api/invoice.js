@@ -39,7 +39,7 @@ export function getinvDetail(tuid) {
   return fetch.get(`/invoice/${tuid}`)
 }
 
-export function undateInvoice(tuid, params) {
+export function updateInvoice(tuid, params) {
   return fetch({
     method: 'put',
     url: `/invoice/${tuid}`,

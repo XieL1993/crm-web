@@ -27,7 +27,7 @@ export function getProductDetail(tuid) {
   return fetch.get(`/product/${tuid}`)
 }
 
-export function undateProduct(tuid, params) {
+export function updateProduct(tuid, params) {
   return fetch({
     method: 'put',
     url: `/product/${tuid}`,

@@ -145,7 +145,7 @@
 <script>
   import { childFormMixin } from '../../common/js/childFormMixin'
   import { contactData } from './js/contactData'
-  import { undateContact, getContactDetail } from '../../api/customer'
+  import { updateContact, getContactDetail } from '../../api/customer'
 
   export default {
     mixins: [childFormMixin, contactData],
@@ -165,7 +165,7 @@
     },
     methods: {
       fetchData() {
-        return undateContact(this.contactId, this.getParams())
+        return updateContact(this.contactId, this.getParams())
       },
       fetchDetail() {
         getContactDetail(this.contactId).then(data => {

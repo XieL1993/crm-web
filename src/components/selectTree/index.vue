@@ -116,11 +116,13 @@
         this.$emit('input', keys.join(','))
       },
       nodeClick(data) {
-        if (this.multiple) return
-        this.firstValue = false
-        this.model = data[this.checkLabel]
-        this.$emit('input', data[this.checkKey])
-        this.handleHide()
+        if (data.level === '1' || !this.checkLevel) {
+          if (this.multiple) return
+          this.firstValue = false
+          this.model = data[this.checkLabel]
+          this.$emit('input', data[this.checkKey])
+          this.handleHide()
+        }
       },
       getTitle() {
         return this.model

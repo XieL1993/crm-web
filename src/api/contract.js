@@ -40,10 +40,34 @@ export function addContract(params) {
 export function getContractDetail(tuid) {
   return fetch.get(`/contract/${tuid}`)
 }
-export function undateContract(tuid, params) {
+
+export function updateContract(tuid, params) {
   return fetch({
     method: 'put',
     url: `/contract/${tuid}`,
     data: Object.assign(params, { tuid })
+  })
+}
+
+export function getContractProductList(contractId) {
+  return fetch({
+    method: 'get',
+    url: '/contract/product',
+    params: { contractId }
+  })
+}
+
+export function addContractProduct(data) {
+  return fetch({
+    method: 'post',
+    url: '/contract/product',
+    data
+  })
+}
+export function updateContractProduct(tuid, data) {
+  return fetch({
+    method: 'put',
+    url: `/contract/product/${tuid}`,
+    data
   })
 }

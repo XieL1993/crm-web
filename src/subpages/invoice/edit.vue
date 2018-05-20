@@ -102,7 +102,7 @@
 <script>
   import { formMixin } from '../../common/js/formMixin'
   import { invoiceData } from './js/data'
-  import { getinvDetail, undateInvoice } from '../../api/invoice'
+  import { getinvDetail, updateInvoice } from '../../api/invoice'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -120,7 +120,7 @@
     },
     methods: {
       fetchData() {
-        return undateInvoice(this.editInvoiceParams.tuid, this.getParams())
+        return updateInvoice(this.editInvoiceParams.tuid, this.getParams())
       },
       fetchDetail() {
         getinvDetail(this.editInvoiceParams.tuid).then(data => {

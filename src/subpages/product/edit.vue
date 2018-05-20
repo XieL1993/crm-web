@@ -74,7 +74,7 @@
 <script>
   import { childFormMixin } from '../../common/js/childFormMixin'
   import { productData } from './js/data'
-  import { getProductDetail, undateProduct } from '../../api/product'
+  import { getProductDetail, updateProduct } from '../../api/product'
 
   export default {
     mixins: [childFormMixin, productData],
@@ -94,7 +94,7 @@
     },
     methods: {
       fetchData() {
-        return undateProduct(this.productId, this.getParams())
+        return updateProduct(this.productId, this.getParams())
       },
       fetchDetail() {
         getProductDetail(this.productId).then(data => {

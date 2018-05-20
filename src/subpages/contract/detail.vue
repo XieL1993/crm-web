@@ -25,6 +25,7 @@
           <span class="tab-item" :class="{active:isAll===0}" @click="isAll=0">基本信息</span>
           <span class="tab-item" :class="{active:isAll===1}" @click="isAll=1">收款</span>
           <span class="tab-item" :class="{active:isAll===2}" @click="isAll=2">活动计划</span>
+          <span class="tab-item" :class="{active:isAll===2}" @click="isAll=3">产品</span>
           <i class=" line" :style="{left: 30+80*isAll + 'px'}"></i>
         </div>
       </div>
@@ -35,6 +36,9 @@
                @addInvoice="addInvoice"></invoice>
       <activity v-if="isAll===2" :height="subHeight" :contract-id="contractDetail.tuid"
                 @addActivity="addActivity"></activity>
+      <product v-if="isAll===3" :height="subHeight" :contract-id="contractDetail.tuid"
+               :contract-name="contractDetail.contractName"></product>
+
     </div>
   </div>
 </template>
@@ -44,6 +48,7 @@
   import Basic from './child/basic'
   import Invoice from './child/invoice'
   import Activity from './child/activity'
+  import Product from './child/product'
 
   export default {
     data() {
@@ -117,7 +122,8 @@
     components: {
       Basic,
       Invoice,
-      Activity
+      Activity,
+      Product
     }
   }
 </script>

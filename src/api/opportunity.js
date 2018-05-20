@@ -66,7 +66,7 @@ export function getOppDetail(tuid) {
  * status  商机状态
  * type  商机类型
  */
-export function undateOpportunity(tuid, params) {
+export function updateOpportunity(tuid, params) {
   return fetch({
     method: 'put',
     url: `/opportunity/${tuid}`,

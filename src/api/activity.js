@@ -47,7 +47,7 @@ export function getActDetail(tuid) {
   return fetch.get(`/activity/${tuid}`)
 }
 
-export function undateActivity(tuid, params) {
+export function updateActivity(tuid, params) {
   return fetch({
     method: 'put',
     url: `/activity/${tuid}`,
